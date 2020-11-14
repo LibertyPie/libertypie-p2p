@@ -13,7 +13,7 @@ contract Factory is  Assets, PriceFeed, PM {
     constructor() public {
 
         //initiate Permission Manager
-        PM._setAddress(address(new PermissionManager()));
+        PM._setPermissionManagerContract(address(new PermissionManager()));
 
     } //end fun 
 

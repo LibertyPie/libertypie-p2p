@@ -13,12 +13,12 @@ contract PM {
 
     IPermissionManager _permissionManager;
 
-    function _setAddress(address _newAddress) internal {
+    function _setPermissionManagerContract(address _newAddress) internal {
         _permissionManager = IPermissionManager(_newAddress);
     }
 
-    function setAddress(address _newAddress) external onlySuperAdmins () {
-
+    function setPermissionManagerContract(address _newAddress) external onlySuperAdmins () {
+      _setPermissionManagerContract(_newAddress);
     }
 
     /**
