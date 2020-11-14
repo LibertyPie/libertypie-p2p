@@ -29,6 +29,8 @@ contract PaymentTypes is PM {
      * @dev get payment  type  by id
      * this helps us use  an external storage for the payment types
      * @param id payment  type id
+     * return (string memory, uint256, string memory)
+     *  paymentTypeName, categoryId, CategoryName
      */
    function  getPaymentTypeById(uint256 id) external view returns(string memory, uint256, string memory){
       return (string memory name, uint256 categoryId, string memory categoryName) =  _paymentTypesCore.getPaymentTypeById(id);
@@ -36,6 +38,13 @@ contract PaymentTypes is PM {
 
    /**
     * @dev get all payment  types 
+    *  return (uint256[], string[], uint256[], string[])
+    *  paymentTypeId, paymentTypeName, categoryId, CategoryName
     */
-   function getAllPaymentTypes() external view 
+   function getAllPaymentTypes() external view  returns(uint256[], string[], uint256[], string[]) {
+
+      
+   } // end 
+
+
 }
