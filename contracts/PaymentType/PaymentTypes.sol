@@ -7,22 +7,37 @@ import "../PermissionManager/PM.sol";
 
 
 interface  IPaymentTypesCore  {
-   function  getAllPaymentTypes(uint256 id) external returns(uint256, string memory, uint256, string memory); 
-   function  getPaymentTypeById(uint256 id) external returns(string memory, uint256, string memory);
+   function  getAllCategories() external view returns (string[] memory);
+   function getCategoryById(uint256 id) external view returns (string memory);
+   function getAllPaymentTypes() external view returns(uint256[] memory, string[] memory, uint256[] memory);
+   function  getPaymentTypeById(uint256 id) external view returns(string memory, uint256);
 }
 
 contract PaymentTypes is PM {
-
+   
+   // Payment types core contract  instance
     IPaymentTypesCore _paymentTypesCore;
     
-
+   /**
+    * @dev  set the  payment types  db contract address internally
+    */
     function _setPaymentTypesContract(address _newAddress) internal {
-        _paymentTypes = IPaymentTypes(_newAddress);
+        _paymentTypesCore = IPaymentTypesCore(_newAddress);
     }
 
+   /**
+    * @dev set the  payment types  db contract address externally
+    */
     function setPaymentTypesAddress(address _newAddress) external onlySuperAdmins () {
        _setPaymentTypesContract(_newAddress);
     }
+
+    /**
+     * @dev  get all payment types categories  
+     */
+   function  getAllCategories() external view returns (string[] memory){
+      return _paymentTypesCore.getAllCategories();
+   }
 
     
     /**
@@ -30,20 +45,19 @@ contract PaymentTypes is PM {
      * this helps us use  an external storage for the payment types
      * @param id payment  type id
      * return (string memory, uint256, string memory)
-     *  paymentTypeName, categoryId, CategoryName
+     *  paymentTypeName, categoryId
      */
-   function  getPaymentTypeById(uint256 id) external view returns(string memory, uint256, string memory){
-      return (string memory name, uint256 categoryId, string memory categoryName) =  _paymentTypesCore.getPaymentTypeById(id);
+   function  getPaymentTypeById(uint256 id) external view returns(string memory, uint256){
+      return _paymentTypesCore.getPaymentTypeById(id);
    }
 
    /**
     * @dev get all payment  types 
-    *  return (uint256[], string[], uint256[], string[])
-    *  paymentTypeId, paymentTypeName, categoryId, CategoryName
+    *  return (uint256[], string[], uint256[])
+    *  paymentTypeId  Array, paymentTypeName Array, categoryId Array
     */
-   function getAllPaymentTypes() external view  returns(uint256[], string[], uint256[], string[]) {
-
-      
+   function getAllPaymentTypes() external view returns(uint256[] memory, string[] memory, uint256[] memory) {
+      return _paymentTypesCore.getAllPaymentTypes(); 
    } // end 
 
 

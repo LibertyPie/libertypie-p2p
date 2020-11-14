@@ -16,7 +16,10 @@ contract PaymentTypesCore is PM {
       //default categories 
       addCategory("Bank Transfers");
       addCategory("Online Wallets");
+      addCategory("Cash Payments");
+      addCategory("Credit or Debit Cards");
       addCategory("Gift Cards");
+      addCategory("Digital Currencies");
       addCategory("Goods  & Services");
 
     } //end fun
@@ -112,14 +115,58 @@ contract PaymentTypesCore is PM {
 
       } //end fun
 
+
+      /**
+       *  @dev get all payment types categories 
+       *  @return  (string[] memory)
+       *         CategoryNames Array
+       */
+      function  getAllCategories() external view returns ( string[] memory){
+         
+         string[]  memory  namesArray;
+         
+         for(uint256 i = 1; i <= totalCategories; i++ ){
+            namesArray[i] = PaymentTypesCategories[i];
+         }
+
+         return (namesArray);
+      } //end fun 
+
+
+      /**
+       * @dev get category by  id
+       * @param id category id
+       */
+       function getCategoryById(uint256 id) external view returns (string  memory) {
+
+       } //end fun 
+
       /**
        * @dev getPaymentTypeById
        * @param id paymentType  id
-       * return ( string, uint256, string) paymentType name, cetegoryId, categoryId
+       * return ( string, uint256, string) paymentType name, cetegoryId)
        */
-       function  getPaymentTypeById(uint256 id) external  view returns(string memory, uint256, string memory) {
-          return (PaymentTypesDB[id].name, PaymentTypesDB[id].categoryId, PaymentTypesCategories[PaymentTypesDB[id].categoryId]);
+       function  getPaymentTypeById(uint256 id) external  view returns(string memory, uint256) {
+         return (PaymentTypesDB[id].name, PaymentTypesDB[id].categoryId);
        } //end fun 
 
+
+      /**
+      * @dev get all payment types 
+      */
+      function getAllPaymentTypes() external view returns( uint256[] memory, string[] memory, uint256[] memory ) {
+
+         uint256[] memory  pIds;
+         string[]  memory  pNames;
+         uint256[] memory  catIds;
+
+         for(uint256 i=1; i <= totalPaymentTypes; i++ ){
+            pIds[i]    = PaymentTypesDB[i].id;
+            pNames[i]  = PaymentTypesDB[i].name;
+            catIds[i]  = PaymentTypesDB[i].categoryId;
+         }
+
+         return (pIds, pNames, catIds);
+      }
 
 } //end contractt
