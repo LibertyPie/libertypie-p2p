@@ -11,21 +11,27 @@ interface IPermissionManager {
 
 contract PM {
 
-    IPermissionManager _permissionManager;
+    IPermissionManager public PERMISSION_MANAGER;
 
-    function _setPermissionManagerContract(address _newAddress) internal {
-        _permissionManager = IPermissionManager(_newAddress);
+    /**
+     * @dev  set permission manager contract
+     */
+    function _setPermissionManager(address _newAddress) internal {
+        PERMISSION_MANAGER = IPermissionManager(_newAddress);
     }
 
-    function setPermissionManagerContract(address _newAddress) external onlySuperAdmins () {
-      _setPermissionManagerContract(_newAddress);
+    /**
+     * @dev  set permission manager contract
+     */
+    function setPermissionManager(address _newAddress) external onlySuperAdmins () {
+      _setPermissionManager(_newAddress);
     }
 
     /**
      * onlySuperAdmin - a modifier which allows only super admin 
     */
      modifier onlySuperAdmins () {
-         require( _permissionManager.isSuperAdmin(msg.sender) );
+         require( PERMISSION_MANAGER.isSuperAdmin(msg.sender), "ONLY_SUPER_ADMINS_ALLOWED" );
          _;
      }
 
@@ -34,7 +40,7 @@ contract PM {
     * This also allows super admins
     */
     modifier onlyAdmins () {
-      require( _permissionManager.isAdmin(msg.sender) );
+      require( PERMISSION_MANAGER.isAdmin(msg.sender), "ONLY_ADMINS_ALLOWED");
       _;
     }
 
@@ -42,7 +48,7 @@ contract PM {
     * OnlyModerator
     */
     modifier onlyModerators() {
-      require( _permissionManager.isModerator(msg.sender) );
+      require( PERMISSION_MANAGER.isModerator(msg.sender), "ONLY_MODERATORS_ALLOWED" );
       _;
     }
 

@@ -4,16 +4,21 @@ pragma solidity ^0.6.2;
 
 import "./Oracles/OpenPriceFeed.sol";
 
-contract PriceFeed {
+contract PriceFeed is  OpenPriceFeed {
 
-    OpenPriceFeed _openPriceFeed;
+   /**
+   * @dev get latest price in usd
+   */
+   function getPriceUSD(string memory _symbol) public view returns (uint256) {
+      (uint256 _price) = OpenPriceFeed.getLatestPrice(_symbol);
+      return _price;
+   }
 
-    /**
-     * @dev getPrice
-     */
-     function getPriceUSD(string memory _symbol) private view returns (uint256) {
-        (uint256 _price) = _openPriceFeed.getLatestPrice(_symbol);
-        return _price;
-     }
+   /**
+    * configure open price feed contract
+    */
+    function configureOpenPriceFeed(address _contractAddress) internal {
+      OpenPriceFeed._setUniswapAnchorContract(_contractAddress);
+    }
 
 }  //end contract 

@@ -11,14 +11,18 @@ contract PermissionManager is Context, AccessControl {
     bytes32 MODERATOR_ROLE =   keccak256("MODERATOR_ROLE");
 
 
-    constructor()  public {
+    constructor(address _owner)  public {
+
+      if(_owner  == address(0)){
+        _owner = _msgSender();
+      }
 
       //make deployer superAdmin
-      _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
+      _setupRole(DEFAULT_ADMIN_ROLE, _owner);
         
       //add default roles
-      addRole(ADMIN_ROLE,_msgSender());
-      addRole(MODERATOR_ROLE,_msgSender());
+      _setupRole(ADMIN_ROLE,_owner);
+      _setupRole(MODERATOR_ROLE, _owner);
       
     }  //end  
 
@@ -40,32 +44,14 @@ contract PermissionManager is Context, AccessControl {
      * isModerator
      */
     function isModerator(address _address) public view returns (bool) {
-      return hasRole(MODERATOR_ROLE,_address) || super.hasRole(DEFAULT_ADMIN_ROLE,_address);
+      return hasRole(MODERATOR_ROLE,_address) || isAdmin(_address);
     }
-
-    /**
-    * OnlyAdmin 
-    * This also allows super admins
-    *
-    modifier onlyAdmins () {
-      require( isAdmin(_msgSender()) );
-      _;
-    }
-
-    /**
-    * OnlyModerator
-    *
-    modifier onlyModerators() {
-      require(  isModerator(_msgSender()) );
-      _;
-    }
-    */
 
     /**
      * addNewRole
      */
      function addRole(bytes32 _roleName, address _memberAddress) public {
-       require(isSuperAdmin(_msgSender()),"only super admins can add role");
+       require(isSuperAdmin(_msgSender()),"ONLY_SUPER_ADMINS_ALLOWED");
         super.grantRole(_roleName,_memberAddress);
      }
 
