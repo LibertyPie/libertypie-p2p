@@ -23,7 +23,7 @@ const HDWalletProvider = require('@truffle/hdwallet-provider');
 //
 
 //const fs = require('fs');
-const { projectId, mnemonic, apiKey } = require(__dirname+'/.secrets.js');
+const { projectId, privateKeys, mnemonic, apiKey } = require(__dirname+'/.secrets.js');
 
 
 module.exports = {
@@ -51,11 +51,11 @@ module.exports = {
       network_id: "*",       // Any network (default: none)
     },
 
-    ropsten: {
+    kovan: {
       provider: function() {
-        return new HDWalletProvider(mnemonic, `https://ropsten.infura.io/v3/${projectId}`)
+        return new HDWalletProvider(privateKeys, `https://kovan.infura.io/v3/${projectId}`)
       },
-      network_id: 3,
+      network_id: 42,
       //gas: 4000000      //make sure this gas allocation isn't over 4M, which is the max
     },
 

@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "flatten": "npx solidity-flattener contracts/Factory.sol > build/Flattened.sol"
+    "flatten": "npx solidity-flattener contracts/Factory.sol > build/Flattened.sol",
+    "artifacts": "npm run flatten && npx solcjs --abi --bin --optimize --optimize-runs=200 --output-dir=artifacts build/Flattened.sol "
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,8 @@
     "@truffle/hdwallet-provider": "^1.1.1"
   },
   "devDependencies": {
-    "hardhat": "^2.0.3"
+    "hardhat": "^2.0.3",
+    "solc": "^0.6.12",
+    "truffle-export-abi": "^1.0.1"
   }
 }

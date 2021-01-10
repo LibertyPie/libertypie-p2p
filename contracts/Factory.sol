@@ -14,13 +14,14 @@ import "./PaymentTypes/PaymentTypesCore.sol";
 import "./PaymentTypes/PaymentTypes.sol";
 
 //import  "./Oracles/OpenPriceFeed.sol";
+import "@openzeppelin/contracts/GSN/Context.sol";
 
-contract Factory is  Assets,  PaymentTypes, PriceFeed {
+contract Factory is  Assets,  PaymentTypes, PriceFeed, Context {
     
     constructor() public {
 
         //initiate Permission Manager contracts
-        PM._setPermissionManager(address(new PermissionManager(msg.sender)));
+        PM._setPermissionManager(address(new PermissionManager(_msgSender())));
 
         // PaymentTypes  Core contract address
         PaymentTypes._setPaymentTypesCoreAddress(address(new PaymentTypesCore()));
@@ -42,8 +43,8 @@ contract Factory is  Assets,  PaymentTypes, PriceFeed {
         
 
         //mainnet , default mainnet's address is  hardcoded in OpenPriceFeed.sol
-        //if(chainId  == 1){ feedContractAddress = 0x922018674c12a7F0D394ebEEf9B58F186CdE13c1;  } // if ethereum mainnet
-        if(chainId == 3){ feedContractAddress = 0xBEf4E076A995c784be6094a432b9CA99b7431A3f; }  // if ropsten
+        if(chainId  == 1){ feedContractAddress = 0x922018674c12a7F0D394ebEEf9B58F186CdE13c1;  } // if ethereum mainnet
+        else if(chainId == 3){ feedContractAddress = 0xBEf4E076A995c784be6094a432b9CA99b7431A3f; }  // if ropsten
         else if(chainId == 42){  feedContractAddress = 0xbBdE93962Ca9fe39537eeA7380550ca6845F8db7; } //if kovan
         else {
             //revert("OpenPriceFeed: Unknown cahinId, kindly use  ropsten, kovan or mainnet");

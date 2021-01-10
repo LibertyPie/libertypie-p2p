@@ -131,10 +131,15 @@ contract Offers is Context {
     /**
      * disableOffer
      */
-    function disableOffer(uint256 offerId) external{
+    function disableOffer(uint256 offerId) external {
 
         //check if offer belongs to user
         require(OffersData[offerId].owner == _msgSender(),"XPIE:UNKNOWN_ASSET");
-    }
+
+        OffersData[offerId].isEnabled = false;
+
+        emit _offerDisabled(offerId);
+    } //end if 
+
 
 }  //end contract 
