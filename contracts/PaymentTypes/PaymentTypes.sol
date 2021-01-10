@@ -1,10 +1,14 @@
-// SPDX-License-Identifier: MIT
-
+/*
+* LibertyPie Project (https://libertypie.com)
+* @author https://github.com/libertypie (hello@libertypie.com)
+* @license SPDX-License-Identifier: MIT
+*/
 pragma solidity ^0.6.2;
 pragma experimental ABIEncoderV2;
 
 import "../PermissionManager/PM.sol";
 import  "./PaymentTypesCore.sol";
+
   
 contract PaymentTypes is PM {
 
@@ -14,17 +18,10 @@ contract PaymentTypes is PM {
    // Payment types core contract  instance
    PaymentTypesCore public PAYMENT_TYPES_CORE;
 
-   //payment type struct
-   struct PaymentTypeStruct {
-      uint256 id;
-      string  name;
-      uint256 categoryId;
-   }
-    
    /**
     * @dev  set the  payment types  db contract address internally
     */
-    function _setPaymentTypesCoreAddress(address _newAddress) internal {
+   function _setPaymentTypesCoreAddress(address _newAddress) internal {
         PAYMENT_TYPES_CORE = PaymentTypesCore(_newAddress);
     }
 
@@ -50,7 +47,7 @@ contract PaymentTypes is PM {
      * return (string memory, uint256, string memory)
      *  paymentTypeName, categoryId
      */
-   function  getPaymentTypeById(uint256 id) external view returns(PaymentTypeStruct memory){
+   function  getPaymentTypeById(uint256 id) external view returns(string memory, uint256){
       return PAYMENT_TYPES_CORE.getPaymentTypeById(id);
    }
 
@@ -59,18 +56,9 @@ contract PaymentTypes is PM {
     * @param catId the category id
     * @return (string[]) 
     */
-   function getPaymentTypesByCatId(uint256 catId) external view returns(PaymentTypeStruct[] memory ){
+   function getPaymentTypesByCatId(uint256 catId) external view returns( uint256[] memory, string[] memory, uint256[] memory ){
       return PAYMENT_TYPES_CORE.getPaymentTypesByCatId(catId);
    }
-
-   /**
-    * @dev get all payment  types 
-    *  return (uint256[], string[], uint256[])
-    *  paymentTypeId  Array, paymentTypeName Array, categoryId Array
-    */
-   function getAllPaymentTypes() external view returns(PaymentTypeStruct[] memory) {
-      return PAYMENT_TYPES_CORE.getAllPaymentTypes(); 
-   } // end 
 
 
    /**
@@ -84,13 +72,6 @@ contract PaymentTypes is PM {
        return id;
     }
 
-    
-   /**
-   * @dev check if payment type is valid
-   * @param id payment  type index 
-   */
-   //function isValidPaymentType(uint256 id) public view return (bool) {
-      
-   //}
+ 
 
 }

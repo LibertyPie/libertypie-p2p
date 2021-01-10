@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "flatten": "npx solidity-flattener contracts/Factory.sol > flattened.sol"
+    "flatten": "npx solidity-flattener contracts/Factory.sol > build/Flattened.sol"
   },
   "repository": {
     "type": "git",

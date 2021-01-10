@@ -1,4 +1,8 @@
-// SPDX-License-Identifier: MIT
+/*
+* LibertyPie Project (https://libertypie.com)
+* @author https://github.com/libertypie (hello@libertypie.com)
+* @license SPDX-License-Identifier: MIT
+*/
 
 pragma solidity ^0.6.2;
 pragma experimental ABIEncoderV2;
@@ -161,11 +165,13 @@ contract PaymentTypesCore is PM {
       return PaymentTypesCategories[id];
    } //end fun 
 
-   /* @dev get payment types using it category id
+
+   /* 
+   * @dev get payment types using it category id
    * @param catId uint256 category id 
    * @return (string[]) paymentTypesArray
-   */
-   function getPaymentTypesByCatId(uint256 catId) external view returns(PaymentTypeStruct[] memory ) {
+   *
+   function getPaymentTypesByCatId(uint256 catId) external view returns( PaymentTypeStruct[] memory ) {
 
       require(bytes(PaymentTypesCategories[catId]).length > 0, "XPIE:CATEGORY_NOT_FOUND");
 
@@ -180,18 +186,44 @@ contract PaymentTypesCore is PM {
 
       return paymentTypesArray;
    }  //end fun
+   */
+   
+   /*
+   * @dev get payment types using it category id
+   * @param catId uint256 category id 
+   * @return (string[]) paymentTypesArray
+   */
+   function getPaymentTypesByCatId(uint256 catId) external view returns( uint256[] memory, string[] memory, uint256[] memory ) {
+
+      require(bytes(PaymentTypesCategories[catId]).length > 0, "XPIE:CATEGORY_NOT_FOUND");
+
+      //lets fetch the  payment types ids
+      uint256[] memory paymentTypesIds    = new uint256[] (totalPaymentTypes);
+      string[] memory paymentTypesNames   = new string[] (totalPaymentTypes);
+      uint256[] memory catsIdsArray       = new uint256[] (totalPaymentTypes);
+
+      for(uint256  i = 1; i < totalPaymentTypes; i++){
+         if(PaymentTypesData[i].categoryId == catId){
+            paymentTypesIds[i]   = PaymentTypesData[i].id;
+            paymentTypesNames[i] = PaymentTypesData[i].name;
+            catsIdsArray[i]      = PaymentTypesData[i].categoryId;
+         }
+      }
+
+      return (paymentTypesIds, paymentTypesNames, catsIdsArray);
+   }  //end fun
 
 
    /**
    * @dev getPaymentTypeById
    * @param id paymentType  id
-   * return ( string, uint256, string) paymentType name, cetegoryId)
+   * return ( string, uint256) paymentType name, cetegoryId)
    */
    function  getPaymentTypeById(uint256 id) external  view returns(string memory, uint256) {
       return (PaymentTypesData[id].name, PaymentTypesData[id].categoryId);
    } //end fun 
-
-
+ 
+ 
    /**
    * @dev get all payment types 
    */
