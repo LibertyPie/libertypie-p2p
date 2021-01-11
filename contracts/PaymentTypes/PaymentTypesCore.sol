@@ -7,9 +7,10 @@
 pragma solidity ^0.6.2;
 pragma experimental ABIEncoderV2;
 
+import "./_PaymenTypesCommons.sol";
 import "../PermissionManager/PM.sol";
 
-contract PaymentTypesCore is PM {
+contract PaymentTypesCore is  _PaymenTypesCommons, PM {
 
     uint256  totalCategories;
     uint256 totalPaymentTypes;
@@ -34,13 +35,6 @@ contract PaymentTypesCore is PM {
     // format mapping(index => name)
     // NOTE  That the index always starts with 1 and not 0
     mapping(uint256 => string) private  PaymentTypesCategories;
-
-   //payment type struct
-   struct PaymentTypeStruct {
-      uint256 id;
-      string  name;
-      uint256 categoryId;
-   }
 
 
     // paymentTypes 
@@ -81,8 +75,6 @@ contract PaymentTypesCore is PM {
    function deleteCateory(uint256 categoryId) external onlyAdmins() {
       delete  PaymentTypesCategories[categoryId];
    } //end fun 
-
-
 
     
    /**
@@ -170,7 +162,7 @@ contract PaymentTypesCore is PM {
    * @dev get payment types using it category id
    * @param catId uint256 category id 
    * @return (string[]) paymentTypesArray
-   *
+   */
    function getPaymentTypesByCatId(uint256 catId) external view returns( PaymentTypeStruct[] memory ) {
 
       require(bytes(PaymentTypesCategories[catId]).length > 0, "XPIE:CATEGORY_NOT_FOUND");
@@ -186,13 +178,13 @@ contract PaymentTypesCore is PM {
 
       return paymentTypesArray;
    }  //end fun
-   */
-   
+
+  
    /*
    * @dev get payment types using it category id
    * @param catId uint256 category id 
    * @return (string[]) paymentTypesArray
-   */
+   *
    function getPaymentTypesByCatId(uint256 catId) external view returns( uint256[] memory, string[] memory, uint256[] memory ) {
 
       require(bytes(PaymentTypesCategories[catId]).length > 0, "XPIE:CATEGORY_NOT_FOUND");
@@ -212,7 +204,7 @@ contract PaymentTypesCore is PM {
 
       return (paymentTypesIds, paymentTypesNames, catsIdsArray);
    }  //end fun
-
+   */
 
    /**
    * @dev getPaymentTypeById

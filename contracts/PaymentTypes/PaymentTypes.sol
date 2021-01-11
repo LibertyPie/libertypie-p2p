@@ -7,23 +7,32 @@ pragma solidity ^0.6.2;
 pragma experimental ABIEncoderV2;
 
 import "../PermissionManager/PM.sol";
-import  "./PaymentTypesCore.sol";
+import "./_PaymenTypesCommons.sol";
 
+interface IPaymentTypes is _PaymenTypesCommons {
+   function getAllCategories() external view returns (string[] memory );
+   function getCategoryById(uint256 id) external view returns (string  memory);
+   function getPaymentTypesByCatId(uint256 catId) external view returns( PaymentTypeStruct[] memory );
+   function  getPaymentTypeById(uint256 id) external  view returns(string memory, uint256);
+   function getAllPaymentTypes() external view returns( PaymentTypeStruct[] memory  );
+  // function addCategory(string calldata name) external returns(uint256);
+}
   
-contract PaymentTypes is PM {
+contract PaymentTypes is PM, _PaymenTypesCommons {
 
    //add category event
    event addPaymentTypeCategoryEvent(string name, uint256 id);
 
    // Payment types core contract  instance
-   PaymentTypesCore public PAYMENT_TYPES_CORE;
+   IPaymentTypes public PAYMENT_TYPES_CORE;
 
-   /**
+  /**
     * @dev  set the  payment types  db contract address internally
+    * @param  _newAddress set or change the contract address for the paymentTypesCore
     */
    function _setPaymentTypesCoreAddress(address _newAddress) internal {
-        PAYMENT_TYPES_CORE = PaymentTypesCore(_newAddress);
-    }
+      PAYMENT_TYPES_CORE = IPaymentTypes(_newAddress);
+   }
 
    /**
     * @dev set the  payment types  db contract address externally
@@ -35,18 +44,34 @@ contract PaymentTypes is PM {
     /**
      * @dev  get all payment types categories  
      */
-   function  getPaymentTypesCategories() external view returns (string[] memory){
+   function  getPaymentTypesCategories() public view returns (string[] memory){
       return PAYMENT_TYPES_CORE.getAllCategories();
    }
    
+   /**
+    * getAllPaymentTypes 
+    * @return (uint256) 
+    */
+   function getAllPaymentTypes() public view returns (PaymentTypeStruct[] memory) {
+      //first of all lets get the cats here 
+       return PAYMENT_TYPES_CORE.getAllPaymentTypes();
+   }
+
+   /**
+    * getAllPaymentTypesAndCats
+    */
+    function getAllPaymentTypesAndCats() external view returns (string[] memory, PaymentTypeStruct[] memory) {
+       return (getPaymentTypesCategories(),getAllPaymentTypes());
+    }//end 
+
     
-    /**
-     * @dev get payment  type  by id
-     * this helps us use  an external storage for the payment types
-     * @param id payment  type id
-     * return (string memory, uint256, string memory)
-     *  paymentTypeName, categoryId
-     */
+   /**
+   * @dev get payment  type  by id
+   * this helps us use  an external storage for the payment types
+   * @param id payment  type id
+   * return (string memory, uint256, string memory)
+   *  paymentTypeName, categoryId
+   */
    function  getPaymentTypeById(uint256 id) external view returns(string memory, uint256){
       return PAYMENT_TYPES_CORE.getPaymentTypeById(id);
    }
@@ -56,22 +81,8 @@ contract PaymentTypes is PM {
     * @param catId the category id
     * @return (string[]) 
     */
-   function getPaymentTypesByCatId(uint256 catId) external view returns( uint256[] memory, string[] memory, uint256[] memory ){
+   function getPaymentTypesByCatId(uint256 catId) external view returns( PaymentTypeStruct[] memory ){
       return PAYMENT_TYPES_CORE.getPaymentTypesByCatId(catId);
    }
-
-
-   /**
-    * @dev add Payment Type Category
-    * @param name  payment type category name string
-    * @return uint256
-    */
-    function  addPaymentTypeCategory(string calldata name) external returns(uint256){
-       uint256 id = PAYMENT_TYPES_CORE.addCategory(name); 
-       emit addPaymentTypeCategoryEvent(name,id);
-       return id;
-    }
-
- 
 
 }
