@@ -9,7 +9,7 @@ import "./Assets.sol";
 import  "./PermissionManager/PermissionManager.sol";
 import "./PermissionManager/PM.sol";
 
-import "./PaymentTypes/PaymentTypesCore.sol";
+//import "./PaymentTypes/PaymentTypesCore.sol";
 
 import "./PaymentTypes/PaymentTypes.sol";
 
@@ -24,7 +24,7 @@ contract Factory is  Assets,  PaymentTypes, PriceFeed, Context {
         PM._setPermissionManager(address(new PermissionManager(_msgSender())));
 
         // PaymentTypes  Core contract address
-        PaymentTypes._setPaymentTypesCoreAddress(address(new PaymentTypesCore()));
+        //PaymentTypes._setPaymentTypesCoreAddress(address(new PaymentTypesCore()));
 
         //configure  open price feed
         configureOpenPriceFeed();

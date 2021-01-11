@@ -5,11 +5,11 @@ pragma experimental ABIEncoderV2;
 
 import "./PermissionManager/PM.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "./PriceFeed.sol";
+//import "./PriceFeed.sol";
 
 contract Assets is PM {
 
-    PriceFeed _priceFeed = PriceFeed(address(this));
+    //PriceFeed _priceFeed = PriceFeed(address(this));
 
     /**
      * @dev mapping for  assetsData 
