@@ -25,7 +25,9 @@ contract Offers is Context {
         address  asset;
         string   _type;
         address  owner;
-        uint256  priceMargin;
+        string   pricingMode;
+        uint256  profitMargin;
+        uint256  fixedPrice;
         string   countryCode;
         uint256  paymentType;
         string   extraDataHash;
