@@ -14,7 +14,7 @@ contract PermissionManager {
     string SUPER_ADMIN_ROLE = "SUPER_ADMIN";
     string MODERATOR_ROLE = "MODERATOR";
     string ADMIN_ROLE = "ADMIN";
-
+    
     //roles
     mapping(string => mapping(address => bool)) public Roles;
     

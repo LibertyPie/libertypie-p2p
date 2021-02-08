@@ -5,49 +5,26 @@
 */
 pragma solidity ^0.6.2;
 pragma experimental ABIEncoderV2;
-//import "./IStorage.sol";
+import "./Storage.sol";
 
-//offers mapping
-struct OfferStruct {
-    address  asset;
-    string   _type;
-    address  owner;
-    string   pricingMode;
-    uint256  profitMargin;
-    uint256  fixedPrice;
-    string   countryCode;
-    uint256  paymentType;
-    string   extraDataHash;
-    int      dataStoreId;
-    bool     isEnabled;
-    uint256  expiry;
-}
 
-contract OfferStore {
+contract OfferStore  {
 
     //offer index mapping
     //offers data
     //format is mapping(adIndex => adStruct)
-    mapping(uint256 => OfferStruct) private OffersData;
-
-    //user ad index 
-    //save  into user map
-    //format  mapping( msg.sender =>  _index)
-    mapping(address => uint256[]) private OffersByUserAddress;
-
-    // assets  Ads  indexes 
-    //format  mapping( assetAddress =>  _index)
-    mapping(address => uint256[])  private OffersByAssetAddress;
-
-    // offers indexes based  on country
-     //format  mapping(countryCode =>  _index)
-    mapping(string => uint256[]) private  OffersByCountryCode;
-
-    //offers indexes based on offer type
-    mapping(string => uint256[]) private  OffersByType;
-
-    //offers indexes based on paymentTypeId 
-    mapping(uint256 => uint256[]) private  OffersByPaymentType;
-
+    //mapping(uint256 => OfferStruct) private OffersData;
     
+    mapping(uint256 =>  mapping(bytes32 => bytes)) public OffersData;
+
+    /**
+     * @dev add data to offers
+     * @param _index the index where the data will be stored, also offer id
+     * @param _key the name of the value data to store
+     * @param _data the actual data to store  
+     */
+    function addOfferData(uint256 _index, bytes32 _key, bytes _data) external onlyStoreAdmin {
+        OffersData[_index][_key] = _data;
+    }
+
 }

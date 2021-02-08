@@ -9,6 +9,8 @@ interface IPermissionManager {
     function isSuperAdmin(address _address) external view  returns(bool);
     function isAdmin(address _address) external view  returns(bool);
     function isModerator(address _address) external view returns (bool);
+    function hasRole(string roleName, address _address) external view returns (bool);
+    function grantRole(string calldata roleName, address _address) external;
 }
 
 contract PM {
@@ -25,14 +27,14 @@ contract PM {
     /**
      * @dev  set permission manager contract
      */
-    function setPermissionManager(address _newAddress) external onlySuperAdmins () {
+    function setPermissionManager(address _newAddress) external superAdminOnly () {
       _setPermissionManager(_newAddress);
     }
 
     /**
-     * onlySuperAdmin - a modifier which allows only super admin 
+    * @dev superAdminOnly - a modifier which allows only super admin 
     */
-     modifier onlySuperAdmins () {
+     modifier superAdminOnly () {
          require( PERMISSION_MANAGER.isSuperAdmin(msg.sender), "ONLY_SUPER_ADMINS_ALLOWED" );
          _;
      }
@@ -41,7 +43,7 @@ contract PM {
     * OnlyAdmin 
     * This also allows super admins
     */
-    modifier onlyAdmins () {
+    modifier adminOnly () {
       require( PERMISSION_MANAGER.isAdmin(msg.sender), "ONLY_ADMINS_ALLOWED");
       _;
     }
@@ -49,9 +51,23 @@ contract PM {
     /**
     * OnlyModerator
     */
-    modifier onlyModerators() {
-      require( PERMISSION_MANAGER.isModerator(msg.sender), "ONLY_MODERATORS_ALLOWED" );
+    modifier moderatorOnly() {
+      require( PERMISSION_MANAGER.isModerator(msg.sender), "MODERATORS_ONLY_ALLOWED" );
       _;
     }
+    
+    /**
+     * hasRole
+     */
+    function hasRole(string roleName, address _address) external view returns(bool){
+      return PERMISSION_MANAGER.hasRole(roleName,_address);
+    }
 
+    /**
+     * grant role
+     */
+    function grantRole(string calldata roleName, address _address) external superAdminOnly {
+      PERMISSION_MANAGER.grantRole(roleName, _address);
+    }
+    
 } //end function
