@@ -5,12 +5,12 @@
 */
 pragma solidity ^0.6.2;
 pragma experimental ABIEncoderV2;
-import "./PermissionManager/PM.sol";
+import "../PermissionManager/PM.sol";
 import "./BasicStore.sol";
-import "./OfferStore.sol";
-import "./StoreAdmin.sol";
+import "./DappStore.sol";
+import "./StoreEditor.sol";
 
-contract Storage is BasicStore, ComplexStore, StoreAdmin, OffersStore {
+contract Storage is BasicStore, ComplexStore, StoreEditor, DappStore {
 
     /**
      * Note this accepts the storage admin address, which is the 
@@ -18,7 +18,7 @@ contract Storage is BasicStore, ComplexStore, StoreAdmin, OffersStore {
      */
     constructor(address storageAdmin) public {
         //lets add pm role
-        PM.grantRole(STORAGE_ADMIN_ROLE,address)
+        PM.grantRole(STORAGE_ADMIN_ROLE,address);
     }
 
 }   

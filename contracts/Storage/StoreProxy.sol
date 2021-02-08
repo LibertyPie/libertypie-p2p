@@ -9,7 +9,7 @@ pragma solidity ^0.6.2;
 import "../PermissionManager/PM.sol";
 import "./IStorage.sol";
 
-contract Store is PM {
+contract StoreProxy is PM {
     
     /**
      * Store address
@@ -23,7 +23,7 @@ contract Store is PM {
         _storageAddr = _addr;
      }
 
-    function() external  {
+    fallback() external  {
 
         assembly {
 

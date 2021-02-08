@@ -6,9 +6,9 @@
 pragma solidity ^0.6.2;
 pragma experimental ABIEncoderV2;
 import "./Storage.sol";
+import "./StoreEditor.sol";
 
-
-contract OfferStore  {
+contract DappStore is StoreEditor  {
 
     //offer index mapping
     //offers data
@@ -23,7 +23,7 @@ contract OfferStore  {
      * @param _key the name of the value data to store
      * @param _data the actual data to store  
      */
-    function addOfferData(uint256 _index, bytes32 _key, bytes _data) external onlyStoreAdmin {
+    function addOfferData(uint256 _index, bytes32 _key, bytes _data) external onlyStoreEditor {
         OffersData[_index][_key] = _data;
     }
 
