@@ -11,7 +11,7 @@ import "./StoreEditor.sol";
 
 contract ComplexStore is StoreEditor {
     /**
-     * complex stores
+     * @dev complex stores
      */
     mapping(bytes32 => address[]) private addressArrayStore;
     mapping(bytes32 => bytes[])   private  bytesArrayStore;
@@ -57,11 +57,11 @@ contract ComplexStore is StoreEditor {
 
     //set string array
     function setStringArray(bytes32 _key, string[] memory _data) external onlyStoreEditor {
-        addressArrayStore[_key] = _data;
+        stringArrayStore[_key] = _data;
     } 
 
     //add string Array item
-    function addStringArrayItem(bytes32 _key, uint256 _index, string calldata _value) external onlyStoreEditor {
+    function addStringArrayItem(bytes32 _key, uint256 _index, string memory _value) external onlyStoreEditor {
         stringArrayStore[_key][_index] = _value;
     } 
 

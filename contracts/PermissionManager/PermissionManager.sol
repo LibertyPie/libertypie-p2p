@@ -18,11 +18,16 @@ contract PermissionManager {
     //roles
     mapping(string => mapping(address => bool)) public Roles;
     
-    constructor() public {
+    constructor(address _owner) public {
+
+        if(_owner  == address(0)){
+            _owner = msg.sender;
+        }
+
         //add deployer as a super admin
-        Roles[SUPER_ADMIN_ROLE][msg.sender] = true;
-        Roles[MODERATOR_ROLE][msg.sender] = true;
-        Roles[ADMIN_ROLE][msg.sender] = true;
+        Roles[SUPER_ADMIN_ROLE][_owner] = true;
+        Roles[MODERATOR_ROLE][_owner] = true;
+        Roles[ADMIN_ROLE][_owner] = true;
     }
 
     /**
@@ -59,7 +64,7 @@ contract PermissionManager {
      * @dev add Role
      * @param roleName roleName
      */
-    function addRole(string calldata roleName)  external onlySuperAdmin {
+    function addRole(string memory roleName)  public onlySuperAdmin {
         
         require(bytes(roleName).length > 0,"ROLE_NAME_REQUIRED");
 
@@ -73,7 +78,7 @@ contract PermissionManager {
     /**
      * grant role to an address
      */
-    function grantRole(string calldata roleName, address _address) external onlySuperAdmin {
+    function grantRole(string memory roleName, address _address) public onlySuperAdmin {
 
         //grant the role 
          Roles[roleName][_address] = true;
@@ -84,7 +89,7 @@ contract PermissionManager {
     /**
      * hasRole
      */
-    function hasRole(string calldata roleName, address _address) public view returns(bool) {
+    function hasRole(string memory roleName, address _address) public view returns(bool) {
         return Roles[roleName][_address];
     }
 

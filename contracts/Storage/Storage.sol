@@ -11,7 +11,7 @@ import "./ComplexStore.sol";
 import "./DappStore.sol";
 import "./StoreEditor.sol";
 
-contract Storage is StoreEditor, BasicStore, ComplexStore, DappStore {
+contract Storage is PM, StoreEditor, BasicStore, ComplexStore, DappStore {
 
     /**
      * Note this accepts the storage admin address, which is the 
@@ -21,7 +21,7 @@ contract Storage is StoreEditor, BasicStore, ComplexStore, DappStore {
         //lets add pm role,
         // this should be the address of the contract which will be
         // allowed to write to storage
-        PM.grantRole(STORAGE_EDITOR_ROLE,_editorContract);
+        grantRole(STORAGE_EDITOR_ROLE,_editorContract);
     }
 
 }   

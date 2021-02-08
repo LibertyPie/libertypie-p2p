@@ -59,14 +59,14 @@ contract PM {
     /**
      * hasRole
      */
-    function hasRole(string calldata roleName, address _address) external view returns(bool){
+    function hasRole(string memory roleName, address _address) public view returns(bool){
       return PERMISSION_MANAGER.hasRole(roleName,_address);
     }
 
     /**
      * grant role
      */
-    function grantRole(string calldata roleName, address _address) external onlySuperAdmin {
+    function grantRole(string memory roleName, address _address) public onlySuperAdmin {
       PERMISSION_MANAGER.grantRole(roleName, _address);
     }
     

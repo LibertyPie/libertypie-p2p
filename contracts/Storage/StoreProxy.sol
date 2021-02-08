@@ -24,13 +24,15 @@ contract StoreProxy is PM {
      }
 
     fallback() external  {
-       
+        
+        address _target = _storageAddr;
+
         assembly {
 
             let ptr := mload(0x40)
             calldatacopy(ptr, 0, calldatasize())
 
-            let result := call(gas(), _storageAddr, ptr, calldatasize(), 0, 0)
+            let result := call(gas(),0, _target, ptr, calldatasize(), 0, 0)
             
             let size := returndatasize()
             returndatacopy(ptr, 0, size)
