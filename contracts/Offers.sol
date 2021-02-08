@@ -10,5 +10,5 @@ import "./Storage/StoreProxy.sol";
 
 contract Offers is Context {
 
-    
+        
 }  //end contract 

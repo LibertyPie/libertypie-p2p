@@ -26,4 +26,9 @@ contract DappStore is StoreEditor  {
         OffersData[_index][_key] = _data;
     }
 
+
+    /**
+     * @dev payment types
+     */
+    // mapping()
 }
