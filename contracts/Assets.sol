@@ -114,7 +114,7 @@ contract Assets is PM {
         string calldata  _originalName,
         string calldata  _originalSymbol,
         address _wrapperContract
-    ) external onlyAdmins() {
+    ) external onlyAdmin() {
         return _addAsset(_contractAddress, _isPegged, _originalName, _originalSymbol, _wrapperContract);
     }
         

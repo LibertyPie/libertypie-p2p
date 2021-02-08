@@ -18,7 +18,7 @@ interface IStorage {
     function setBool(bytes32 _key, bool _data) external;
     function setBool(bytes32 _key, bool _data) external;
     function setAddress(bytes32 _key, address _data) external;
-    function setBytes(bytes32 _key, bytes _data) external;
+    function setBytes(bytes32 _key, bytes memory _data) external;
 
     /**
      * Basic store getters
@@ -28,7 +28,7 @@ interface IStorage {
     function getInt256(bytes32 _key) public view returns(int256);
     function getBool(bytes32 _key) public view returns(bool);
     function getAddress(bytes32 _key) public view returns(address);
-    function getString(bytes32 _key) public view returns(string);
+    function getString(bytes32 _key) public view returns(string memory);
 
 
     /**
@@ -43,5 +43,5 @@ interface IStorage {
     function setStringArray(bytes32 _key, string[] memory _data) external;
     function addStringArrayItem(bytes32 _key, uint256 _index, string calldata _value) external;
     function setBytesArray(bytes32 _key, bytes[] memory _data) external;
-    function addBytesArrayItem(bytes32 _key, uint256 _index, bytes _value) external;
+    function addBytesArrayItem(bytes32 _key, uint256 _index, bytes memory _value) external;
 }

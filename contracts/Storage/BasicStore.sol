@@ -61,14 +61,7 @@ contract BasicStore is StoreEditor {
      * @dev set string  
      */
      function setString(bytes32 _key, string calldata _data) external onlyStoreEditor {
-        int256Store[_key] = _data;
-     }
-
-    /**
-     * @dev set boolean  
-     */
-     function setBool(bytes32 _key, bool _data) external onlyStoreEditor {
-        int256Store[_key] = _data;
+        stringStore[_key] = _data;
      }
 
     /**
@@ -82,14 +75,14 @@ contract BasicStore is StoreEditor {
      * @dev set address  
      */
      function setAddress(bytes32 _key, address _data) external onlyStoreEditor {
-        addressStorage[_key] = _data;
+        addressStore[_key] = _data;
     }
 
     /**
-     * @dev set address  
+     * @dev set bytes data  
      */
-     function setBytes(bytes32 _key, bytes _data) external onlyStoreEditor {
-        addressStorage[_key] = _data;
+     function setBytes(bytes32 _key, bytes memory _data) external onlyStoreEditor {
+        bytesStore[_key] = _data;
     }
 
     /**
@@ -101,13 +94,6 @@ contract BasicStore is StoreEditor {
      */
     function getUint256(bytes32 _key) public view returns(uint256) {
         return uint256Store[_key];
-    }
-
-    /**
-     * get int256
-     */
-    function getInt256(bytes32 _key) public view returns(int256) {
-        return int256Store[_key];
     }
 
     /**
@@ -134,7 +120,7 @@ contract BasicStore is StoreEditor {
     /**
      * get string
      */
-    function getString(bytes32 _key) public view returns(string) {
+    function getString(bytes32 _key) public view returns(string memory) {
         return stringStore[_key];
     }
 }

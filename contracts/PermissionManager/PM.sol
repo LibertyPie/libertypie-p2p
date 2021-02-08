@@ -9,7 +9,7 @@ interface IPermissionManager {
     function isSuperAdmin(address _address) external view  returns(bool);
     function isAdmin(address _address) external view  returns(bool);
     function isModerator(address _address) external view returns (bool);
-    function hasRole(string roleName, address _address) external view returns (bool);
+    function hasRole(string calldata roleName, address _address) external view returns (bool);
     function grantRole(string calldata roleName, address _address) external;
 }
 
@@ -27,14 +27,14 @@ contract PM {
     /**
      * @dev  set permission manager contract
      */
-    function setPermissionManager(address _newAddress) external superAdminOnly () {
+    function setPermissionManager(address _newAddress) external onlySuperAdmin () {
       _setPermissionManager(_newAddress);
     }
 
     /**
     * @dev superAdminOnly - a modifier which allows only super admin 
     */
-     modifier superAdminOnly () {
+     modifier onlySuperAdmin () {
          require( PERMISSION_MANAGER.isSuperAdmin(msg.sender), "ONLY_SUPER_ADMINS_ALLOWED" );
          _;
      }
@@ -43,7 +43,7 @@ contract PM {
     * OnlyAdmin 
     * This also allows super admins
     */
-    modifier adminOnly () {
+    modifier onlyAdmin () {
       require( PERMISSION_MANAGER.isAdmin(msg.sender), "ONLY_ADMINS_ALLOWED");
       _;
     }
@@ -51,7 +51,7 @@ contract PM {
     /**
     * OnlyModerator
     */
-    modifier moderatorOnly() {
+    modifier OnlyModerator() {
       require( PERMISSION_MANAGER.isModerator(msg.sender), "MODERATORS_ONLY_ALLOWED" );
       _;
     }
@@ -59,14 +59,14 @@ contract PM {
     /**
      * hasRole
      */
-    function hasRole(string roleName, address _address) external view returns(bool){
+    function hasRole(string calldata roleName, address _address) external view returns(bool){
       return PERMISSION_MANAGER.hasRole(roleName,_address);
     }
 
     /**
      * grant role
      */
-    function grantRole(string calldata roleName, address _address) external superAdminOnly {
+    function grantRole(string calldata roleName, address _address) external onlySuperAdmin {
       PERMISSION_MANAGER.grantRole(roleName, _address);
     }
     

@@ -42,7 +42,7 @@ contract OpenPriceFeed is PM {
      * @dev update uniswap anchor contract
      * @param _newAddress  the new contract address
      */
-    function setUniswapAnchorContract(address _newAddress) external onlyAdmins()  {
+    function setUniswapAnchorContract(address _newAddress) external onlyAdmin ()  {
         _setUniswapAnchorContract(_newAddress);
     }
 

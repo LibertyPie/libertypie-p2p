@@ -4,11 +4,17 @@
 * @author https://github.com/libertypie (hello@libertypie.com)
 * @license SPDX-License-Identifier: MIT
 */
+pragma solidity ^0.6.2;
+pragma experimental ABIEncoderV2;
+
+import "../PermissionManager/PM.sol";
 
 contract StoreEditor is PM {
 
      //permision role
-     /// we allow only contracts to edit storage 
+     /** 
+     * @dev we allow only contracts to edit storage
+     **/
     string STORAGE_EDITOR_ROLE = "STORAGE_EDITOR";
 
     //permissions 

@@ -71,7 +71,7 @@ contract ComplexStore is StoreEditor {
     } 
 
     //add bytes Array item
-    function addBytesArrayItem(bytes32 _key, uint256 _index, bytes _value) external onlyStoreEditor {
+    function addBytesArrayItem(bytes32 _key, uint256 _index, bytes memory _value) external onlyStoreEditor {
         bytesArrayStore[_key][_index] = _value;
     } 
 

@@ -7,39 +7,39 @@
 pragma solidity ^0.6.2;
 
 import "../PermissionManager/PM.sol";
-import "./IStorage.sol";
 
 contract StoreProxy is PM {
     
     /**
      * Store address
      */
-     Storage public _storageAddr;
+     address public _storageAddr;
 
     /**
      * setStorage
      */
-     function setStorage(Storage _addr) external isSuperAdmin {
+     function setStorage(address _addr) external onlySuperAdmin {
+        require(_addr != address(0),"VALID_STORAGE_ADDRESS_REQUIRED");
         _storageAddr = _addr;
      }
 
     fallback() external  {
-
+       
         assembly {
 
-          let ptr := mload(0x40)
+            let ptr := mload(0x40)
+            calldatacopy(ptr, 0, calldatasize())
 
-            calldatacopy(ptr, 0, calldatasize)
-
-            let result := call(gas, _storageAddr, ptr, calldatasize, 0, 0)
-            let size := returndatasize
-
+            let result := call(gas(), _storageAddr, ptr, calldatasize(), 0, 0)
+            
+            let size := returndatasize()
             returndatacopy(ptr, 0, size)
 
             switch result
             case 0 { revert(ptr, size) }
             default { return(ptr, size) }
 
-        }
-    }
+        } //end assembly
+    } //end fallback 
+
 }

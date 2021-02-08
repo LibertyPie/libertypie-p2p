@@ -51,7 +51,7 @@ contract PaymentTypes is PM {
    * @param name category name in string
    * @return uint256 new category  id
    */
-   function addPaymentTypeCategory(string calldata name) external  onlyAdmins() returns(uint256) {
+   function addPaymentTypeCategory(string calldata name) external  onlyAdmin() returns(uint256) {
       return _addCategory(name);
    } //end fun 
 
@@ -76,7 +76,7 @@ contract PaymentTypes is PM {
    * @dev delete a cetegory
    * @param categoryId category  id
    */
-   function deletePaymentTypeCategory(uint256 categoryId) external onlyAdmins() {
+   function deletePaymentTypeCategory(uint256 categoryId) external onlyAdmin() {
       delete  PaymentTypesCategories[categoryId];
    } //end fun 
 
@@ -86,7 +86,7 @@ contract PaymentTypes is PM {
    * @param categoryId category id
    * @param newCategoryName  new category name to change
    */
-   function updatePaymentTypeCategory(uint256 categoryId,  string calldata newCategoryName) external  onlyAdmins() {
+   function updatePaymentTypeCategory(uint256 categoryId,  string calldata newCategoryName) external  onlyAdmin() {
       PaymentTypesCategories[categoryId] = newCategoryName;
    } //end fun 
 
@@ -97,7 +97,7 @@ contract PaymentTypes is PM {
    * @param categoryId category id for the new payment  type
    * @return uint256
    */
-   function addPaymentType(string memory name, uint256 categoryId ) external  onlyAdmins() returns(uint256) {
+   function addPaymentType(string memory name, uint256 categoryId ) external  onlyAdmin() returns(uint256) {
 
       //lets  check if categoryId exists 
       require(bytes(PaymentTypesCategories[categoryId]).length > 0,"XPIE:UNKNOWN_CATEGORY");
@@ -115,7 +115,7 @@ contract PaymentTypes is PM {
    * @dev remove  a payment type 
    * @param id  the payment type id
    */
-   function removePaymentType(uint256 id) external  onlyAdmins() {
+   function removePaymentType(uint256 id) external  onlyAdmin() {
       delete PaymentTypesData[id];
    }
 
@@ -126,7 +126,7 @@ contract PaymentTypes is PM {
    *  @param newName the new name of the paymentType
    *  @param  newCategoryId the new category id of the payment type
    */
-   function updatePaymentType(uint256 currentId, string calldata newName, uint256 newCategoryId) external  onlyAdmins()  {
+   function updatePaymentType(uint256 currentId, string calldata newName, uint256 newCategoryId) external  onlyAdmin()  {
       
       //lets check if 
       require(currentId  <= totalPaymentTypes,"XPIE:UNKNOWN_PAYMENT_TYPE");

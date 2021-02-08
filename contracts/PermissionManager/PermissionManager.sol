@@ -49,7 +49,7 @@ contract PermissionManager {
     /**
      * @dev super admin only modifier
      */
-     modifier superAdminOnly() {
+     modifier onlySuperAdmin() {
         require(isSuperAdmin(msg.sender) == true,"ONLY_SUPER_ADMINS_ALLOWED");
         _;
      }
@@ -57,9 +57,9 @@ contract PermissionManager {
 
     /**
      * @dev add Role
-     * @param string roleName
+     * @param roleName roleName
      */
-    function addRole(string calldata roleName)  external superAdminOnly {
+    function addRole(string calldata roleName)  external onlySuperAdmin {
         
         require(bytes(roleName).length > 0,"ROLE_NAME_REQUIRED");
 
@@ -73,7 +73,7 @@ contract PermissionManager {
     /**
      * grant role to an address
      */
-    function grantRole(string calldata roleName, address _address) external superAdminOnly {
+    function grantRole(string calldata roleName, address _address) external onlySuperAdmin {
 
         //grant the role 
          Roles[roleName][_address] = true;
@@ -91,7 +91,7 @@ contract PermissionManager {
     /**
      * remove user from role
      */
-    function revoke(string calldata roleName, address _address) external superAdminOnly {
+    function revoke(string calldata roleName, address _address) external onlySuperAdmin {
         delete Roles[roleName][_address];
         emit Revoke(roleName,_address);
     }
