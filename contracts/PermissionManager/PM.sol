@@ -9,8 +9,8 @@ interface IPermissionManager {
     function isSuperAdmin(address _address) external view  returns(bool);
     function isAdmin(address _address) external view  returns(bool);
     function isModerator(address _address) external view returns (bool);
-    function hasRole(string calldata roleName, address _address) external view returns (bool);
-    function grantRole(string calldata roleName, address _address) external;
+    function hasRole(string memory roleName, address _address) external view returns (bool);
+    function grantRole(string memory roleName, address _address) external;
 }
 
 contract PM {

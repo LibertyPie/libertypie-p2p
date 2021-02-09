@@ -1,38 +1,43 @@
-// SPDX-License-Identifier: MIT
+/*
+* LibertyPie Project (https://libertypie.com)
+* @author https://github.com/libertypie (hello@libertypie.com)
+* @license SPDX-License-Identifier: MIT
+*/
 pragma solidity ^0.6.2;
 pragma experimental ABIEncoderV2;
+import "./StoreEditor.sol";
+import "../Commons/OffersStructImpl.sol";
 
+contract OffersStore is StoreEditor, OffersStructImpl  {
 
-import "./Assets.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/GSN/Context.sol";
-import "./Storage/StoreProxy.sol";
-
-contract Offers is Context {
-
-    /*
-     * @dev add a new offer  event 
-     */
-    event NewOffer(uint256 offerId);
-    
-    event DisableOffer(uint256 offerId);
-
-    event UpdateOffer(uint256 offerId);
-
-    // @dev get variables for the data store 
-    bytes32 TOTAL_OFFERS_STORE_KEY = keccak256("Offers_total_offers");
-
-    // offer types
-    bytes32 OFFER_TYPE_BUY  =  keccak256("buy");
-    bytes32 OFFER_TYPE_SELL = keccak256("sell");
-
-    Assets  _assets = Assets(address(this)); 
-    StoreProxy dataStore;
+    //format is mapping(index => OffersStruct)
+    mapping(uint256 =>  OffersStruct) private OffersData;
 
     /**
-     * @dev add a  new offer 
+     * @dev totalOffers
+     */
+    uint256 private totalOffers;
+
+    /**
+     * @dev generate or get next offerId
+     */
+     function getNextOfferId() public returns(uint256) {
+         return totalOffers += 1;
+     }
+
+    /**
+     * getTotalOffers
+     */
+    function getTotalOffers() public view returns (uint256){
+        return totalOffers;
+    }
+
+    /**
+     * @dev add data to offers
+     * @dev id offer id
      * @param asset contract address
      * @param offerType offer type, sell or buy offer
+     * @param owner the offer owner or creator
      * @param pricingMode mode of pricing, either market or fixed
      * @param profitMargin if pricing mode is market, then profit margin in %
      * @param fixedPrice if pricing mode is fixed, then the fixed offer price
@@ -51,14 +56,16 @@ contract Offers is Context {
      * @param isEnabled is offer enabled
      * @param expiry if an expiry is set
      */
-     function newOffer(
+    function saveOfferData(
+        uint256  id, 
         address  asset,
-        bytes32    offerType,
+        string   memory offerType,
+        address  owner,
         string   memory pricingMode,
         uint256  profitMargin,
         uint256  fixedPrice,
-        bytes32  countryCode,
-        bytes32  currencyCode,
+        string   memory  countryCode,
+        string   memory  currencyCode,
         uint256  paymentTypeId,
         uint256  minTradeLimit,
         uint256  maxTradeLimit,
@@ -71,23 +78,8 @@ contract Offers is Context {
         int      externalStoreId,
         bool     isEnabled,
         uint256  expiry
-     ) external {
+    ) external onlyStoreEditor {
+      
+    }
 
-        //validate country
-        require(countryCode.length == 2, "XPIE:INVALID_COUNTRY_CODE");
-
-        require(currencyCode.length == 2, "XPIE:INVALID_CURRENCY_CODE");
-
-        //check if asset is supported
-        require(_assets.isAssetSupported(asset),"XPIE:UNSUPPORTED_ASSET");
-    
-        require((offerType == OFFER_TYPE_BUY || offerType == OFFER_TYPE_SELL), "XPIE:INVALID_OFFER_TYPE");
-
-        //save offer data 
-        //lets get nextOfferId
-        uint256 offerId = dataStore.getNextOfferId();
-
-
-     }
-
-}  //end contract 
+}

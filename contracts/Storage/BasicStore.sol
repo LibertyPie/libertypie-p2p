@@ -51,6 +51,13 @@ contract BasicStore is StoreEditor {
      }
 
     /**
+     * @dev increment uint256 this adds a +1 to the exiting data
+     */
+     function incrementUint256(bytes32 _key) external  onlyStoreEditor returns(uint256) {
+        uint256Store[_key] += 1;
+     }
+
+    /**
      * @dev set int256  
      */
      function setInt256(bytes32 _key, int256 _data) external  onlyStoreEditor {

@@ -8,10 +8,10 @@ pragma experimental ABIEncoderV2;
 import "../PermissionManager/PM.sol";
 import "./BasicStore.sol";
 import "./ComplexStore.sol";
-import "./DappStore.sol";
+import "./OffersStore.sol";
 import "./StoreEditor.sol";
 
-contract Storage is PM, StoreEditor, BasicStore, ComplexStore, DappStore {
+contract Storage is PM, StoreEditor, BasicStore, ComplexStore, OffersStore {
 
     /**
      * Note this accepts the storage admin address, which is the 
