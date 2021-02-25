@@ -7,25 +7,14 @@
 pragma solidity ^0.6.2;
 pragma experimental ABIEncoderV2;
 
-import "../../Commons/PaymentMethodStructImpl.sol";
+import "./IPaymentMethodsStore.sol";
 
-interface IStorage {
-
+interface IStorage is IPaymentMethodsStore {
 
     /**
      * Offers
      */
     function getNextOfferId() external returns(uint256);
-
-
-    /**
-     * PaymentMethods
-     */
-    function getNextPaymentMethodId() external returns(uint256);
-    function getNextCategoryId() external returns(uint256);
-    function saveCategoryData(uint256 _id,PaymentMethodStructImpl.CategoryStruct memory _data) external;
-    function savePaymentMethodData(uint256 _id,PaymentMethodStructImpl.PaymentMethodStruct memory _data) external;
-
 
     /**
      * Basic Store setters
@@ -34,18 +23,16 @@ interface IStorage {
     function setInt256(bytes32 _key, int256 _data) external;
     function setString(bytes32 _key, string calldata _data) external;
     function setBool(bytes32 _key, bool _data) external;
-    function setBool(bytes32 _key, bool _data) external;
     function setAddress(bytes32 _key, address _data) external;
     function setBytes(bytes32 _key, bytes memory _data) external;
 
     /**
      * Basic store getters
      */
-    function getUint256(bytes32 _key) public view returns(uint256);
-    function getInt256(bytes32 _key) public view returns(int256);
-    function getInt256(bytes32 _key) public view returns(int256);
-    function getBool(bytes32 _key) public view returns(bool);
-    function getAddress(bytes32 _key) public view returns(address);
-    function getString(bytes32 _key) public view returns(string memory);
+    function getUint256(bytes32 _key) external view returns(uint256);
+    function getInt256(bytes32 _key) external view returns(int256);
+    function getBool(bytes32 _key) external view returns(bool);
+    function getAddress(bytes32 _key) external view returns(address);
+    function getString(bytes32 _key) external view returns(string memory);
 
 }

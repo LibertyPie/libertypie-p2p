@@ -9,7 +9,7 @@ pragma experimental ABIEncoderV2;
 /**
  * @dev payment method struct Implementation
  */
-contract PaymentMethodStructImpl {
+contract PaymentMethodsStructImpl {
     
 
    struct PaymentMethodStruct {

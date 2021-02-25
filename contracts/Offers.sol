@@ -55,30 +55,30 @@ contract Offers is Context {
    /**
    * @dev add a  new offer 
    *
-   *  OffersStructImpl.OfferInfo memory offerInfo 
-      * @param asset the contract  address of the  asset  you wish to add the ad
-      * @param offerType the offer type, either buy or sell
-      * @param countryCode the country  where   ad is   targeted at
-      * @param currencyCode 2 letter iso currency code 
-      * @param extraDataHash  extra data hash
-      * @param extraDataStoreId Store , 1 for ipfs, 2 for sia skynet , 3....
-      * @param isEnabled, if offer is enabled or not
-      * @param expiry  offer expiry, 0 for non expiring offer, > 0 for expiring offer
+   *    @dev  OffersStructImpl.OfferInfo memory offerInfo 
+      * @dev  asset the contract  address of the  asset  you wish to add the ad
+      * @dev  offerType the offer type, either buy or sell
+      * @dev  countryCode the country  where   ad is   targeted at
+      * @dev  currencyCode 2 letter iso currency code 
+      * @dev  extraDataHash  extra data hash
+      * @dev  extraDataStoreId Store , 1 for ipfs, 2 for sia skynet , 3....
+      * @dev  isEnabled, if offer is enabled or not
+      * @dev  expiry  offer expiry, 0 for non expiring offer, > 0 for expiring offer
 
-   * OffersStructImpl.PricingInfo memory pricingInfo
-      * @param paymentTypeId enabled payment type for the offer
-      * @param pricingMode the pricing mode for the offer
-      * @param profitMargin if the pricingMode is market, then the amount in percentage added to the market price
-      * @param fixedPrice if pricingMode is fixed, then the offer amount in usd
+   * @dev OffersStructImpl.PricingInfo memory pricingInfo
+      * @dev  paymentTypeId enabled payment type for the offer
+      * @dev  pricingMode the pricing mode for the offer
+      * @dev  profitMargin if the pricingMode is market, then the amount in percentage added to the market price
+      * @dev  fixedPrice if pricingMode is fixed, then the offer amount in usd
 
-   * OffersStructImpl.TradeInfo memory offerTradeInfo
-      * @param minTradeAmountLimit uint256 minimum trade amount limit for the offer
-      * @param maxTradeAmountLimit uint256 maximum trade  amount limit for the offer
-      * @param hasSecurityDeposit bool if security deposit is enabled
-      * @param securityDepositRate uint256 if security deposit is enabled, the amount in percentage
-      * @param paymentWindow uint256 the time duration in milliseconds required to make a payment after a trade is opened
-      * @param partnerMinimumTrades uint256 partner minimum required trades to be qualified to open trade to this offer
-      * @param partnerMinimumReputation uint256 partner minimum reputation required to qualify for this offer
+   * @dev OffersStructImpl.TradeInfo memory offerTradeInfo
+      * @dev  minTradeAmountLimit uint256 minimum trade amount limit for the offer
+      * @dev  maxTradeAmountLimit uint256 maximum trade  amount limit for the offer
+      * @dev  hasSecurityDeposit bool if security deposit is enabled
+      * @dev  securityDepositRate uint256 if security deposit is enabled, the amount in percentage
+      * @dev  paymentWindow uint256 the time duration in milliseconds required to make a payment after a trade is opened
+      * @dev  partnerMinimumTrades uint256 partner minimum required trades to be qualified to open trade to this offer
+      * @dev  partnerMinimumReputation uint256 partner minimum reputation required to qualify for this offer
    */
    function newOffer(
       OffersStructImpl.OfferInfo memory offerInfo,

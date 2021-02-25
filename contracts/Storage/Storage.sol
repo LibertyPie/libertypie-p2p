@@ -5,13 +5,15 @@
 */
 pragma solidity ^0.6.2;
 pragma experimental ABIEncoderV2;
+
 import "../PermissionManager/PM.sol";
 import "./BasicStore.sol";
 import "./ComplexStore.sol";
 import "./OffersStore.sol";
 import "./StoreEditor.sol";
+import "./PaymentMethodsStore.sol";
 
-contract Storage is PM, StoreEditor, BasicStore, ComplexStore, OffersStore {
+contract Storage is PM, StoreEditor, BasicStore, ComplexStore, OffersStore, PaymentMethodsStore {
 
     /**
      * Note this accepts the storage admin address, which is the 
