@@ -9,6 +9,7 @@
   "scripts": {
     "c": "truffle compile",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "gen_interfaces": "npx generate-contract-interface --importRoot ./contracts < ./contracts/Storage/Storage.sol",
     "flatten": "npx solidity-flattener contracts/Factory.sol > build/Flattened.sol",
     "artifacts": "npm run flatten && npx solcjs --abi --bin --optimize --optimize-runs=200 --output-dir=artifacts build/Flattened.sol "
   },

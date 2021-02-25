@@ -7,6 +7,7 @@
 pragma solidity ^0.6.2;
 
 import "../PermissionManager/PM.sol";
+import "./Interfaces/IStorage.sol";
 
 contract StoreProxy is PM {
     
@@ -15,6 +16,15 @@ contract StoreProxy is PM {
      */
      address public _storageAddr;
 
+
+     /**
+      * getStoreImpl
+      */
+      function getIStorage() public view returns(IStorage) {
+          return IStorage(address(this));
+      }
+
+
     /**
      * setStorage
      */
@@ -22,8 +32,8 @@ contract StoreProxy is PM {
         require(_addr != address(0),"VALID_STORAGE_ADDRESS_REQUIRED");
         _storageAddr = _addr;
      }
-
-    fallback() external  {
+    
+    function _fallback() private {
         
         address _target = _storageAddr;
 
@@ -42,6 +52,12 @@ contract StoreProxy is PM {
             default { return(ptr, size) }
 
         } //end assembly
+        
     } //end fallback 
+
+
+    fallback() external {
+        _fallback();
+    }
 
 }

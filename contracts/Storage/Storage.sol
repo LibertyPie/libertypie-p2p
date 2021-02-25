@@ -23,5 +23,5 @@ contract Storage is PM, StoreEditor, BasicStore, ComplexStore, OffersStore {
         // allowed to write to storage
         grantRole(STORAGE_EDITOR_ROLE,_editorContract);
     }
-
+        
 }   

@@ -7,6 +7,7 @@ import "./Assets.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/GSN/Context.sol";
 import "./Storage/StoreProxy.sol";
+import "./Commons/OffersStructImpl.sol";
 
 contract Offers is Context {
 
@@ -27,67 +28,71 @@ contract Offers is Context {
     bytes32 OFFER_TYPE_SELL = keccak256("sell");
 
     Assets  _assets = Assets(address(this)); 
-    StoreProxy dataStore;
 
-    /**
-     * @dev add a  new offer 
-     * @param asset contract address
-     * @param offerType offer type, sell or buy offer
-     * @param pricingMode mode of pricing, either market or fixed
-     * @param profitMargin if pricing mode is market, then profit margin in %
-     * @param fixedPrice if pricing mode is fixed, then the fixed offer price
-     * @param countryCode the two letter country code
-     * @param currencyCode the two letter currency code
-     * @param paymentTypeId the paymentTypeId
-     * @param minTradeLimit minimum trade limit for this offer
-     * @param maxTradeLimit maximum trade limit for this offer
-     * @param hasSecurityDeposit wether security deposit is enabled
-     * @param securityDepositRate if security deposit is enabled, then the required % 
-     * @param paymentWindow the time within which payment has to be made before expires 
-     * @param partnerMinRequiredTrades the minimum trades required by a partner
-     * @param partnerMinReputation minimum reputation required by a partner
-     * @param externalInfoHash ipfs or siaskynet has for payment terms and info
-     * @param externalStoreId where the external info was stored
-     * @param isEnabled is offer enabled
-     * @param expiry if an expiry is set
-     */
-     function newOffer(
-        address  asset,
-        bytes32    offerType,
-        string   memory pricingMode,
-        uint256  profitMargin,
-        uint256  fixedPrice,
-        bytes32  countryCode,
-        bytes32  currencyCode,
-        uint256  paymentTypeId,
-        uint256  minTradeLimit,
-        uint256  maxTradeLimit,
-        bool     hasSecurityDeposit,
-        uint256  securityDepositRate,
-        uint256  paymentWindow,
-        uint256  partnerMinRequiredTrades,
-        uint256  partnerMinReputation,
-        string   memory  externalInfoHash,
-        int      externalStoreId,
-        bool     isEnabled,
-        uint256  expiry
-     ) external {
+   //get storage implementations
+    IStorage dataStore = StoreProxy(address(this)).getIStorage();
 
-        //validate country
-        require(countryCode.length == 2, "XPIE:INVALID_COUNTRY_CODE");
+     //user ad index 
+    //save  into user map
+    //format  mapping( msg.sender =>  _index)
+    mapping(address => uint256[]) private OffersByUserAddress;
 
-        require(currencyCode.length == 2, "XPIE:INVALID_CURRENCY_CODE");
+    // assets  Ads  indexes 
+    //format  mapping( assetAddress =>  _index)
+    mapping(address => uint256[])  private OffersByAssetAddress;
 
-        //check if asset is supported
-        require(_assets.isAssetSupported(asset),"XPIE:UNSUPPORTED_ASSET");
-    
-        require((offerType == OFFER_TYPE_BUY || offerType == OFFER_TYPE_SELL), "XPIE:INVALID_OFFER_TYPE");
+    // offers indexes based  on country
+     //format  mapping(countryCode =>  _index)
+    mapping(string => uint256[]) private  OffersByCountryCode;
 
-        //save offer data 
-        //lets get nextOfferId
-        uint256 offerId = dataStore.getNextOfferId();
+    //offers indexes based on offer type
+    mapping(string => uint256[]) private  OffersByType;
 
+    //offers indexes based on paymentTypeId 
+    mapping(uint256 => uint256[]) private  OffersByPaymentType;
 
-     }
+        
+   /**
+   * @dev add a  new offer 
+   *
+   *  OffersStructImpl.OfferInfo memory offerInfo 
+      * @param asset the contract  address of the  asset  you wish to add the ad
+      * @param offerType the offer type, either buy or sell
+      * @param countryCode the country  where   ad is   targeted at
+      * @param currencyCode 2 letter iso currency code 
+      * @param extraDataHash  extra data hash
+      * @param extraDataStoreId Store , 1 for ipfs, 2 for sia skynet , 3....
+      * @param isEnabled, if offer is enabled or not
+      * @param expiry  offer expiry, 0 for non expiring offer, > 0 for expiring offer
+
+   * OffersStructImpl.PricingInfo memory pricingInfo
+      * @param paymentTypeId enabled payment type for the offer
+      * @param pricingMode the pricing mode for the offer
+      * @param profitMargin if the pricingMode is market, then the amount in percentage added to the market price
+      * @param fixedPrice if pricingMode is fixed, then the offer amount in usd
+
+ 
+   */
+   function newOffer(
+      OffersStructImpl.OfferInfo memory offerInfo,
+      OffersStructImpl.PricingInfo memory pricingInfo,
+      OffersStructImpl.TradeInfo memory offerTradeInfo
+   ) external {
+
+      //validate country
+      require(offerInfo.countryCode.length == 2, "XPIE:INVALID_COUNTRY_CODE");
+
+      require(offerInfo.currencyCode.length == 2, "XPIE:INVALID_CURRENCY_CODE");
+
+      //check if asset is supported
+      require(_assets.isAssetSupported(offerInfo.asset),"XPIE:UNSUPPORTED_ASSET");
+   
+      require((offerInfo.offerType == OFFER_TYPE_BUY || offerInfo.offerType == OFFER_TYPE_SELL), "XPIE:INVALID_OFFER_TYPE");
+
+      //save offer data 
+      //lets get nextOfferId
+      uint256 offerId = dataStore.getNextOfferId();
+
+   }
 
 }  //end contract 

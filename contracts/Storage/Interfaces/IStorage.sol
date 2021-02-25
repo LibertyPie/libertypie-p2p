@@ -7,3 +7,34 @@
 pragma solidity ^0.6.2;
 pragma experimental ABIEncoderV2;
 
+interface IStorage {
+
+
+    /**
+     * Offers
+     */
+    function getNextOfferId() external returns(uint256);
+
+
+      /**
+     * Basic Store setters
+     */
+    function setUint256(bytes32 _key, uint256 _data) external;
+    function setInt256(bytes32 _key, int256 _data) external;
+    function setString(bytes32 _key, string calldata _data) external;
+    function setBool(bytes32 _key, bool _data) external;
+    function setBool(bytes32 _key, bool _data) external;
+    function setAddress(bytes32 _key, address _data) external;
+    function setBytes(bytes32 _key, bytes memory _data) external;
+
+    /**
+     * Basic store getters
+     */
+    function getUint256(bytes32 _key) public view returns(uint256);
+    function getInt256(bytes32 _key) public view returns(int256);
+    function getInt256(bytes32 _key) public view returns(int256);
+    function getBool(bytes32 _key) public view returns(bool);
+    function getAddress(bytes32 _key) public view returns(address);
+    function getString(bytes32 _key) public view returns(string memory);
+
+}
