@@ -30,13 +30,13 @@ contract OffersStructImpl {
     }
 
     struct TradeInfo {
-        uint256  minTradeLimit;
-        uint256  maxTradeLimit;
+        uint256  minTradeAmountLimit;
+        uint256  maxTradeAmountLimit;
         bool     hasSecurityDeposit;
         uint256  securityDepositRate;
         uint256  paymentWindow;
-        uint256  partnerMinRequiredTrades;
-        uint256  partnerMinReputation;
+        uint256  partnerMinimumTrades;
+        uint256  partnerMinimumReputation;
     }
     
     struct OffersStruct {

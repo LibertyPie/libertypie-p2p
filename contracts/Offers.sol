@@ -71,7 +71,14 @@ contract Offers is Context {
       * @param profitMargin if the pricingMode is market, then the amount in percentage added to the market price
       * @param fixedPrice if pricingMode is fixed, then the offer amount in usd
 
- 
+   * OffersStructImpl.TradeInfo memory offerTradeInfo
+      * @param minTradeAmountLimit uint256 minimum trade amount limit for the offer
+      * @param maxTradeAmountLimit uint256 maximum trade  amount limit for the offer
+      * @param hasSecurityDeposit bool if security deposit is enabled
+      * @param securityDepositRate uint256 if security deposit is enabled, the amount in percentage
+      * @param paymentWindow uint256 the time duration in milliseconds required to make a payment after a trade is opened
+      * @param partnerMinimumTrades uint256 partner minimum required trades to be qualified to open trade to this offer
+      * @param partnerMinimumReputation uint256 partner minimum reputation required to qualify for this offer
    */
    function newOffer(
       OffersStructImpl.OfferInfo memory offerInfo,
@@ -92,6 +99,9 @@ contract Offers is Context {
       //save offer data 
       //lets get nextOfferId
       uint256 offerId = dataStore.getNextOfferId();
+
+      //validate payment type id 
+      require(offerInfo.currencyCode.length == 2, "XPIE:INVALID_CURRENCY_CODE");
 
    }
 

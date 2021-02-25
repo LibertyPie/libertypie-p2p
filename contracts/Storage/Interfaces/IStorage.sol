@@ -7,6 +7,8 @@
 pragma solidity ^0.6.2;
 pragma experimental ABIEncoderV2;
 
+import "../../Commons/PaymentMethodStructImpl.sol";
+
 interface IStorage {
 
 
@@ -16,7 +18,16 @@ interface IStorage {
     function getNextOfferId() external returns(uint256);
 
 
-      /**
+    /**
+     * PaymentMethods
+     */
+    function getNextPaymentMethodId() external returns(uint256);
+    function getNextCategoryId() external returns(uint256);
+    function saveCategoryData(uint256 _id,PaymentMethodStructImpl.CategoryStruct memory _data) external;
+    function savePaymentMethodData(uint256 _id,PaymentMethodStructImpl.PaymentMethodStruct memory _data) external;
+
+
+    /**
      * Basic Store setters
      */
     function setUint256(bytes32 _key, uint256 _data) external;
