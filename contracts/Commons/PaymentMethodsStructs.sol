@@ -9,10 +9,10 @@ pragma experimental ABIEncoderV2;
 /**
  * @dev payment method struct Implementation
  */
-contract PaymentMethodsStructImpl {
+contract PaymentMethodsStructs {
     
 
-   struct PaymentMethodStruct {
+   struct PaymentMethodItem {
       uint256 id; 
       string  name;
       uint256 categoryId;
@@ -26,7 +26,7 @@ contract PaymentMethodsStructImpl {
    /**
     * category Struct
     */
-    struct CategoryStruct {
+    struct CategoryItem {
         uint256 id; 
         string name;
         string[] countries;

@@ -9,13 +9,14 @@ pragma experimental ABIEncoderV2;
 /**
  * @dev offer struct Implementation
  */
-contract OffersStructImpl {
+contract OffersStructs {
     
     struct OfferInfo {
         address asset;
         bytes32 offerType;
         bytes32 countryCode;
         bytes32 currencyCode;
+        uint256  paymentMethodId;
         string  externalInfoHash;
         int     externalStoreId;
         bool    isEnabled;
@@ -26,7 +27,6 @@ contract OffersStructImpl {
         string   pricingMode;
         uint256  profitMargin;
         uint256  fixedPrice;
-        uint256  paymentTypeId;
     }
 
     struct TradeInfo {
@@ -44,6 +44,5 @@ contract OffersStructImpl {
         OfferInfo offerInfo;
         PricingInfo pricingInfo;
         TradeInfo OfferTradeInfo;
-        mapping(bytes32 => bytes) extraData;
     }   
 }

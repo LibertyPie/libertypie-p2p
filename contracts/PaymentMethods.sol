@@ -10,7 +10,7 @@ pragma experimental ABIEncoderV2;
 import "./PermissionManager/PM.sol";
 
 import "./Storage/StoreProxy.sol";
-import "./Commons/PaymentMethodsStructImpl.sol";
+import "./Commons/PaymentMethodsStructs.sol";
 
 
 contract PaymentMethods is PM {
@@ -54,7 +54,7 @@ contract PaymentMethods is PM {
      
         uint256 catId = dataStore.getNextPaymentMethodCategoryId();
 
-        PaymentMethodsStructImpl.CategoryStruct memory _dataToSave = PaymentMethodsStructImpl.CategoryStruct(
+        PaymentMethodsStructs.CategoryItem memory _dataToSave = PaymentMethodsStructs.CategoryItem(
             catId,
             name,
             countries,
@@ -96,7 +96,7 @@ contract PaymentMethods is PM {
         bool isEnabled
     ) external  onlyAdmin() {
       
-       PaymentMethodsStructImpl.CategoryStruct memory _dataToSave = PaymentMethodsStructImpl.CategoryStruct(
+       PaymentMethodsStructs.CategoryItem memory _dataToSave = PaymentMethodsStructs.CategoryItem(
             categoryId,
             newCategoryName,
             countries,
@@ -133,7 +133,7 @@ contract PaymentMethods is PM {
         //counting starts from 1, so index 0 wont exist
         uint256 id = dataStore.getNextPaymentMethodId();
 
-        PaymentMethodsStructImpl.PaymentMethodStruct memory _dataToSave = PaymentMethodsStructImpl.PaymentMethodStruct(
+        PaymentMethodsStructs.PaymentMethodItem memory _dataToSave = PaymentMethodsStructs.PaymentMethodItem(
             id, 
             name, 
             categoryId,
@@ -158,7 +158,7 @@ contract PaymentMethods is PM {
     * @dev getPaymentMethod
     * @param _id paymentMethod id
     */
-    function getPaymentMethod(uint256 _id) public view returns (PaymentMethodsStructImpl.PaymentMethodStruct memory) {
+    function getPaymentMethod(uint256 _id) public view returns (PaymentMethodsStructs.PaymentMethodItem memory) {
         return dataStore.getPaymentMethodData(_id);
     }
 
@@ -191,7 +191,7 @@ contract PaymentMethods is PM {
         //lets check if 
          require(paymentMethodId >= 0 && paymentMethodId  <= getTotalPaymentMethods(),"XPIE:UNKNOWN_PAYMENT_METHOD");
    
-        PaymentMethodsStructImpl.PaymentMethodStruct memory _dataToSave = PaymentMethodsStructImpl.PaymentMethodStruct(
+        PaymentMethodsStructs.PaymentMethodItem memory _dataToSave = PaymentMethodsStructs.PaymentMethodItem(
             paymentMethodId, 
             name, 
             categoryId,
@@ -212,12 +212,12 @@ contract PaymentMethods is PM {
 
    /**
    *  @dev get all payment types categories 
-   *  @return  (PaymentMethodsStructImpl.CategoryStruct[] memory) CategoryNames Array with category id as array index
+   *  @return  (PaymentMethodsStructs.CategoryItem[] memory) CategoryNames Array with category id as array index
    */
-   function  getPaymentMethodsCategories() public view returns (PaymentMethodsStructImpl.CategoryStruct[] memory) {
+   function  getPaymentMethodsCategories() public view returns (PaymentMethodsStructs.CategoryItem[] memory) {
     
       uint256 totalCategories = getTotalPaymentMethodsCategories(); 
-      PaymentMethodsStructImpl.CategoryStruct[] memory  categoriesArray = new PaymentMethodsStructImpl.CategoryStruct[] (totalCategories);
+      PaymentMethodsStructs.CategoryItem[] memory  categoriesArray = new PaymentMethodsStructs.CategoryItem[] (totalCategories);
       
       //mapping index starts with 1, not  0
       for(uint256 i = 0; i <= totalCategories; i++ ){
@@ -231,18 +231,18 @@ contract PaymentMethods is PM {
   /* 
    * @dev get payment types using it category id
    * @param categoryId uint256 category id 
-   * @return PaymentMethodsStructImpl.PaymentMethodStruct[] memory
+   * @return PaymentMethodsStructs.PaymentMethodItem[] memory
    */
-   function getPaymentMethodsByCategory(uint256 categoryId) external view returns( PaymentMethodsStructImpl.PaymentMethodStruct[] memory ) {
+   function getPaymentMethodsByCategory(uint256 categoryId) external view returns( PaymentMethodsStructs.PaymentMethodItem[] memory ) {
 
       uint256 totalPaymentMethods = getTotalPaymentMethods();
 
       //lets fetch the  payment types ids
-      PaymentMethodsStructImpl.PaymentMethodStruct[] memory paymentMethodsArray   = new PaymentMethodsStructImpl.PaymentMethodStruct[] (totalPaymentMethods);
+      PaymentMethodsStructs.PaymentMethodItem[] memory paymentMethodsArray   = new PaymentMethodsStructs.PaymentMethodItem[] (totalPaymentMethods);
 
         for(uint256  i = 0; i <= totalPaymentMethods; i++){
 
-            PaymentMethodsStructImpl.PaymentMethodStruct memory paymentMethodData =  getPaymentMethod(i);
+            PaymentMethodsStructs.PaymentMethodItem memory paymentMethodData =  getPaymentMethod(i);
 
             if(paymentMethodData.categoryId == categoryId && paymentMethodData.isEnabled == true){
                 paymentMethodsArray[i] = paymentMethodData;
@@ -256,11 +256,11 @@ contract PaymentMethods is PM {
    /**
    * @dev get all payment types 
    */
-   function getPaymentMethods() public view returns( PaymentMethodsStructImpl.PaymentMethodStruct[] memory ) {
+   function getPaymentMethods() public view returns( PaymentMethodsStructs.PaymentMethodItem[] memory ) {
 
       uint256 totalPaymentMethods = getTotalPaymentMethods();
 
-      PaymentMethodsStructImpl.PaymentMethodStruct[] memory paymentMethodsArray   = new PaymentMethodsStructImpl.PaymentMethodStruct[] (totalPaymentMethods);
+      PaymentMethodsStructs.PaymentMethodItem[] memory paymentMethodsArray   = new PaymentMethodsStructs.PaymentMethodItem[] (totalPaymentMethods);
 
       for(uint256 i = 0; i <= totalPaymentMethods; i++ ){
          paymentMethodsArray[i] = getPaymentMethod(i);
@@ -275,7 +275,7 @@ contract PaymentMethods is PM {
    function getPaymentMethodsAndCategories() 
         external 
         view 
-        returns (PaymentMethodsStructImpl.CategoryStruct[] memory,  PaymentMethodsStructImpl.PaymentMethodStruct[] memory) 
+        returns (PaymentMethodsStructs.CategoryItem[] memory,  PaymentMethodsStructs.PaymentMethodItem[] memory) 
     {
       return (getPaymentMethodsCategories(),getPaymentMethods());
    }//end 

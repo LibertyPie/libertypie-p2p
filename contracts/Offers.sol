@@ -4,10 +4,9 @@ pragma experimental ABIEncoderV2;
 
 
 import "./Assets.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/GSN/Context.sol";
 import "./Storage/StoreProxy.sol";
-import "./Commons/OffersStructImpl.sol";
+import "./Commons/OffersStructs.sol";
+import "./Commons/PaymentMethodsStructs.sol";
 
 contract Offers is Context {
 
@@ -60,13 +59,13 @@ contract Offers is Context {
       * @dev  offerType the offer type, either buy or sell
       * @dev  countryCode the country  where   ad is   targeted at
       * @dev  currencyCode 2 letter iso currency code 
+      * @dev  paymentMethodId enabled payment type for the offer
       * @dev  extraDataHash  extra data hash
       * @dev  extraDataStoreId Store , 1 for ipfs, 2 for sia skynet , 3....
       * @dev  isEnabled, if offer is enabled or not
       * @dev  expiry  offer expiry, 0 for non expiring offer, > 0 for expiring offer
 
    * @dev OffersStructImpl.PricingInfo memory pricingInfo
-      * @dev  paymentTypeId enabled payment type for the offer
       * @dev  pricingMode the pricing mode for the offer
       * @dev  profitMargin if the pricingMode is market, then the amount in percentage added to the market price
       * @dev  fixedPrice if pricingMode is fixed, then the offer amount in usd
@@ -100,9 +99,16 @@ contract Offers is Context {
       //lets get nextOfferId
       uint256 offerId = dataStore.getNextOfferId();
 
-      //validate payment type id 
-      require(offerInfo.currencyCode.length == 2, "XPIE:INVALID_CURRENCY_CODE");
+      PaymentMethodsStructs.PaymentMethodItem memory paymentMethodData =  dataStore.getPaymentMethodData(
+         OffersStructImpl.OfferInfo.paymentMethodId
+      );
 
-   }
+      //validate payment method
+      require(paymentMethodData.isEnabled == true, "XPIE:UNKNOWN_PAYMENT_METHOD");
+
+
+
+   } //end fun 
+
 
 }  //end contract 

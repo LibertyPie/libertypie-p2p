@@ -8,42 +8,14 @@ pragma experimental ABIEncoderV2;
 
 import "./PermissionManager/PM.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-//import "./PriceFeed.sol";
+import "./Storage/StoreProxy.sol";
+import "./Commons/AssetsStructs.sol";
 
 contract Assets is PM {
 
-    //PriceFeed _priceFeed = PriceFeed(address(this));
 
-    /**
-     * @dev mapping for  assetsData 
-     */
-    mapping(uint256 => AssetItem) internal  AssetsData;
-
-    //set initially at 0, 
-    //0 index wont be used due  to solidity behaviour over non existent data
-    uint256  private totalAssets;
-
-    // assetsDataIndexes 
-    // format mapping(assetContractAddress  => index )
-    mapping(address => uint256) internal AssetsDataIndexes;
-
-    /**
-     * @dev asset struct item
-     */
-    struct AssetItem {
-        uint256  index;
-        string   symbol;
-        string   name;
-        address  contractAddress;
-        uint8    decimals;
-        bool     isPegged;
-        string   originalName;
-        string   originalSymbol;
-        address  wrapperContract;
-        bool     isEnabled;
-        uint256  createdAt;
-        uint256  updatedAt;
-    }
+    //store Proxy
+    IStorage dataStore = StoreProxy(address(this)).getIStorage();
 
 
     /**
@@ -63,7 +35,7 @@ contract Assets is PM {
     ) private {
         
         //fetch contract  info
-        ERC20 erc20Token = ERC20(_contractAddress);
+        //ERC20 erc20Token = ERC20(_contractAddress);
 
          if(bytes(_originalName).length == 0){
             _originalName  = erc20Token.name();
@@ -74,12 +46,10 @@ contract Assets is PM {
             _originalSymbol  = erc20Token.symbol();
         }
         
-        uint256 _index = totalAssets++;
+        uint256 _id = dataStore.getNextAssetId();
 
-        AssetItem memory assetItem = AssetItem(
-            _index,
-            erc20Token.symbol(),
-            erc20Token.name(),
+        AssetsStructs.AssetItem memory assetItem = AssetItem(
+            _id,
             _contractAddress,
             erc20Token.decimals(),
             _isPegged,
@@ -93,7 +63,7 @@ contract Assets is PM {
 
 
         //lets insert the data 
-        AssetsData[_index] = assetItem;
+        AssetsData[_id] = assetItem;
 
         AssetsDataIndexes[_contractAddress] = _index;
 

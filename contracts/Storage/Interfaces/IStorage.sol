@@ -8,8 +8,9 @@ pragma solidity ^0.6.2;
 pragma experimental ABIEncoderV2;
 
 import "./IPaymentMethodsStore.sol";
+import "./IAssetStore.sol";
 
-interface IStorage is IPaymentMethodsStore {
+interface IStorage is IPaymentMethodsStore, IAssetStore {
 
     /**
      * Offers

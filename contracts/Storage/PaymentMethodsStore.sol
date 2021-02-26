@@ -6,10 +6,10 @@
 pragma solidity ^0.6.2;
 pragma experimental ABIEncoderV2;
 import "./StoreEditor.sol";
-import "../Commons/PaymentMethodsStructImpl.sol";
+import "../Commons/PaymentMethodsStructs.sol";
 
 
-contract PaymentMethodsStore is StoreEditor,  PaymentMethodsStructImpl  {
+contract PaymentMethodsStore is StoreEditor  {
 
     uint256  totalPaymentMethodsCategories;
     uint256  totalPaymentMethods;
@@ -17,13 +17,13 @@ contract PaymentMethodsStore is StoreEditor,  PaymentMethodsStructImpl  {
     //paymentTypes categories
     // format mapping(index => name)
     // NOTE  That the index always starts with 1 and not 0
-    mapping(uint256 => CategoryStruct) private  PaymentMethodsCategories;
+    mapping(uint256 => CategoryItem) private  PaymentMethodsCategories;
 
 
     // paymentTypes 
     // format mapping(index => name)
     // NOTE  That the index always starts with 1 and not 0
-    mapping(uint256 => PaymentMethodStruct) private PaymentMethodsData;
+    mapping(uint256 => PaymentMethodItem) private PaymentMethodsData;
 
 
      /**
@@ -59,7 +59,7 @@ contract PaymentMethodsStore is StoreEditor,  PaymentMethodsStructImpl  {
      */
     function savePaymentMethodData(
         uint256 _id,
-        PaymentMethodStruct memory _data
+        PaymentMethodsStructs.PaymentMethodItem memory _data
     ) external onlyStoreEditor {
         PaymentMethodsData[_id] = _data;
     }
@@ -67,11 +67,9 @@ contract PaymentMethodsStore is StoreEditor,  PaymentMethodsStructImpl  {
 
     /**
      * @dev save category data
+     * @param _id category id
      */
-    function savePaymentMethodsCategoryData(
-        uint256 _id,
-        CategoryStruct memory _data
-    ) external onlyStoreEditor { 
+    function savePaymentMethodsCategoryData(uint256 _id, PaymentMethodsStructs.CategoryItem memory _data ) external onlyStoreEditor { 
         PaymentMethodsCategories[_id] = _data;
     }
 
@@ -96,15 +94,15 @@ contract PaymentMethodsStore is StoreEditor,  PaymentMethodsStructImpl  {
      * get payment method category
      * @param _id payment method category id
      */
-     function getPaymentMethodsCategoryData(uint256 _id) external view returns (PaymentMethodsStructImpl.CategoryStruct memory) {
+     function getPaymentMethodsCategoryData(uint256 _id) external view returns (PaymentMethodsStructs.CategoryItem memory) {
         return PaymentMethodsCategories[_id];
      } //end fun 
 
     /**
-     * get payment method data
+     * @dev get payment method data
      * @param _id payment method id
      */
-     function getPaymentMethodData(uint256 _id) external view returns (PaymentMethodsStructImpl.PaymentMethodStruct memory) {
+     function getPaymentMethodData(uint256 _id) external view returns (PaymentMethodsStructs.PaymentMethodItem memory) {
         return PaymentMethodsData[_id];
      } //end fun 
 }

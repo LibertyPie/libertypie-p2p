@@ -6,12 +6,13 @@
 pragma solidity ^0.6.2;
 pragma experimental ABIEncoderV2;
 import "./StoreEditor.sol";
-import "../Commons/OffersStructImpl.sol";
+import "../Commons/OffersStructs.sol";
 
-contract OffersStore is StoreEditor, OffersStructImpl  {
+
+contract OffersStore is StoreEditor, OffersStructs  {
 
     //format is mapping(index => OffersStruct)
-    mapping(uint256 =>  OffersStruct) private OffersData;
+    mapping(uint256 =>  OfferItem) private OffersData;
 
     /**
      * @dev totalOffers
