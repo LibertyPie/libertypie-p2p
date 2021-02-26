@@ -16,7 +16,6 @@ contract PaymentMethodsStructImpl {
       uint256 id; 
       string  name;
       uint256 categoryId;
-
       uint256 minPaymentWindow;
       uint256 maxPaymentWindow;
       string[] countries;

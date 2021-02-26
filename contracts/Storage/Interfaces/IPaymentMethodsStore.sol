@@ -11,13 +11,14 @@ import "../../Commons/PaymentMethodsStructImpl.sol";
 interface IPaymentMethodsStore {
 
     function getNextPaymentMethodId() external returns(uint256);
-    function getNextCategoryId() external returns(uint256);
+    function getNextPaymentMethodCategoryId() external returns(uint256);
     function savePaymentMethodsCategoryData(uint256 _id,PaymentMethodsStructImpl.CategoryStruct memory _data) external;
     function savePaymentMethodData(uint256 _id,PaymentMethodsStructImpl.PaymentMethodStruct memory _data) external;
     function deletePaymentMethodsCategoryData(uint256 _id) external;
     function deletePaymentMethodData(uint256 _id) external;
+    function getTotalPaymentMethodsCategories() external view  returns (uint256);
     function getTotalPaymentMethods() external view  returns (uint256);
-    function getTotalPaymentMethods() external view  returns (uint256);
-    function getPaymentMethodsCategory(uint256 _id) external view returns (CategoryStruct);
+    function getPaymentMethodsCategoryData(uint256 _id) external view returns (PaymentMethodsStructImpl.CategoryStruct memory);
+    function getPaymentMethodData(uint256 _id) external view returns (PaymentMethodsStructImpl.PaymentMethodStruct memory);
 
 }

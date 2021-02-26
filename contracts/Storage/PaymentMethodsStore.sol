@@ -30,7 +30,7 @@ contract PaymentMethodsStore is StoreEditor,  PaymentMethodsStructImpl  {
      * @dev generate or get next catId
      */
     function getNextPaymentMethodCategoryId() external onlyStoreEditor returns(uint256) {
-        return (++totalPaymentMethodsCategories);
+        return (totalPaymentMethodsCategories += 1);
     }
 
     /**
@@ -44,14 +44,14 @@ contract PaymentMethodsStore is StoreEditor,  PaymentMethodsStructImpl  {
      * @dev get total categories
      */
      function getTotalPaymentMethodsCategories() public view  returns (uint256) {
-        return totalCategories;
+        return totalPaymentMethodsCategories;
      }
 
     /**
      * getNextPaymentMethodId
      */
     function getNextPaymentMethodId() external onlyStoreEditor returns(uint256) {
-        return (++totalPaymentMethods);
+        return (totalPaymentMethods += 1);
     }
 
     /**
@@ -94,8 +94,17 @@ contract PaymentMethodsStore is StoreEditor,  PaymentMethodsStructImpl  {
 
     /**
      * get payment method category
+     * @param _id payment method category id
      */
-     function getPaymentMethodsCategory(uint256 _id) external view returns (CategoryStruct) {
-         return PaymentMethodsCategories[id];
+     function getPaymentMethodsCategoryData(uint256 _id) external view returns (PaymentMethodsStructImpl.CategoryStruct memory) {
+        return PaymentMethodsCategories[_id];
+     } //end fun 
+
+    /**
+     * get payment method data
+     * @param _id payment method id
+     */
+     function getPaymentMethodData(uint256 _id) external view returns (PaymentMethodsStructImpl.PaymentMethodStruct memory) {
+        return PaymentMethodsData[_id];
      } //end fun 
 }

@@ -26,24 +26,25 @@ contract PaymentMethods is PM {
 
 
     /**
-     * getTotalPaymentMethods
+     * @dev getTotalPaymentMethods
      */
      function getTotalPaymentMethods() public view returns(uint256) {
          return dataStore.getTotalPaymentMethods();
      } //end fun 
 
     /**
-     * getTotalPaymentMethods
+     * @dev getTotalPaymentMethods
      */
      function getTotalPaymentMethodsCategories() public view returns(uint256) {
          return dataStore.getTotalPaymentMethodsCategories();
      } //end fun 
 
+
     /**
-   * @dev add a new payment type category
-   * @param name category name in string
-   * @param countries supported countries, leave empty to target all countries
-   * @return uint256 new category  id
+    * @dev add a new payment type category
+    * @param name category name in string
+    * @param countries supported countries, leave empty to target all countries
+    * @return uint256 new category  id
    */
    function addPaymentMethodCategory(
        string calldata name,
@@ -51,16 +52,16 @@ contract PaymentMethods is PM {
        bool isEnabled
     ) external  onlyAdmin() returns(uint256) {
      
-        uint256 catId = dataStore.getNextCategoryId();
+        uint256 catId = dataStore.getNextPaymentMethodCategoryId();
 
-        PaymentMethodStructImpl.CategoryStruct memory _dataToSave = PaymentMethodStructImpl.CategoryStruct(
+        PaymentMethodsStructImpl.CategoryStruct memory _dataToSave = PaymentMethodsStructImpl.CategoryStruct(
             catId,
             name,
             countries,
             isEnabled
         );
 
-        dataStore.saveCategoryData(
+        dataStore.savePaymentMethodsCategoryData(
             catId,
             _dataToSave
         );
@@ -76,7 +77,7 @@ contract PaymentMethods is PM {
    * @param _id category  id
    */
    function removePaymentMethodCategory(uint256 _id) external onlyAdmin() {
-        dataStore.deleteCategoryData(_id);
+        dataStore.deletePaymentMethodsCategoryData(_id);
         emit RemovePaymentMethodCategory(_id);
    } //end fun 
 
@@ -95,15 +96,15 @@ contract PaymentMethods is PM {
         bool isEnabled
     ) external  onlyAdmin() {
       
-       PaymentMethodStructImpl.CategoryStruct memory _dataToSave = PaymentMethodStructImpl.CategoryStruct(
+       PaymentMethodsStructImpl.CategoryStruct memory _dataToSave = PaymentMethodsStructImpl.CategoryStruct(
             categoryId,
             newCategoryName,
             countries,
             isEnabled
         );
 
-        dataStore.saveCategoryData(
-            catId,
+        dataStore.savePaymentMethodsCategoryData(
+            categoryId,
             _dataToSave
         );
 
@@ -119,21 +120,25 @@ contract PaymentMethods is PM {
    function addPaymentMethod(
        string memory name, 
        uint256 categoryId,
-       string[] countries,
+       uint256 minPaymentWindow,
+       uint256 maxPaymentWindow,
+       string[] memory countries,
        bool isEnabled 
     ) external  onlyAdmin() returns(uint256) {
 
         //lets  check if categoryId exists 
-        require(bytes(PaymentTypesCategories[categoryId]).length > 0,"XPIE:UNKNOWN_CATEGORY");
+        require(categoryId >=0 && categoryId <= getTotalPaymentMethodsCategories(),"XPIE:UNKNOWN_CATEGORY");
 
         //avoid totalPaymentTypes++
         //counting starts from 1, so index 0 wont exist
         uint256 id = dataStore.getNextPaymentMethodId();
 
-        PaymentMethodStructImpl.PaymentMethodStruct memory _dataToSave = PaymentMethodStructImpl.PaymentMethodStruct(
+        PaymentMethodsStructImpl.PaymentMethodStruct memory _dataToSave = PaymentMethodsStructImpl.PaymentMethodStruct(
             id, 
             name, 
             categoryId,
+            minPaymentWindow,
+            maxPaymentWindow,
             countries,
             isEnabled
         );
@@ -149,10 +154,17 @@ contract PaymentMethods is PM {
    } //end 
 
 
+    /**
+    * @dev getPaymentMethod
+    * @param _id paymentMethod id
+    */
+    function getPaymentMethod(uint256 _id) public view returns (PaymentMethodsStructImpl.PaymentMethodStruct memory) {
+        return dataStore.getPaymentMethodData(_id);
+    }
 
    /**
    * @dev remove  a payment method 
-   * @param _id  the payment ethod id
+   * @param _id  the payment method id
    */
    function removePaymentMethod(uint256 _id) external  onlyAdmin() { 
       dataStore.deletePaymentMethodData(_id); 
@@ -170,17 +182,21 @@ contract PaymentMethods is PM {
        uint256 paymentMethodId, 
        string calldata name, 
        uint256 categoryId,
-       string[] countries,
+       uint256 minPaymentWindow,
+       uint256 maxPaymentWindow,
+       string[] memory countries,
        bool isEnabled 
     ) external  onlyAdmin()  {
-      
+        
         //lets check if 
          require(paymentMethodId >= 0 && paymentMethodId  <= getTotalPaymentMethods(),"XPIE:UNKNOWN_PAYMENT_METHOD");
    
-        PaymentMethodStructImpl.PaymentMethodStruct memory _dataToSave = PaymentMethodStructImpl.PaymentMethodStruct(
+        PaymentMethodsStructImpl.PaymentMethodStruct memory _dataToSave = PaymentMethodsStructImpl.PaymentMethodStruct(
             paymentMethodId, 
             name, 
             categoryId,
+            minPaymentWindow,
+            maxPaymentWindow,
             countries,
             isEnabled
         );
@@ -196,20 +212,72 @@ contract PaymentMethods is PM {
 
    /**
    *  @dev get all payment types categories 
-   *  @return  (string[] memory) CategoryNames Array with category id as array index
+   *  @return  (PaymentMethodsStructImpl.CategoryStruct[] memory) CategoryNames Array with category id as array index
    */
    function  getPaymentMethodsCategories() public view returns (PaymentMethodsStructImpl.CategoryStruct[] memory) {
     
       uint256 totalCategories = getTotalPaymentMethodsCategories(); 
-      string[] memory  categoriesArray = new PaymentMethodsStructImpl.CategoryStruct[] (totalCategories);
+      PaymentMethodsStructImpl.CategoryStruct[] memory  categoriesArray = new PaymentMethodsStructImpl.CategoryStruct[] (totalCategories);
       
       //mapping index starts with 1, not  0
       for(uint256 i = 0; i <= totalCategories; i++ ){
-        categoriesArray[i] = dataStore.getPaymentMethodsCategory(i);
+        categoriesArray[i] = dataStore.getPaymentMethodsCategoryData(i);
       }
 
       return categoriesArray;
    } //end fun 
 
 
+  /* 
+   * @dev get payment types using it category id
+   * @param categoryId uint256 category id 
+   * @return PaymentMethodsStructImpl.PaymentMethodStruct[] memory
+   */
+   function getPaymentMethodsByCategory(uint256 categoryId) external view returns( PaymentMethodsStructImpl.PaymentMethodStruct[] memory ) {
+
+      uint256 totalPaymentMethods = getTotalPaymentMethods();
+
+      //lets fetch the  payment types ids
+      PaymentMethodsStructImpl.PaymentMethodStruct[] memory paymentMethodsArray   = new PaymentMethodsStructImpl.PaymentMethodStruct[] (totalPaymentMethods);
+
+        for(uint256  i = 0; i <= totalPaymentMethods; i++){
+
+            PaymentMethodsStructImpl.PaymentMethodStruct memory paymentMethodData =  getPaymentMethod(i);
+
+            if(paymentMethodData.categoryId == categoryId && paymentMethodData.isEnabled == true){
+                paymentMethodsArray[i] = paymentMethodData;
+            }
+        }
+
+        return paymentMethodsArray;
+   }  //end fun
+
+
+   /**
+   * @dev get all payment types 
+   */
+   function getPaymentMethods() public view returns( PaymentMethodsStructImpl.PaymentMethodStruct[] memory ) {
+
+      uint256 totalPaymentMethods = getTotalPaymentMethods();
+
+      PaymentMethodsStructImpl.PaymentMethodStruct[] memory paymentMethodsArray   = new PaymentMethodsStructImpl.PaymentMethodStruct[] (totalPaymentMethods);
+
+      for(uint256 i = 0; i <= totalPaymentMethods; i++ ){
+         paymentMethodsArray[i] = getPaymentMethod(i);
+      }
+
+      return paymentMethodsArray;
+   }
+
+   /**
+    * @dev Fetch payment types and categories in a single query
+    */
+   function getPaymentMethodsAndCategories() 
+        external 
+        view 
+        returns (PaymentMethodsStructImpl.CategoryStruct[] memory,  PaymentMethodsStructImpl.PaymentMethodStruct[] memory) 
+    {
+      return (getPaymentMethodsCategories(),getPaymentMethods());
+   }//end 
+   
 }//end contract
