@@ -7,10 +7,10 @@
 pragma solidity ^0.6.2;
 pragma experimental ABIEncoderV2;
 
-import "../PermissionManager/PM.sol";
+import "./PermissionManager/PM.sol";
 
-import "../Storage/StoreProxy.sol";
-import "../Commons/PaymentMethodsStructImpl.sol";
+import "./Storage/StoreProxy.sol";
+import "./Commons/PaymentMethodsStructImpl.sol";
 
 
 contract PaymentMethods is PM {

@@ -11,7 +11,7 @@ import "./PermissionManager/PM.sol";
 
 //import "./PaymentTypes/PaymentTypesCore.sol";
 
-import "./PaymentTypes/PaymentTypes.sol";
+import "./PaymentMethods.sol";
 
 //import  "./Oracles/OpenPriceFeed.sol";
 import "@openzeppelin/contracts/GSN/Context.sol";
