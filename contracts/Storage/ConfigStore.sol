@@ -6,6 +6,7 @@
 pragma solidity ^0.6.2;
 pragma experimental ABIEncoderV2;
 import "./StoreEditor.sol";
+import "../Commons/ConfigsStructs.sol";
 
 contract ConfigStore is StoreEditor  {
 
@@ -49,17 +50,15 @@ contract ConfigStore is StoreEditor  {
     /**
     * allConfigData
     */
-    function getAllConfigData() external view returns (bytes32[] memory, bytes32[] memory) {
+    function getAllConfigData() external view returns (ConfigsStructs.ConfigItem[] memory) {
 
-        bytes32[] memory keysArray = new byte32(totalEntries);
-        bytes32[] memory valuesArray = new byte32(totalEntries);
+        ConfigsStructs.ConfigItem[] configsArray = new ConfigsStructs.ConfigItem[totalEntries];
 
         for(uint256 i = 1; i <= totalEntries; i++){
-            keysArray[i] = ConfigIdsToKeysMap[i];
-            valuesArray[i] = configData[i];
+            configsArray[i] = ConfigsStructs.ConfigItem(ConfigIdsToKeysMap[i],configData[i]);
         }
 
-        return (keysArray, valuesArray);
+        return configsArray;
     } //end fun
 
     

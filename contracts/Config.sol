@@ -8,18 +8,35 @@ pragma experimental ABIEncoderV2;
 
 import "./PermissionManager/PM.sol";
 import "./Storage/StoreProxy.sol";
-
+import "./Commons/ConfigsStructs.sol";
 
 contract Config is PM {
     
-    Istore _configDataStore = IStorage _dataStore = StoreProxy(address(this)).getIStorage();
+    IStorage _configDataStore  = StoreProxy(address(this)).getIStorage();
+
+    /**
+     * add default config
+     */
+     constructor() public {
+         _setConfig("MIN_PAYMENT_WINDOW", keccak256(15));
+         _setConig("MAX_SECURITY_DEPOSIT", keccak256(10));
+     }
 
     /**
      * get config
      * @param _key config key 
      */ 
-    geConfig(string _key) public view returns(bytes32) {
+    function getConfig(string _key) public view returns(bytes32) {
         return _configDataStore.getConfigData(keccak256(_key));
+    }
+
+    /**
+     * set config internally
+     * @param _key config key
+     * @param _value cofig data
+     */
+    function _setConfig(string _key, bytes32 _value) private  {
+        _configDataStore.addConfigData(keccak256(_key), _value);
     }
 
     /**
@@ -27,14 +44,14 @@ contract Config is PM {
      * @param _key config key
      * @param _value cofig data
      */
-    function setConfig(bytes32 _key, bytes32 _value) public adminOnly() {
-        _configDataStore.addConfigData(_key, _value);
+    function setConfig(string _key, bytes32 _value) external onlyAdmin() {
+        _setConfig(_key,_value);
     }
 
     /**
      * get all config data
      */
-    function getAllConfigs() external view returns(bytes32[] memory, bytes32[] memory) {
+    function getAllConfigs() external view returns(ConfigsStructs.ConfigItem[] memory) {
         return  _configDataStore.getAllConfigData();
     }
 
