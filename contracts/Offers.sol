@@ -7,8 +7,9 @@ import "./Assets.sol";
 import "./Storage/StoreProxy.sol";
 import "./Commons/OffersStructs.sol";
 import "./Commons/PaymentMethodsStructs.sol";
+import "./Base.sol";
 
-contract Offers is Context {
+contract Offers is Base {
 
     /*
      * @dev add a new offer  event 
@@ -26,14 +27,17 @@ contract Offers is Context {
     bytes32 OFFER_TYPE_BUY  =  keccak256("buy");
     bytes32 OFFER_TYPE_SELL = keccak256("sell");
 
+    bytes32 PRICING_MODE_MARKET = keccak256("market");
+    bytes32 PRICING_MODE_FIXED = keccak256("fixed");
+
     Assets  _assets = Assets(address(this)); 
 
    //get storage implementations
-    IStorage dataStore = StoreProxy(address(this)).getIStorage();
+   // IStorage _dataStore = StoreProxy(address(this)).getIStorage();
 
      //user ad index 
     //save  into user map
-    //format  mapping( msg.sender =>  _index)
+    //format  mapping( __dataStore.sender =>  _index)
     mapping(address => uint256[]) private OffersByUserAddress;
 
     // assets  Ads  indexes 
@@ -54,7 +58,7 @@ contract Offers is Context {
    /**
    * @dev add a  new offer 
    *
-   *    @dev  OffersStructImpl.OfferInfo memory offerInfo 
+   * @dev  OffersStructs.OfferInfo memory offerInfo 
       * @dev  asset the contract  address of the  asset  you wish to add the ad
       * @dev  offerType the offer type, either buy or sell
       * @dev  countryCode the country  where   ad is   targeted at
@@ -65,12 +69,12 @@ contract Offers is Context {
       * @dev  isEnabled, if offer is enabled or not
       * @dev  expiry  offer expiry, 0 for non expiring offer, > 0 for expiring offer
 
-   * @dev OffersStructImpl.PricingInfo memory pricingInfo
+   * @dev OffersStructs.PricingInfo memory pricingInfo
       * @dev  pricingMode the pricing mode for the offer
       * @dev  profitMargin if the pricingMode is market, then the amount in percentage added to the market price
       * @dev  fixedPrice if pricingMode is fixed, then the offer amount in usd
 
-   * @dev OffersStructImpl.TradeInfo memory offerTradeInfo
+   * @dev OffersStructs.TradeInfo memory offerTradeInfo
       * @dev  minTradeAmountLimit uint256 minimum trade amount limit for the offer
       * @dev  maxTradeAmountLimit uint256 maximum trade  amount limit for the offer
       * @dev  hasSecurityDeposit bool if security deposit is enabled
@@ -80,34 +84,48 @@ contract Offers is Context {
       * @dev  partnerMinimumReputation uint256 partner minimum reputation required to qualify for this offer
    */
    function newOffer(
-      OffersStructImpl.OfferInfo memory offerInfo,
-      OffersStructImpl.PricingInfo memory pricingInfo,
-      OffersStructImpl.TradeInfo memory offerTradeInfo
+      OffersStructs.OfferInfo memory _offerInfo,
+      OffersStructs.PricingInfo memory _pricingInfo,
+      OffersStructs.TradeInfo memory _offerTradeInfo
    ) external {
 
       //validate country
-      require(offerInfo.countryCode.length == 2, "XPIE:INVALID_COUNTRY_CODE");
+      require(_offerInfo.countryCode.length == 2, "XPIE:INVALID_COUNTRY_CODE");
 
-      require(offerInfo.currencyCode.length == 2, "XPIE:INVALID_CURRENCY_CODE");
+      require(_offerInfo.currencyCode.length == 2, "XPIE:INVALID_CURRENCY_CODE");
 
       //check if asset is supported
-      require(_assets.isAssetSupported(offerInfo.asset),"XPIE:UNSUPPORTED_ASSET");
+      require(_assets.isAssetSupported(_offerInfo.asset),"XPIE:UNSUPPORTED_ASSET");
    
-      require((offerInfo.offerType == OFFER_TYPE_BUY || offerInfo.offerType == OFFER_TYPE_SELL), "XPIE:INVALID_OFFER_TYPE");
+      require((_offerInfo.offerType == OFFER_TYPE_BUY || _offerInfo.offerType == OFFER_TYPE_SELL), "XPIE:INVALID_OFFER_TYPE");
 
       //save offer data 
       //lets get nextOfferId
-      uint256 offerId = dataStore.getNextOfferId();
+      uint256 offerId = _dataStore.getNextOfferId();
 
-      PaymentMethodsStructs.PaymentMethodItem memory paymentMethodData =  dataStore.getPaymentMethodData(
-         OffersStructImpl.OfferInfo.paymentMethodId
+      PaymentMethodsStructs.PaymentMethodItem memory paymentMethodData =  _dataStore.getPaymentMethodData(
+         _offerInfo.paymentMethodId
       );
 
       //validate payment method
       require(paymentMethodData.isEnabled == true, "XPIE:UNKNOWN_PAYMENT_METHOD");
 
+      //validate the pricing mode
+      require((_pricingInfo.pricingMode == PRICING_MODE_MARKET || _pricingInfo.pricingMode == PRICING_MODE_FIXED), "XPIE:UNKOWN_PRICING_MODE");
 
-
+      //lets now prepare for save 
+      _dataStore.saveOfferData(
+         offerId,
+         OffersStructs.OfferItem({
+            id:          offerId,
+            owner:       msg.sender,
+            offerInfo:   _offerInfo,
+            pricingInfo: _pricingInfo,
+            tradeInfo:   _offerTradeInfo
+         })
+      );
+      
+      emit NewOffer(offerId);
    } //end fun 
 
 

@@ -7,13 +7,13 @@
 pragma solidity ^0.6.2;
 pragma experimental ABIEncoderV2;
 
-import "./PermissionManager/PM.sol";
+//import "./PermissionManager/PM.sol";
 
-import "./Storage/StoreProxy.sol";
+//import "./Storage/StoreProxy.sol";
 import "./Commons/PaymentMethodsStructs.sol";
+import "./Base.sol";
 
-
-contract PaymentMethods is PM {
+contract PaymentMethods is Base {
 
     event AddPaymentMethodCategory(uint256 _id);
     event RemovePaymentMethodCategory(uint256 _id);
@@ -22,21 +22,20 @@ contract PaymentMethods is PM {
     event UpdatePaymentMethod(uint256 _id);
     event RemovePaymentMethod(uint256 _id);
 
-    IStorage dataStore = StoreProxy(address(this)).getIStorage();
-
+   // IStorage _dataStore = StoreProxy(address(this)).getIStorage();
 
     /**
      * @dev getTotalPaymentMethods
      */
      function getTotalPaymentMethods() public view returns(uint256) {
-         return dataStore.getTotalPaymentMethods();
+         return _dataStore.getTotalPaymentMethods();
      } //end fun 
 
     /**
      * @dev getTotalPaymentMethods
      */
      function getTotalPaymentMethodsCategories() public view returns(uint256) {
-         return dataStore.getTotalPaymentMethodsCategories();
+         return _dataStore.getTotalPaymentMethodsCategories();
      } //end fun 
 
 
@@ -52,7 +51,7 @@ contract PaymentMethods is PM {
        bool isEnabled
     ) external  onlyAdmin() returns(uint256) {
      
-        uint256 catId = dataStore.getNextPaymentMethodCategoryId();
+        uint256 catId = _dataStore.getNextPaymentMethodCategoryId();
 
         PaymentMethodsStructs.CategoryItem memory _dataToSave = PaymentMethodsStructs.CategoryItem(
             catId,
@@ -61,7 +60,7 @@ contract PaymentMethods is PM {
             isEnabled
         );
 
-        dataStore.savePaymentMethodsCategoryData(
+        _dataStore.savePaymentMethodsCategoryData(
             catId,
             _dataToSave
         );
@@ -77,7 +76,7 @@ contract PaymentMethods is PM {
    * @param _id category  id
    */
    function removePaymentMethodCategory(uint256 _id) external onlyAdmin() {
-        dataStore.deletePaymentMethodsCategoryData(_id);
+        _dataStore.deletePaymentMethodsCategoryData(_id);
         emit RemovePaymentMethodCategory(_id);
    } //end fun 
 
@@ -103,7 +102,7 @@ contract PaymentMethods is PM {
             isEnabled
         );
 
-        dataStore.savePaymentMethodsCategoryData(
+        _dataStore.savePaymentMethodsCategoryData(
             categoryId,
             _dataToSave
         );
@@ -131,7 +130,7 @@ contract PaymentMethods is PM {
 
         //avoid totalPaymentTypes++
         //counting starts from 1, so index 0 wont exist
-        uint256 id = dataStore.getNextPaymentMethodId();
+        uint256 id = _dataStore.getNextPaymentMethodId();
 
         PaymentMethodsStructs.PaymentMethodItem memory _dataToSave = PaymentMethodsStructs.PaymentMethodItem(
             id, 
@@ -143,7 +142,7 @@ contract PaymentMethods is PM {
             isEnabled
         );
 
-        dataStore.savePaymentMethodData(
+        _dataStore.savePaymentMethodData(
             id,
             _dataToSave
         );
@@ -159,7 +158,7 @@ contract PaymentMethods is PM {
     * @param _id paymentMethod id
     */
     function getPaymentMethod(uint256 _id) public view returns (PaymentMethodsStructs.PaymentMethodItem memory) {
-        return dataStore.getPaymentMethodData(_id);
+        return _dataStore.getPaymentMethodData(_id);
     }
 
    /**
@@ -167,7 +166,7 @@ contract PaymentMethods is PM {
    * @param _id  the payment method id
    */
    function removePaymentMethod(uint256 _id) external  onlyAdmin() { 
-      dataStore.deletePaymentMethodData(_id); 
+      _dataStore.deletePaymentMethodData(_id); 
       emit RemovePaymentMethod(_id);
    }
 
@@ -201,7 +200,7 @@ contract PaymentMethods is PM {
             isEnabled
         );
 
-        dataStore.savePaymentMethodData(
+        _dataStore.savePaymentMethodData(
             paymentMethodId,
             _dataToSave
         );
@@ -221,7 +220,7 @@ contract PaymentMethods is PM {
       
       //mapping index starts with 1, not  0
       for(uint256 i = 0; i <= totalCategories; i++ ){
-        categoriesArray[i] = dataStore.getPaymentMethodsCategoryData(i);
+        categoriesArray[i] = _dataStore.getPaymentMethodsCategoryData(i);
       }
 
       return categoriesArray;

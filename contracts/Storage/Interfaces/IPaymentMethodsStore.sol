@@ -13,7 +13,7 @@ interface IPaymentMethodsStore {
     function getNextPaymentMethodId() external returns(uint256);
     function getNextPaymentMethodCategoryId() external returns(uint256);
     function savePaymentMethodsCategoryData(uint256 _id, PaymentMethodsStructs.CategoryItem memory _data ) external;
-    function savePaymentMethodData(uint256 _id,PaymentMethodsStructs.PaymentMethodItem _data) external;
+    function savePaymentMethodData(uint256 _id,PaymentMethodsStructs.PaymentMethodItem memory _data ) external;
     function deletePaymentMethodsCategoryData(uint256 _id) external;
     function deletePaymentMethodData(uint256 _id) external;
     function getTotalPaymentMethodsCategories() external view  returns (uint256);

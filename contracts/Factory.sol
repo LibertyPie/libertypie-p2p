@@ -16,7 +16,7 @@ import "./PaymentMethods.sol";
 //import  "./Oracles/OpenPriceFeed.sol";
 import "@openzeppelin/contracts/GSN/Context.sol";
 
-contract Factory is  Assets,  PaymentTypes, PriceFeed, Context {
+contract Factory is  Assets,  PaymentMethods, PriceFeed, Context {
     
     constructor() public {
 

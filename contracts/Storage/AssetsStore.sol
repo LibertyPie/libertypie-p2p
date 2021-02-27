@@ -44,12 +44,18 @@ contract AssetsStore is StoreEditor  {
      * @param _id asset id
      * @param _data asset data 
      */
-    function saveAssetData(
-        uint256 _id,
-        AssetsStructs.AssetItem _data
-    ) external onlyStoreEditor {
-        AssetsData[_id] = AssetsData;
+    function saveAssetData(uint256 _id, AssetsStructs.AssetItem memory _data) external onlyStoreEditor {
+        AssetsData[_id] = _data;
         AssetsDataIndexes[_data.contractAddress] = _id;
+    } //end fun 
+
+
+    /**
+     * @dev get asset data
+     * @param _id asset id
+     */
+    function getAssetData(uint256 _id) external view returns(AssetsStructs.AssetItem memory) {
+        return AssetsData[_id];
     } //end fun 
 
 
@@ -62,7 +68,7 @@ contract AssetsStore is StoreEditor  {
     
     /**
     * @dev getAssetDataByAddress
-    * @param address
+    * @param _address asset address
     */
     function getAssetDataByAddress(address _address) external view returns (AssetsStructs.AssetItem memory) {
         return AssetsData[getAssetIdByAddress(_address)];

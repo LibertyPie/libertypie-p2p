@@ -9,10 +9,10 @@ import "./StoreEditor.sol";
 import "../Commons/OffersStructs.sol";
 
 
-contract OffersStore is StoreEditor, OffersStructs  {
+contract OffersStore is StoreEditor  {
 
     //format is mapping(index => OffersStruct)
-    mapping(uint256 =>  OfferItem) private OffersData;
+    mapping(uint256 =>  OffersStructs.OfferItem) private OffersData;
 
     /**
      * @dev totalOffers
@@ -33,19 +33,32 @@ contract OffersStore is StoreEditor, OffersStructs  {
         return totalOffers;
     }
 
-   
-    function saveOfferData(
-        uint256  id, 
-        address owner,
-        address  asset,
-        bytes32  offerType,
-        bytes32  pricingMode,
-        uint256  profitMargin,
-        uint256  fixedPrice,
-        bytes32  countryCode
-     
-    ) external onlyStoreEditor {
-      
-    }
+    /**
+     * @dev save offer data
+     * @param _id the offer id
+     * @param _data the offer data
+     */
+    function saveOfferData(uint256  _id, OffersStructs.OfferItem memory _data) external onlyStoreEditor {
+      OffersData[_id] = _data;
+    } //end fun
 
-}
+
+    /**
+     * get offer by id
+     * @param _id offer id 
+     * @return OffersStructs.OfferItem
+     */
+     function getOfferData(uint256 _id) external view returns(OffersStructs.OfferItem memory) {
+        return OffersData[_id];
+     } //end fun
+
+    /**
+     * delete offer data
+     * @param _id offer id 
+     */
+     function deleteOfferData(uint256 _id) external onlyStoreEditor {
+         delete  OffersData[_id];
+     } //end 
+
+
+} //end contract

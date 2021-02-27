@@ -6,49 +6,46 @@
 pragma solidity ^0.6.2;
 pragma experimental ABIEncoderV2;
 
-import "./PermissionManager/PM.sol";
+//import "./PermissionManager/PM.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "./Storage/StoreProxy.sol";
+//import "./Storage/StoreProxy.sol";
 import "./Commons/AssetsStructs.sol";
+import "./Base.sol";
 
-contract Assets is PM {
+contract Assets is Base {
 
+    //events 
+    event AddAsset(uint256 id);
 
     //store Proxy
-    IStorage dataStore = StoreProxy(address(this)).getIStorage();
+    ////IStorage _dataStore = StoreProxy(address(this)).getIStorage();
 
-
-    /**
+     /**
      * @dev add a new asset to supported list
      * @param _contractAddress asset's contract address
      * @param _isPegged a  boolean describing wether its pegged  or not
      * @param _originalName if pegged, then original asset name
      * @param _originalSymbol if pegged, the original symbol
      *  @param _wrapperContract smart contract for wrapping  and unwrapping the asset 
+     * @param isEnabled if contract is enabled
      */
-    function _addAsset(
-        address _contractAddress, 
-        bool    _isPegged,
-        string memory  _originalName,
-        string memory _originalSymbol,
-        address _wrapperContract
+    function addAsset(
+        address  _contractAddress, 
+        bool     _isPegged,
+        string   memory  _originalName,
+        string   memory _originalSymbol,
+        address _wrapperContract,
+        bool    isEnabled
     ) private {
+
+        require(_contractAddress != address(0), "XPIE:INAVLID_CONTRACT_ADDRESS");
         
         //fetch contract  info
-        //ERC20 erc20Token = ERC20(_contractAddress);
+        ERC20 erc20Token = ERC20(_contractAddress);
 
-         if(bytes(_originalName).length == 0){
-            _originalName  = erc20Token.name();
-        }
+        uint256 _id = _dataStore.getNextAssetId();
 
-
-        if(bytes(_originalSymbol).length == 0){
-            _originalSymbol  = erc20Token.symbol();
-        }
-        
-        uint256 _id = dataStore.getNextAssetId();
-
-        AssetsStructs.AssetItem memory assetItem = AssetItem(
+        AssetsStructs.AssetItem memory assetItem = AssetsStructs.AssetItem(
             _id,
             _contractAddress,
             erc20Token.decimals(),
@@ -56,76 +53,68 @@ contract Assets is PM {
             _originalName,
             _originalSymbol,
             _wrapperContract,
-            true,
+            isEnabled,
             block.timestamp,
             block.timestamp
         );
 
 
-        //lets insert the data 
-        AssetsData[_id] = assetItem;
+        // lets save the data
+        _dataStore.saveAssetData(_id, assetItem);
 
-        AssetsDataIndexes[_contractAddress] = _index;
-
+        emit AddAsset(_id);
     }//end fun
-
-
-     /**
-     * @dev add a new asset to supported list
-     * @param _contractAddress asset's contract address
-     * @param _isPegged a  boolean describing wether its pegged  or not
-     * @param _originalName if pegged, then original asset name
-     * @param _originalSymbol if pegged, the original symbol
-     *  @param _wrapperContract smart contract for wrapping  and unwrapping the asset 
-     */
-    function addAsset(
-        address _contractAddress, 
-        bool    _isPegged,
-        string calldata  _originalName,
-        string calldata  _originalSymbol,
-        address _wrapperContract
-    ) external onlyAdmin() {
-        return _addAsset(_contractAddress, _isPegged, _originalName, _originalSymbol, _wrapperContract);
-    }
-        
-
-     /**
+   
+    /**
      * @dev fetch asset by it contract address
      * @param _contractAddress asset's contract address
-     * @return AssetItem
+     * @return AssetsStructs.AssetItem
      */
-    function getAsset(address _contractAddress) public  view returns (AssetItem memory) {
+    function getAsset(address _contractAddress) public  view returns (AssetsStructs.AssetItem memory) {
         
-        uint256 assetIndex = AssetsDataIndexes[_contractAddress];
+        //first lets get the index
+        uint256 assetId = _dataStore.getAssetIdByAddress(_contractAddress);
 
-        AssetItem memory assetItem = AssetsData[assetIndex];
 
-        require(isValidAssetItem(assetItem),"XPIE:UNKNOWN_ASSET");
+        //this lets check if id isnt 0
+        require(assetId > 0, "XPIE:UNKNOWN_ASSET");
 
-        return assetItem;
-    } //end function
+
+        //lets get asset info by id
+        AssetsStructs.AssetItem memory assetData = getAssetById(assetId);
+
+        //is asset enabled, if not disabled 
+        require(assetData.isEnabled == true,"XPIE:ASSET_NOT_ENABLED");
+        
+        return assetData;
+    } //end 
 
 
     /**
-     * @dev unstructure the asset item to tuple
+     * @dev getAssetById
+     * @param _id asset id
      */
-     function destructAssetItem(AssetItem memory _asset) private pure returns(
-        uint256, string memory, string memory, address, uint8, bool, string memory, string memory  
-     ) {
-         return ( _asset.index, _asset.name, _asset.symbol, _asset.contractAddress, _asset.decimals, _asset.isPegged, _asset.originalSymbol, _asset.originalSymbol );
-     }
-
+    function getAssetById(uint256 _id) public view returns (AssetsStructs.AssetItem memory) {
+        return _dataStore.getAssetData(_id);
+    }
 
 
     /**
      * @dev check if the asset is valid or enabled 
      */
-    function isValidAssetItem(AssetItem memory assetItem) pure internal  returns(bool){
+    function isValidAssetItem(AssetsStructs.AssetItem memory assetItem) pure internal  returns(bool){
         return (
-            bytes(assetItem.symbol).length > 0 &&
             assetItem.contractAddress != address(0) && 
             assetItem.isEnabled == true
         );
+    }
+
+    /**
+     * isValidAsset using id
+     * @param _id asset id
+     */
+    function isValidAssetItem(uint256 _id) external view returns(bool) {
+        return isValidAssetItem(getAssetById(_id));
     }
 
 
@@ -134,34 +123,33 @@ contract Assets is PM {
      *  @param _contractAddress  asset contract address
      */
      function isAssetSupported(address _contractAddress) public  view returns(bool) {
-
-         AssetItem  memory asset = getAsset(_contractAddress);
-
-         return isValidAssetItem(asset);
+         return isValidAssetItem(getAsset(_contractAddress));
      }
 
 
     /**
      * @dev get all assets 
      */
-     function getAllAssets() public view returns(AssetItem[] memory){
+     function getAllAssets() public view returns(AssetsStructs.AssetItem[] memory){
 
-         AssetItem[] memory allAssetsDataArray  = new AssetItem[]  (totalAssets);
+        uint256 totalAssets = _dataStore.getTotalAssets();
+
+        AssetsStructs.AssetItem[] memory assetsData  = new AssetsStructs.AssetItem[]  (totalAssets);
 
          //loop to get items
          // ids never starts  with  0, so start with  1
-         for(uint256 i = 0; i <= totalAssets; i++){
+        for(uint256 i = 0; i <= totalAssets; i++){
 
              //lets now get asset  info 
-             AssetItem memory assetItem = AssetsData[i];
+            AssetsStructs.AssetItem memory assetItem = getAssetById(i);
 
-             if(isValidAssetItem(assetItem)){
-                allAssetsDataArray[i] = assetItem;
-             }
-         }
+            if(isValidAssetItem(assetItem)){
+                assetsData[i] = assetItem;
+            }
+        }
 
-        return allAssetsDataArray;
+        return assetsData;
      } //end fun
 
 
-} //end class
+} //end contract

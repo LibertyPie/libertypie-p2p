@@ -17,13 +17,13 @@ contract PaymentMethodsStore is StoreEditor  {
     //paymentTypes categories
     // format mapping(index => name)
     // NOTE  That the index always starts with 1 and not 0
-    mapping(uint256 => CategoryItem) private  PaymentMethodsCategories;
+    mapping(uint256 => PaymentMethodsStructs.CategoryItem) private  PaymentMethodsCategories;
 
 
     // paymentTypes 
     // format mapping(index => name)
     // NOTE  That the index always starts with 1 and not 0
-    mapping(uint256 => PaymentMethodItem) private PaymentMethodsData;
+    mapping(uint256 => PaymentMethodsStructs.PaymentMethodItem) private PaymentMethodsData;
 
 
      /**
@@ -57,10 +57,7 @@ contract PaymentMethodsStore is StoreEditor  {
     /**
      * addPaymentMethod
      */
-    function savePaymentMethodData(
-        uint256 _id,
-        PaymentMethodsStructs.PaymentMethodItem memory _data
-    ) external onlyStoreEditor {
+    function savePaymentMethodData(uint256 _id,PaymentMethodsStructs.PaymentMethodItem memory _data ) external onlyStoreEditor {
         PaymentMethodsData[_id] = _data;
     }
 

@@ -24,9 +24,9 @@ contract OffersStructs {
     }
 
     struct PricingInfo {
-        string   pricingMode;
-        uint256  profitMargin;
-        uint256  fixedPrice;
+        bytes32   pricingMode;
+        uint256   profitMargin;
+        uint256   fixedPrice;
     }
 
     struct TradeInfo {
@@ -39,10 +39,11 @@ contract OffersStructs {
         uint256  partnerMinimumReputation;
     }
     
-    struct OffersStruct {
-        address  owner;
-        OfferInfo offerInfo;
-        PricingInfo pricingInfo;
-        TradeInfo OfferTradeInfo;
+    struct OfferItem {
+        uint256      id;
+        address      owner;
+        OfferInfo    offerInfo;
+        PricingInfo  pricingInfo;
+        TradeInfo    tradeInfo;
     }   
 }

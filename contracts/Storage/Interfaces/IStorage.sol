@@ -9,13 +9,10 @@ pragma experimental ABIEncoderV2;
 
 import "./IPaymentMethodsStore.sol";
 import "./IAssetStore.sol";
+import "./IOfferStore.sol";
 
-interface IStorage is IPaymentMethodsStore, IAssetStore {
+interface IStorage is IPaymentMethodsStore, IAssetStore,IOfferStore {
 
-    /**
-     * Offers
-     */
-    function getNextOfferId() external returns(uint256);
 
     /**
      * Basic Store setters
