@@ -113,6 +113,10 @@ contract Offers is Base {
       //validate the pricing mode
       require((_pricingInfo.pricingMode == PRICING_MODE_MARKET || _pricingInfo.pricingMode == PRICING_MODE_FIXED), "XPIE:UNKOWN_PRICING_MODE");
 
+      if(_offerTradeInfo.hasSecurityDeposit == true){
+
+      }
+      
       //lets now prepare for save 
       _dataStore.saveOfferData(
          offerId,
@@ -128,5 +132,16 @@ contract Offers is Base {
       emit NewOffer(offerId);
    } //end fun 
 
+
+   /**
+    * @dev is valid offer
+    */
+    function isValidOffer(OffersStructs.OfferItem memory _offerData) private view returns (bool) {
+
+      if(!(_offerData.pricingInfo.pricingMode == PRICING_MODE_MARKET || 
+         _offerData..pricingMode == PRICING_MODE_FIXED)
+      )
+
+    } //end fun 
 
 }  //end contract 

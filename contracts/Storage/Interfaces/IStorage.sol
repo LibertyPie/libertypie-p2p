@@ -10,9 +10,9 @@ pragma experimental ABIEncoderV2;
 import "./IPaymentMethodsStore.sol";
 import "./IAssetStore.sol";
 import "./IOfferStore.sol";
+import "./IConfigStore.sol";
 
-interface IStorage is IPaymentMethodsStore, IAssetStore,IOfferStore {
-
+interface IStorage is IPaymentMethodsStore, IAssetStore, IOfferStore, IConfigStore {
 
     /**
      * Basic Store setters
