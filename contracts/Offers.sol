@@ -113,20 +113,23 @@ contract Offers is Base {
       //validate the pricing mode
       require((_pricingInfo.pricingMode == PRICING_MODE_MARKET || _pricingInfo.pricingMode == PRICING_MODE_FIXED), "XPIE:UNKOWN_PRICING_MODE");
 
+      //i security deposit is enabled, lets process it
       if(_offerTradeInfo.hasSecurityDeposit == true){
-         require(_offerTradeInfo.securityDepositRate > 0, statusMsg("SECURITY_DEPOSIT_TOO_SMALL","0"));
+         
+         require(_offerTradeInfo.securityDepositRate > 0, statusMsg("SECURITY_DEPOSIT_TOO_SMALL"));
 
           //min payment window
          bytes32 maxSecurityDeposit = getConfig("MAX_SECURITY_DEPOSIT");
 
-         require(keccak256(_offerTradeInfo.securityDepositRate) > maxSecurityDeposit, statusMsg("SECURITY_DEPOSIT_TOO_LARGE",maxSecurityDeposit));
+         require(toBytes32(_offerTradeInfo.securityDepositRate) > maxSecurityDeposit, statusMsg("SECURITY_DEPOSIT_TOO_LARGE"));
+
       } //end if security deposit is enabled
 
       //min payment window
       bytes32 minPaymentWindow = getConfig("MIN_PAYMENT_WINDOW");
 
       //compare 
-      require(keccak256(_offerTradeInfo.paymentWindow) >= minPaymentWindow, "XPIE:INCREASE_PAYMENT_WINDOW");
+      require(toBytes32(_offerTradeInfo.paymentWindow) >= minPaymentWindow, statusMsg("INCREASE_PAYMENT_WINDOW"));
 
       //lets now prepare for save 
       _dataStore.saveOfferData(
@@ -146,7 +149,7 @@ contract Offers is Base {
 
    /**
     * @dev is valid offer
-    */
+    *
     function isValidOffer(OffersStructs.OfferItem memory _offerData) private view returns (bool) {
 
       if(!(_offerData.pricingInfo.pricingMode == PRICING_MODE_MARKET || _offerData.pricingMode == PRICING_MODE_FIXED)) {
@@ -154,5 +157,6 @@ contract Offers is Base {
       }
 
     } //end fun 
+   */ 
 
 }  //end contract 

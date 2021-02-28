@@ -9,8 +9,9 @@ pragma experimental ABIEncoderV2;
 import "./PermissionManager/PM.sol";
 import "./Storage/StoreProxy.sol";
 import "./Commons/ConfigsStructs.sol";
+import "./Utils.sol";
 
-contract Config is PM {
+contract Config is PM, Utils {
     
     IStorage _configDataStore  = StoreProxy(address(this)).getIStorage();
 
@@ -18,16 +19,16 @@ contract Config is PM {
      * add default config
      */
      constructor() public {
-         _setConfig("MIN_PAYMENT_WINDOW", keccak256(15));
-         _setConig("MAX_SECURITY_DEPOSIT", keccak256(10));
+         _setConfig("MIN_PAYMENT_WINDOW", toBytes32(15));
+         _setConfig("MAX_SECURITY_DEPOSIT", toBytes32(10));
      }
 
     /**
      * get config
      * @param _key config key 
      */ 
-    function getConfig(string _key) public view returns(bytes32) {
-        return _configDataStore.getConfigData(keccak256(_key));
+    function getConfig(string memory _key) public view returns(bytes32) {
+        return _configDataStore.getConfigData(toBytes32(_key));
     }
 
     /**
@@ -35,8 +36,8 @@ contract Config is PM {
      * @param _key config key
      * @param _value cofig data
      */
-    function _setConfig(string _key, bytes32 _value) private  {
-        _configDataStore.addConfigData(keccak256(_key), _value);
+    function _setConfig(string memory _key, bytes32 _value) private  {
+        _configDataStore.addConfigData(toBytes32(_key), _value);
     }
 
     /**
@@ -44,7 +45,7 @@ contract Config is PM {
      * @param _key config key
      * @param _value cofig data
      */
-    function setConfig(string _key, bytes32 _value) external onlyAdmin() {
+    function setConfig(string memory _key, bytes32 _value) external onlyAdmin() {
         _setConfig(_key,_value);
     }
 

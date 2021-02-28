@@ -17,16 +17,16 @@ contract ConfigStore is StoreEditor  {
     mapping(uint256 => bytes32) private configData;
     
     //config indexes
-    mapping(bytes32 => uint256) private ConfigKeysToIdsMap;
+    mapping(bytes32 => uint256) private ConfigIdsMap;
 
-    mapping(uint32 => bytes32) private ConfigIdsToKeysMap;
+    mapping(uint256 => bytes32) private ConfigKeysMap;
     
     /**
      * @dev get config data
      * @param _key a byte32 key
      */
     function getConfigData(bytes32 _key) public view returns (bytes32){
-        uint256 index = configKeys[_key];
+        uint256 index = ConfigIdsMap[_key];
         require(index > 0, "XPIE:UNKNOWN_KEY");
         return configData[index];
     }
@@ -41,9 +41,9 @@ contract ConfigStore is StoreEditor  {
         configData[_id] = _value;
 
         //lets save the key first
-        ConfigKeysToIdsMap[_key] = _id;
+        ConfigIdsMap[_key] = _id;
 
-        ConfigIdsToKeysMap[_id] = _key;
+        ConfigKeysMap[_id] = _key;
     } //end fun
 
 
@@ -52,10 +52,10 @@ contract ConfigStore is StoreEditor  {
     */
     function getAllConfigData() external view returns (ConfigsStructs.ConfigItem[] memory) {
 
-        ConfigsStructs.ConfigItem[] configsArray = new ConfigsStructs.ConfigItem[totalEntries];
+        ConfigsStructs.ConfigItem[] memory configsArray = new ConfigsStructs.ConfigItem[](totalEntries);
 
         for(uint256 i = 1; i <= totalEntries; i++){
-            configsArray[i] = ConfigsStructs.ConfigItem(ConfigIdsToKeysMap[i],configData[i]);
+            configsArray[i] = ConfigsStructs.ConfigItem(ConfigKeysMap[i],configData[i]);
         }
 
         return configsArray;

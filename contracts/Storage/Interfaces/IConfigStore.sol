@@ -6,10 +6,13 @@
 pragma solidity ^0.6.2;
 pragma experimental ABIEncoderV2;
 
+import "../../Commons/ConfigsStructs.sol";
+
+
 interface IConfigStore {
 
-    function getConfigData(bytes32 _key) public view returns (bytes32);
+    function getConfigData(bytes32 _key) external view returns (bytes32);
     function addConfigData(bytes32 _key, bytes32 _value) external;
-    function getAllConfigData() external view returns (bytes32[] memory, bytes32[] memory);
-    
+    function getAllConfigData() external view returns (ConfigsStructs.ConfigItem[] memory);
+
 }
