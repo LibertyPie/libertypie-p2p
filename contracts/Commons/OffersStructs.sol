@@ -16,7 +16,7 @@ contract OffersStructs {
         bytes32 offerType;
         bytes32 countryCode;
         bytes32 currencyCode;
-        uint256  paymentMethodId;
+        uint256  paymentMethod;
         string  externalInfoHash;
         int     externalStoreId;
         bool    isEnabled;
@@ -50,8 +50,7 @@ contract OffersStructs {
 
     //offer index Item
     struct OfferIndexesItem {
-        bytes32 key;
-        uint256[] idsArray;
+       mapping(bytes32 => uint256[]) ids;
     } 
 
 }

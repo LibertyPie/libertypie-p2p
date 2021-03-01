@@ -46,4 +46,8 @@ contract Utils {
         return keccak256(abi.encodePacked(_data));
     }
 
+    function toBytes32(address _data) public pure returns(bytes32) {
+        return keccak256(abi.encodePacked(_data));
+    }
+
 }

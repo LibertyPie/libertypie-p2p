@@ -55,15 +55,18 @@ contract Offers is Base {
     mapping(uint256 => uint256[]) private  OffersByPaymentType;
 
 
-   bytes32 OFFERS_BY_ADDRESS_KEY   = toBytes32("OFFERS_BY_USER_ADDRESS");
+   bytes32 OFFERS_BY_USER_ADDRESS_INDEX_GROUP   = toBytes32("OFFERS_BY_USER_ADDRESS");
 
-   bytes32 OFFERS_BY_ASSET_KEY     = toBytes32("OFFERS_BY_ASSET");
+   bytes32 OFFERS_BY_ASSET_INDEX_GROUP          = toBytes32("OFFERS_BY_ASSET");
 
-   bytes32 OFFERS_BY_COUNTRY_KEY       = toBytes32("OFFERS_BY_COUNTRY");
+   bytes32 OFFERS_BY_COUNTRY_INDEX_GROUP        = toBytes32("OFFERS_BY_COUNTRY");
 
-   bytes32 OFFERS_BY_TYPES_KEY         = toBytes32("OFFERS_BY_OFFER_TYPE");
+   bytes32 OFFERS_BY_CURRENCY_INDEX_GROUP       = toBytes32("OFFERS_BY_CURRENCY");
 
-   bytes32 OFFERS_BY_PAYMENT_TYPES_KEY = toBytes32("OFFERS_BY_PAYMENT_TYPE");
+   bytes32 OFFERS_BY_OFFER_TYPE_INDEX_GROUP     = toBytes32("OFFERS_BY_OFFER_TYPE");
+
+   bytes32 OFFERS_BY_PAYMENT_METHOD_INDEX_GROUP = toBytes32("OFFERS_BY_PAYMENT_METHOD");
+
         
    /**
    * @dev add a  new offer 
@@ -73,7 +76,7 @@ contract Offers is Base {
       * @dev  offerType the offer type, either buy or sell
       * @dev  countryCode the country  where   ad is   targeted at
       * @dev  currencyCode 2 letter iso currency code 
-      * @dev  paymentMethodId enabled payment type for the offer
+      * @dev  paymentMethod enabled payment type for the offer
       * @dev  extraDataHash  extra data hash
       * @dev  extraDataStoreId Store , 1 for ipfs, 2 for sia skynet , 3....
       * @dev  isEnabled, if offer is enabled or not
@@ -114,7 +117,7 @@ contract Offers is Base {
       uint256 offerId = _dataStore.getNextOfferId();
 
       PaymentMethodsStructs.PaymentMethodItem memory paymentMethodData =  _dataStore.getPaymentMethodData(
-         _offerInfo.paymentMethodId
+         _offerInfo.paymentMethod
       );
 
       //validate payment method
@@ -161,21 +164,45 @@ contract Offers is Base {
             tradeInfo:   _offerTradeInfo
          })
       );
+
+
+      //lets now save indexes 
+
+      //add offer index for user address 
+      _dataStore.setOfferIndex(OFFERS_BY_USER_ADDRESS_INDEX_GROUP, msg.sender, offerId);
+
+      //add offer index for asset group
+      _dataStore.setOfferIndex(OFFERS_BY_ASSET_INDEX_GROUP, _offerInfo.asset, offerId);
+
+       //add offer index for country group
+      _dataStore.setOfferIndex(OFFERS_BY_COUNTRY_INDEX_GROUP, _offerInfo.countryCode, offerId);
+
+       //add offer index for currency group
+      _dataStore.setOfferIndex(OFFERS_BY_CURRENCY_INDEX_GROUP, _offerInfo.currencyCode, offerId);
+
+      //add offer index for payment method group
+      _dataStore.setOfferIndex(OFFERS_BY_PAYMENT_METHOD_INDEX_GROUP, _offerInfo.paymentMethod, offerId);
+
+      _dataStore.setOfferIndex(OFFERS_BY_PAYMENT_METHOD_INDEX_GROUP, _offerInfo.paymentMethod, offerId);
+
+      _dataStore.setOfferIndex(OFFERS_BY_OFFER_TYPE_INDEX_GROUP, _offerInfo.offerType, offerId);
       
       emit NewOffer(offerId);
    } //end fun 
 
 
    /**
-    * @dev is valid offer
-    *
-    function isValidOffer(OffersStructs.OfferItem memory _offerData) private view returns (bool) {
+    * @dev get offer by id 
+    * @param _id offer id
+    */
+   function getOffer(uint256 _id) public view returns (OffersStructs.OfferItem memory) {
+      return _dataStore.getOfferData(_id);
+   }
 
-      if(!(_offerData.pricingInfo.pricingMode == PRICING_MODE_MARKET || _offerData.pricingMode == PRICING_MODE_FIXED)) {
 
-      }
-
-    } //end fun 
-   */ 
+   /**
+    * @dev get list of offers with filter included 
+    *  
+    */
 
 }  //end contract 

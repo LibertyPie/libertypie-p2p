@@ -11,12 +11,14 @@ import "./PermissionManager/PM.sol";
 
 //import "./PaymentTypes/PaymentTypesCore.sol";
 
+import "./Storage/StoreEditor.sol";
+
 import "./PaymentMethods.sol";
 
 //import  "./Oracles/OpenPriceFeed.sol";
 import "@openzeppelin/contracts/GSN/Context.sol";
 
-contract Factory is  Assets,  PaymentMethods, PriceFeed, Context {
+contract Factory is  Assets,  PaymentMethods, PriceFeed, Context, StoreEditor {
     
     constructor() public {
 
@@ -28,6 +30,13 @@ contract Factory is  Assets,  PaymentMethods, PriceFeed, Context {
 
         //configure  open price feed
         configureOpenPriceFeed();
+
+
+        //lets set store editor address
+        //lets add pm role,
+        // this should be the address of the contract which will be
+        // allowed to write to storage
+        grantRole(STORAGE_EDITOR_ROLE,address(this));
 
     } //end fun 
 

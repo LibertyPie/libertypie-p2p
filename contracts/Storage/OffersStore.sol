@@ -14,10 +14,9 @@ contract OffersStore is StoreEditor  {
     //format is mapping(index => OffersStruct)
     mapping(uint256 =>  OffersStructs.OfferItem) private OffersData;
 
-    /**
-     * OfferIndexes
-     */
-    mapping(bytes32 => mapping(bytes32 => uint256[])) OffersIndexes;
+    
+    //OfferIndexes 
+    mapping(bytes32 => mapping(bytes32 => uint256[])) public OffersIndexes;
 
 
     /**
@@ -29,7 +28,7 @@ contract OffersStore is StoreEditor  {
      * @dev generate or get next offerId
      */
      function getNextOfferId() external onlyStoreEditor returns(uint256) {
-        return (totalOffers += 1);
+        return (++totalOffers);
      }
 
     /**
@@ -70,17 +69,19 @@ contract OffersStore is StoreEditor  {
     * @dev setOfferIndex
     * @param _indexName eg. toBytes32('OFFERS_BY_COUNTRY');
     * @param _key eg. us (country code)
-    * @param _id
+    * @param _id the offer Id 
     */
-    function setOfferIndex(bytes32 _indexName, bytes32 _key, uint256 _id) public onlyStoreEditor {
-        OffersIndexes[_indexName][_key] = _id;
+    function setOfferIndex(bytes32 _indexName, bytes32 _key, uint256 _id) external onlyStoreEditor {
+        OffersIndexes[_indexName][_key].push(_id);
     } //end fun 
 
-
     /**
-     * @dev getOfferIndexes
-     * @param _indexName eg. toBytes32('OFFERS_BY_USER_ADDRESS');
-     */
-    function getOfferIndexes(bytes32 _indexName) public view returns ()
-
+    * @dev check if indexes contains an ID
+    * @param _indexName eg. toBytes32('OFFERS_BY_COUNTRY');
+    * @param _key eg. us (country code)
+    * @param _id the offer Id 
+    */
+    function indexesHasId(bytes32 _indexName, bytes32 _key, uint256 _id) public view returns(bool) {
+        return (OffersIndexes[_indexName][_key] == _id);
+    }
 } //end contract
