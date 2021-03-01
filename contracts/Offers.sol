@@ -24,36 +24,13 @@ contract Offers is Base {
     bytes32 TOTAL_OFFERS_STORE_KEY = keccak256("Offers_total_offers");
 
     // offer types
-    bytes32 OFFER_TYPE_BUY  =  keccak256("buy");
-    bytes32 OFFER_TYPE_SELL = keccak256("sell");
+    bytes32 OFFER_TYPE_BUY  =  toBytes32("buy");
+    bytes32 OFFER_TYPE_SELL =  toBytes32("sell");
 
-    bytes32 PRICING_MODE_MARKET = keccak256("market");
-    bytes32 PRICING_MODE_FIXED = keccak256("fixed");
+    bytes32 PRICING_MODE_MARKET = toBytes32("market");
+    bytes32 PRICING_MODE_FIXED = toBytes32("fixed");
 
     Assets  _assets = Assets(address(this)); 
-
-   //get storage implementations
-   // IStorage _dataStore = StoreProxy(address(this)).getIStorage();
-
-     //user ad index 
-    //save  into user map
-    //format  mapping( __dataStore.sender =>  _index)
-    mapping(address => uint256[]) private OffersByUserAddress;
-
-    // assets  Ads  indexes 
-    //format  mapping( assetAddress =>  _index)
-    mapping(address => uint256[])  private OffersByAssetAddress;
-
-    // offers indexes based  on country
-     //format  mapping(countryCode =>  _index)
-    mapping(string => uint256[]) private  OffersByCountryCode;
-
-    //offers indexes based on offer type
-    mapping(string => uint256[]) private  OffersByType;
-
-    //offers indexes based on paymentTypeId 
-    mapping(uint256 => uint256[]) private  OffersByPaymentType;
-
 
    bytes32 OFFERS_BY_USER_ADDRESS_INDEX_GROUP   = toBytes32("OFFERS_BY_USER_ADDRESS");
 
