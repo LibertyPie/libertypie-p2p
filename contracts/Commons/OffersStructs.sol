@@ -45,5 +45,13 @@ contract OffersStructs {
         OfferInfo    offerInfo;
         PricingInfo  pricingInfo;
         TradeInfo    tradeInfo;
-    }   
+    }  
+
+
+    //offer index Item
+    struct OfferIndexesItem {
+        bytes32 key;
+        uint256[] idsArray;
+    } 
+
 }

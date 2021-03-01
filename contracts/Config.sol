@@ -21,6 +21,7 @@ contract Config is PM, Utils {
      constructor() public {
          _setConfig("MIN_PAYMENT_WINDOW", toBytes32(15));
          _setConfig("MAX_SECURITY_DEPOSIT", toBytes32(10));
+         _setConfig("MAX_REPUTATION", toBytes(10));
      }
 
     /**

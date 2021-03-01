@@ -54,6 +54,16 @@ contract Offers is Base {
     //offers indexes based on paymentTypeId 
     mapping(uint256 => uint256[]) private  OffersByPaymentType;
 
+
+   bytes32 OFFERS_BY_ADDRESS_KEY   = toBytes32("OFFERS_BY_USER_ADDRESS");
+
+   bytes32 OFFERS_BY_ASSET_KEY     = toBytes32("OFFERS_BY_ASSET");
+
+   bytes32 OFFERS_BY_COUNTRY_KEY       = toBytes32("OFFERS_BY_COUNTRY");
+
+   bytes32 OFFERS_BY_TYPES_KEY         = toBytes32("OFFERS_BY_OFFER_TYPE");
+
+   bytes32 OFFERS_BY_PAYMENT_TYPES_KEY = toBytes32("OFFERS_BY_PAYMENT_TYPE");
         
    /**
    * @dev add a  new offer 
@@ -116,12 +126,12 @@ contract Offers is Base {
       //i security deposit is enabled, lets process it
       if(_offerTradeInfo.hasSecurityDeposit == true){
          
-         require(_offerTradeInfo.securityDepositRate > 0, statusMsg("SECURITY_DEPOSIT_TOO_SMALL"));
+         require(_offerTradeInfo.securityDepositRate > 0, statusMsg("SECURITY_DEPOSIT_TOO_SMALL", toBytes32(0)));
 
           //min payment window
          bytes32 maxSecurityDeposit = getConfig("MAX_SECURITY_DEPOSIT");
 
-         require(toBytes32(_offerTradeInfo.securityDepositRate) > maxSecurityDeposit, statusMsg("SECURITY_DEPOSIT_TOO_LARGE"));
+         require(toBytes32(_offerTradeInfo.securityDepositRate) > maxSecurityDeposit, statusMsg("SECURITY_DEPOSIT_TOO_LARGE",maxSecurityDeposit));
 
       } //end if security deposit is enabled
 
@@ -129,7 +139,16 @@ contract Offers is Base {
       bytes32 minPaymentWindow = getConfig("MIN_PAYMENT_WINDOW");
 
       //compare 
-      require(toBytes32(_offerTradeInfo.paymentWindow) >= minPaymentWindow, statusMsg("INCREASE_PAYMENT_WINDOW"));
+      require(toBytes32(_offerTradeInfo.paymentWindow) >= minPaymentWindow, statusMsg("PAYMENT_WINDOW_TOO_SMALL", minPaymentWindow));
+
+      //if we have partner min reputation
+      if(_offerTradeInfo.partnerMinimumReputation > 0){
+
+         //lets check reputation
+         bytes32 maxReputation = getConfig("MAX_REPUTATION");
+
+         require(toBytes32(_offerTradeInfo.partnerMinimumReputation) <= maxReputation, statusMsg("PARTNER_REPUTATION_EXCEEDS_MAX", maxReputation));
+      } //end if
 
       //lets now prepare for save 
       _dataStore.saveOfferData(

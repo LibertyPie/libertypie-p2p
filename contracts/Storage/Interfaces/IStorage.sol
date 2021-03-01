@@ -33,4 +33,5 @@ interface IStorage is IPaymentMethodsStore, IAssetStore, IOfferStore, IConfigSto
     function getAddress(bytes32 _key) external view returns(address);
     function getString(bytes32 _key) external view returns(string memory);
 
+
 }

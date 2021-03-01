@@ -15,6 +15,12 @@ contract OffersStore is StoreEditor  {
     mapping(uint256 =>  OffersStructs.OfferItem) private OffersData;
 
     /**
+     * OfferIndexes
+     */
+    mapping(bytes32 => mapping(bytes32 => uint256[])) OffersIndexes;
+
+
+    /**
      * @dev totalOffers
      */
     uint256 private totalOffers;
@@ -60,5 +66,21 @@ contract OffersStore is StoreEditor  {
          delete  OffersData[_id];
      } //end 
 
+    /**
+    * @dev setOfferIndex
+    * @param _indexName eg. toBytes32('OFFERS_BY_COUNTRY');
+    * @param _key eg. us (country code)
+    * @param _id
+    */
+    function setOfferIndex(bytes32 _indexName, bytes32 _key, uint256 _id) public onlyStoreEditor {
+        OffersIndexes[_indexName][_key] = _id;
+    } //end fun 
+
+
+    /**
+     * @dev getOfferIndexes
+     * @param _indexName eg. toBytes32('OFFERS_BY_USER_ADDRESS');
+     */
+    function getOfferIndexes(bytes32 _indexName) public view returns ()
 
 } //end contract
