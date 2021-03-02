@@ -17,32 +17,40 @@ contract ChainLink is IPriceFeed, Base {
 
     //lets create storage for the contracts 
     //chainId => (assetPair => contractAddress)
-    mapping(bytes32 => mapping(bytes32 => address)) private feedContracts;
-    uint256[] private chainIds;
+    mapping(uint256 => mapping(bytes32 => address)) private feedContracts;
+    uint256[] private chainIdsArray;
 
 
       /**
      * @dev set priceFeed contract
-     * @param _chain the chain id
+     * @param _chainId the chain id
      * @param _assetPair the asset usd pair to fetch price feed
      * @param _contract feed contract
      */
-    function _setFeedContract(bytes32 _chain, bytes32 _assetPair, address _contract) private {
-        setFeedContract(_chain, _assetPair, _contract);
+    function _setFeedContract(uint256 _chainId, bytes32 _assetPair, address _contract) private {
+        setFeedContract(_chainId, _assetPair, _contract);
     }
 
     /**
      * @dev set priceFeed contract
-     * @param _chain the chain id
+     * @param _chainId the chain id
      * @param _assetPair the asset usd pair to fetch price feed
      * @param _contract feed contract
      */
-    function setFeedContract(bytes32 _chain, bytes32 _assetPair, address _contract) public onlyAdmin {
-        feedContracts[_chain][_assetPair] = _contract;
+    function setFeedContract(uint256 _chainId, bytes32 _assetPair, address _contract) public onlyAdmin {
+        
+        feedContracts[_chainId][_assetPair] = _contract;
+
+        uint256 chainIdIndex;
+
+        //lets check if the chainId exists in the chainIds array
+        for(uint i = 1; i <= chainIdsArray.length; i++){
+
+        }
 
         //emit event
         emit SetFeedContract(_chain,_assetPair,_contract);
-    }
+    } //end fun 
 
     /**
      * getAggregatorV3Interface
@@ -79,6 +87,6 @@ contract ChainLink is IPriceFeed, Base {
      * @dev get all feed contracts 
      */
     function getAllFeedContracts() public view returns (unint256[], address[]) {
-        
+
     }//end fun 
 }//end contract
