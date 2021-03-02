@@ -3,7 +3,7 @@
  * @author LibertyPie <hello@libertypie.com>
  * SPDX-License-Identifier: MIT
  */
-pragma solidity ^0.6.2;
+pragma solidity ^0.7.6;
 
 contract PermissionManager {
 
@@ -18,7 +18,7 @@ contract PermissionManager {
     //roles
     mapping(string => mapping(address => bool)) public Roles;
     
-    constructor(address _owner) public {
+    constructor(address _owner) {
 
         if(_owner  == address(0)){
             _owner = msg.sender;

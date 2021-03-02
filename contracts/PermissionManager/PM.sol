@@ -3,8 +3,8 @@
 * @author https://github.com/libertypie (hello@libertypie.com)
 * @license SPDX-License-Identifier: MIT
 */
+pragma solidity ^0.7.6;
 
-pragma solidity ^0.6.2;
 interface IPermissionManager {
     function isSuperAdmin(address _address) external view  returns(bool);
     function isAdmin(address _address) external view  returns(bool);

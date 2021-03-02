@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.6.2;
+pragma solidity ^0.7.6;
 pragma experimental ABIEncoderV2;
 
 import "../PermissionManager/PM.sol";
@@ -16,7 +16,7 @@ contract OpenPriceFeed is PM {
     //uniswap anchored view contract
     UniswapAnchoredView public  UNISWAP_ANCHORED_VIEW;
 
-    constructor() public {
+    constructor() {
 
         //default to ethereum mainnet 
         address  _contractAddress = 0x922018674c12a7F0D394ebEEf9B58F186CdE13c1;

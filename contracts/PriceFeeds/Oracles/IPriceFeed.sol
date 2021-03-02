@@ -6,13 +6,6 @@
 pragma solidity ^0.7.6;
 pragma experimental ABIEncoderV2;
 
-/**
- * @dev offer struct Implementation
- */
-contract ConfigsStructs {
-
-    struct ConfigItem {
-        bytes32 _key;
-        bytes32 _value;
-    }
+interface IPriceFeed {
+    function getLatestPrice(bytes32 _assetPair) public view returns(uint256);
 }

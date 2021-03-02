@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.6.2;
+pragma solidity ^0.7.6;
 pragma experimental ABIEncoderV2;
 
 
 import "./Assets.sol";
-import "./Storage/StoreProxy.sol";
+//import "./Storage/StoreProxy.sol";
 import "./Commons/OffersStructs.sol";
 import "./Commons/PaymentMethodsStructs.sol";
 import "./Base.sol";
@@ -19,6 +19,7 @@ contract Offers is Base {
     event DisableOffer(uint256 offerId);
 
     event UpdateOffer(uint256 offerId);
+    
 
     // @dev get variables for the data store 
     bytes32 TOTAL_OFFERS_STORE_KEY = keccak256("Offers_total_offers");
@@ -78,6 +79,7 @@ contract Offers is Base {
       OffersStructs.PricingInfo memory _pricingInfo,
       OffersStructs.TradeInfo memory _offerTradeInfo
    ) external {
+      
 
       //validate country
       require(_offerInfo.countryCode.length == 2, "XPIE:INVALID_COUNTRY_CODE");
@@ -146,10 +148,10 @@ contract Offers is Base {
       //lets now save indexes 
 
       //add offer index for user address 
-      _dataStore.setOfferIndex(OFFERS_BY_USER_ADDRESS_INDEX_GROUP, msg.sender, offerId);
+      _dataStore.setOfferIndex(OFFERS_BY_USER_ADDRESS_INDEX_GROUP, toBytes32(msg.sender), offerId);
 
       //add offer index for asset group
-      _dataStore.setOfferIndex(OFFERS_BY_ASSET_INDEX_GROUP, _offerInfo.asset, offerId);
+      _dataStore.setOfferIndex(OFFERS_BY_ASSET_INDEX_GROUP, toBytes32(_offerInfo.asset), offerId);
 
        //add offer index for country group
       _dataStore.setOfferIndex(OFFERS_BY_COUNTRY_INDEX_GROUP, _offerInfo.countryCode, offerId);
@@ -158,9 +160,8 @@ contract Offers is Base {
       _dataStore.setOfferIndex(OFFERS_BY_CURRENCY_INDEX_GROUP, _offerInfo.currencyCode, offerId);
 
       //add offer index for payment method group
-      _dataStore.setOfferIndex(OFFERS_BY_PAYMENT_METHOD_INDEX_GROUP, _offerInfo.paymentMethod, offerId);
+      _dataStore.setOfferIndex(OFFERS_BY_PAYMENT_METHOD_INDEX_GROUP, toBytes32(_offerInfo.paymentMethod), offerId);
 
-      _dataStore.setOfferIndex(OFFERS_BY_PAYMENT_METHOD_INDEX_GROUP, _offerInfo.paymentMethod, offerId);
 
       _dataStore.setOfferIndex(OFFERS_BY_OFFER_TYPE_INDEX_GROUP, _offerInfo.offerType, offerId);
       

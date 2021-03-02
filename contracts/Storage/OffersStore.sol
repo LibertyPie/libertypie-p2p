@@ -3,7 +3,7 @@
 * @author https://github.com/libertypie (hello@libertypie.com)
 * @license SPDX-License-Identifier: MIT
 */
-pragma solidity ^0.6.2;
+pragma solidity ^0.7.6;
 pragma experimental ABIEncoderV2;
 import "./StoreEditor.sol";
 import "../Commons/OffersStructs.sol";
@@ -82,6 +82,6 @@ contract OffersStore is StoreEditor  {
     * @param _id the offer Id 
     */
     function indexesHasId(bytes32 _indexName, bytes32 _key, uint256 _id) public view returns(bool) {
-        return (OffersIndexes[_indexName][_key] == _id);
+        return false;
     }
 } //end contract

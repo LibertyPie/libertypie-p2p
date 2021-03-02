@@ -25,7 +25,8 @@
   },
   "homepage": "https://github.com/LibertyPie/Core#readme",
   "dependencies": {
-    "@openzeppelin/contracts": "^3.2.0",
+    "@chainlink/contracts": "^0.1.6",
+    "@openzeppelin/contracts": "^3.4.0",
     "@truffle/hdwallet-provider": "^1.1.1"
   },
   "devDependencies": {

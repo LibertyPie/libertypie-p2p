@@ -4,7 +4,7 @@
 * @license SPDX-License-Identifier: MIT
 */
 
-pragma solidity ^0.6.2;
+pragma solidity ^0.7.6;
 pragma experimental ABIEncoderV2;
 
 //import "./PermissionManager/PM.sol";
@@ -22,7 +22,11 @@ contract PaymentMethods is Base {
     event UpdatePaymentMethod(uint256 _id);
     event RemovePaymentMethod(uint256 _id);
 
-   // IStorage _dataStore = StoreProxy(address(this)).getIStorage();
+    
+    constructor() {
+         string[] memory countries = new string [](0);
+        _addPaymentMethodCategory("Bank", countries, true);
+    }
 
     /**
      * @dev getTotalPaymentMethods
@@ -39,6 +43,8 @@ contract PaymentMethods is Base {
      } //end fun 
 
 
+    
+
     /**
     * @dev add a new payment type category
     * @param name category name in string
@@ -50,6 +56,21 @@ contract PaymentMethods is Base {
        string[] memory countries,
        bool isEnabled
     ) external  onlyAdmin() returns(uint256) {
+        return _addPaymentMethodCategory(name,countries,isEnabled);
+    }
+     
+
+    /**
+    * @dev add a new payment type category
+    * @param name category name in string
+    * @param countries supported countries, leave empty to target all countries
+    * @return uint256 new category  id
+   */
+   function _addPaymentMethodCategory(
+       string   memory name,
+       string[] memory countries,
+       bool isEnabled
+    ) private returns(uint256) {
      
         uint256 catId = _dataStore.getNextPaymentMethodCategoryId();
 
@@ -179,7 +200,7 @@ contract PaymentMethods is Base {
    */
    function updatePaymentMethod(
        uint256 paymentMethodId, 
-       string calldata name, 
+       string  memory name, 
        uint256 categoryId,
        uint256 minPaymentWindow,
        uint256 maxPaymentWindow,

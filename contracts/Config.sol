@@ -3,7 +3,7 @@
 * @author https://github.com/libertypie (hello@libertypie.com)
 * @license SPDX-License-Identifier: MIT
 */
-pragma solidity ^0.6.2;
+pragma solidity ^0.7.6;
 pragma experimental ABIEncoderV2;
 
 import "./PermissionManager/PM.sol";
@@ -13,12 +13,12 @@ import "./Utils.sol";
 
 contract Config is PM, Utils {
     
-    IStorage _configDataStore  = StoreProxy(address(this)).getIStorage();
+    IStorage private _configDataStore  = StoreProxy(address(this)).getIStorage();
 
     /**
      * add default config
      */
-     constructor() public {
+     constructor() {
          _setConfig("MIN_PAYMENT_WINDOW", toBytes32(15));
          _setConfig("MAX_SECURITY_DEPOSIT", toBytes32(10));
          _setConfig("MAX_REPUTATION", toBytes32(10));

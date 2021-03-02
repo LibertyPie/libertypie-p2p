@@ -3,7 +3,7 @@
 * @author https://github.com/libertypie (hello@libertypie.com)
 * @license SPDX-License-Identifier: MIT
 */
-pragma solidity ^0.6.2;
+pragma solidity ^0.7.6;
 pragma experimental ABIEncoderV2;
 
 /**
@@ -49,8 +49,8 @@ contract OffersStructs {
 
 
     //offer index Item
-    struct OfferIndexesItem {
-       mapping(bytes32 => uint256[]) ids;
-    } 
+    //struct OfferIndexesItem {
+    //   mapping(bytes32 => uint256[]) ids;
+    //} 
 
 }

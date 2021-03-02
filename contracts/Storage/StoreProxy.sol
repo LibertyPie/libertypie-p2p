@@ -4,7 +4,7 @@
 * @license SPDX-License-Identifier: MIT
 */
 
-pragma solidity ^0.6.2;
+pragma solidity ^0.7.6;
 
 import "../PermissionManager/PM.sol";
 import "./Interfaces/IStorage.sol";
@@ -29,11 +29,11 @@ contract StoreProxy is PM {
      * setStorage
      */
      function setStorage(address _addr) external onlySuperAdmin {
-        require(_addr != address(0),"VALID_STORAGE_ADDRESS_REQUIRED");
+        require(_addr != address(0),"XPIE:VALID_STORAGE_ADDRESS_REQUIRED");
         _storageAddr = _addr;
      }
     
-    function _fallback() private {
+    fallback() external {
         
         address _target = _storageAddr;
 
@@ -56,8 +56,8 @@ contract StoreProxy is PM {
     } //end fallback 
 
 
-    fallback() external {
-        _fallback();
-    }
+   // fallback() external {
+    //    _fallback();
+    //}
 
 }
