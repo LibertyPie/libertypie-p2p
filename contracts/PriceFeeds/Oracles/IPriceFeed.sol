@@ -7,5 +7,6 @@ pragma solidity ^0.7.6;
 pragma experimental ABIEncoderV2;
 
 interface IPriceFeed {
-    function getLatestPrice(bytes32 _assetPair) public view returns(uint256);
+    function getLatestPrice(string memory _asset) public view returns(uint256);
+    function setPriceFeedContract(string memory _asset, address _contract) external;
 }

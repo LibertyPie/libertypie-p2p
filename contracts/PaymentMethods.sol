@@ -24,7 +24,7 @@ contract PaymentMethods is Base {
 
     
     constructor() {
-         string[] memory countries = new string [](0);
+        string[] memory countries = new string [](0);
         _addPaymentMethodCategory("Bank", countries, true);
     }
 

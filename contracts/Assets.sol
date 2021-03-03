@@ -35,10 +35,11 @@ contract Assets is Base {
         string   memory  _originalName,
         string   memory _originalSymbol,
         address _wrapperContract,
+        address priceContract,
         bool    isEnabled
     ) private {
 
-        require(_contractAddress != address(0), "XPIE:INAVLID_CONTRACT_ADDRESS");
+        require(_contractAddress != address(0), statusMsg("INAVLID_CONTRACT_ADDRESS"));
         
         //fetch contract  info
         ERC20 erc20Token = ERC20(_contractAddress);
