@@ -15,7 +15,7 @@ contract Base is Config {
   /**
    * @dev getStoreProxy
    */
-    function getDataStore() public view returns(Istorage) {
+    function getDataStore() public view returns(IStorage) {
         return StoreProxy(address(this)).getIStorage();
     }
 
