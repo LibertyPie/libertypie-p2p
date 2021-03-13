@@ -11,14 +11,19 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 //import "./Storage/StoreProxy.sol";
 import "./Commons/AssetsStructs.sol";
 import "./Base.sol";
+import "./PriceFeeds/PriceFeed.sol";
 
 contract Assets is Base {
 
     //events 
     event AddAsset(uint256 id);
+    event UpdateAsset(uint256 id);
 
     //store Proxy
-    ////IStorage _dataStore = StoreProxy(address(this)).getIStorage();
+    ////IStorage getDataStore() = StoreProxy(address(this)).getIStorage();
+
+    //initiate price feed
+    PriceFeed _priceFeed = PriceFeed(address(this));
 
      /**
      * @dev add a new asset to supported list
@@ -35,16 +40,26 @@ contract Assets is Base {
         string   memory  _originalName,
         string   memory _originalSymbol,
         address _wrapperContract,
-        address priceContract,
+        string memory _priceFeedProvider,
+        address _priceFeedContract,
         bool    isEnabled
-    ) private {
+    ) public onlyAdmin {
 
         require(_contractAddress != address(0), statusMsg("INAVLID_CONTRACT_ADDRESS"));
+
+        require(_priceFeedContract != address(0), statusMsg("INAVLID_PRICE_FEED_CONTRACT_ADDRESS"));
+
+         
+      require(toBytes32(_priceFeedProvider) == toBytes32("chainlink") || 
+         toBytes32(_priceFeedProvider) == toBytes32("open_price_feed"),
+         statusMsg("UNKNOWN_PRICE_FEED_PROVIDER",_priceFeedProvider)
+      );
+
         
         //fetch contract  info
         ERC20 erc20Token = ERC20(_contractAddress);
 
-        uint256 _id = _dataStore.getNextAssetId();
+        uint256 _id = getDataStore().getNextAssetId();
 
         AssetsStructs.AssetItem memory assetItem = AssetsStructs.AssetItem(
             _id,
@@ -54,17 +69,80 @@ contract Assets is Base {
             _originalName,
             _originalSymbol,
             _wrapperContract,
+            _priceFeedProvider,
+            _priceFeedContract,
             isEnabled,
             block.timestamp,
             block.timestamp
         );
 
-
+        _priceFeed.setAssetPriceFeedContract(erc20Token.symbol(), _priceFeedContract);
+        
         // lets save the data
-        _dataStore.saveAssetData(_id, assetItem);
+        getDataStore().saveAssetData(_id, assetItem);
 
         emit AddAsset(_id);
     }//end fun
+
+
+    /**
+     * @dev add a new asset to supported list
+     * @param _id asset Id
+     * @param _contractAddress asset's contract address
+     * @param _isPegged a  boolean describing wether its pegged  or not
+     * @param _originalName if pegged, then original asset name
+     * @param _originalSymbol if pegged, the original symbol
+     *  @param _wrapperContract smart contract for wrapping  and unwrapping the asset 
+     * @param isEnabled if contract is enabled
+     */
+    function updateAsset(
+        uint256  _id,
+        address  _contractAddress, 
+        bool     _isPegged,
+        string   memory  _originalName,
+        string   memory _originalSymbol,
+        address _wrapperContract,
+        string memory _priceFeedProvider,
+        address _priceFeedContract,
+        bool    isEnabled
+    )  public onlyAdmin {
+
+        
+        require(_contractAddress != address(0), statusMsg("INAVLID_CONTRACT_ADDRESS"));
+
+        require(_priceFeedContract != address(0), statusMsg("INAVLID_PRICE_FEED_CONTRACT_ADDRESS"));
+
+        require(_id > 0, statusMsg("INVALID_ASSET_ID"));
+
+        //lets get the assetInfo
+        AssetsStructs.AssetItem memory assetInfo = getAssetById(_id);
+
+
+          //fetch contract  info
+        ERC20 erc20Token = ERC20(_contractAddress);
+
+        AssetsStructs.AssetItem memory assetItem = AssetsStructs.AssetItem(
+            _id,
+            _contractAddress,
+            erc20Token.decimals(),
+            _isPegged,
+            _originalName,
+            _originalSymbol,
+            _wrapperContract,
+            _priceFeedProvider,
+            _priceFeedContract,
+            isEnabled,
+            assetInfo.createdAt,
+            block.timestamp
+        );
+
+        _priceFeed.setAssetPriceFeedContract(erc20Token.symbol(), _priceFeedContract);
+        
+        // lets save the data
+        getDataStore().saveAssetData(_id, assetItem);
+
+        emit UpdateAsset(_id);
+    }//end 
    
     /**
      * @dev fetch asset by it contract address
@@ -74,7 +152,7 @@ contract Assets is Base {
     function getAsset(address _contractAddress) public  view returns (AssetsStructs.AssetItem memory) {
         
         //first lets get the index
-        uint256 assetId = _dataStore.getAssetIdByAddress(_contractAddress);
+        uint256 assetId = getDataStore().getAssetIdByAddress(_contractAddress);
 
 
         //this lets check if id isnt 0
@@ -96,7 +174,7 @@ contract Assets is Base {
      * @param _id asset id
      */
     function getAssetById(uint256 _id) public view returns (AssetsStructs.AssetItem memory) {
-        return _dataStore.getAssetData(_id);
+        return getDataStore().getAssetData(_id);
     }
 
 
@@ -114,7 +192,7 @@ contract Assets is Base {
      * isValidAsset using id
      * @param _id asset id
      */
-    function isValidAssetItem(uint256 _id) external view returns(bool) {
+    function isValidAssetItem(uint256 _id) public view returns(bool) {
         return isValidAssetItem(getAssetById(_id));
     }
 
@@ -133,7 +211,7 @@ contract Assets is Base {
      */
      function getAllAssets() public view returns(AssetsStructs.AssetItem[] memory){
 
-        uint256 totalAssets = _dataStore.getTotalAssets();
+        uint256 totalAssets = getDataStore().getTotalAssets();
 
         AssetsStructs.AssetItem[] memory assetsData  = new AssetsStructs.AssetItem[]  (totalAssets);
 

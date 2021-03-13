@@ -24,22 +24,22 @@ contract PaymentMethods is Base {
 
     
     constructor() {
-        string[] memory countries = new string [](0);
-        _addPaymentMethodCategory("Bank", countries, true);
+       // string[] memory countries = new string [](0);
+        //_addPaymentMethodCategory("Bank", countries, true);
     }
 
     /**
      * @dev getTotalPaymentMethods
      */
      function getTotalPaymentMethods() public view returns(uint256) {
-         return _dataStore.getTotalPaymentMethods();
+         return getDataStore().getTotalPaymentMethods();
      } //end fun 
 
     /**
      * @dev getTotalPaymentMethods
      */
      function getTotalPaymentMethodsCategories() public view returns(uint256) {
-         return _dataStore.getTotalPaymentMethodsCategories();
+         return getDataStore().getTotalPaymentMethodsCategories();
      } //end fun 
 
 
@@ -72,7 +72,7 @@ contract PaymentMethods is Base {
        bool isEnabled
     ) private returns(uint256) {
      
-        uint256 catId = _dataStore.getNextPaymentMethodCategoryId();
+        uint256 catId = getDataStore().getNextPaymentMethodCategoryId();
 
         PaymentMethodsStructs.CategoryItem memory _dataToSave = PaymentMethodsStructs.CategoryItem(
             catId,
@@ -81,7 +81,7 @@ contract PaymentMethods is Base {
             isEnabled
         );
 
-        _dataStore.savePaymentMethodsCategoryData(
+        getDataStore().savePaymentMethodsCategoryData(
             catId,
             _dataToSave
         );
@@ -97,7 +97,7 @@ contract PaymentMethods is Base {
    * @param _id category  id
    */
    function removePaymentMethodCategory(uint256 _id) external onlyAdmin() {
-        _dataStore.deletePaymentMethodsCategoryData(_id);
+        getDataStore().deletePaymentMethodsCategoryData(_id);
         emit RemovePaymentMethodCategory(_id);
    } //end fun 
 
@@ -123,7 +123,7 @@ contract PaymentMethods is Base {
             isEnabled
         );
 
-        _dataStore.savePaymentMethodsCategoryData(
+        getDataStore().savePaymentMethodsCategoryData(
             categoryId,
             _dataToSave
         );
@@ -151,7 +151,7 @@ contract PaymentMethods is Base {
 
         //avoid totalPaymentTypes++
         //counting starts from 1, so index 0 wont exist
-        uint256 id = _dataStore.getNextPaymentMethodId();
+        uint256 id = getDataStore().getNextPaymentMethodId();
 
         PaymentMethodsStructs.PaymentMethodItem memory _dataToSave = PaymentMethodsStructs.PaymentMethodItem(
             id, 
@@ -163,7 +163,7 @@ contract PaymentMethods is Base {
             isEnabled
         );
 
-        _dataStore.savePaymentMethodData(
+        getDataStore().savePaymentMethodData(
             id,
             _dataToSave
         );
@@ -179,7 +179,7 @@ contract PaymentMethods is Base {
     * @param _id paymentMethod id
     */
     function getPaymentMethod(uint256 _id) public view returns (PaymentMethodsStructs.PaymentMethodItem memory) {
-        return _dataStore.getPaymentMethodData(_id);
+        return getDataStore().getPaymentMethodData(_id);
     }
 
    /**
@@ -187,7 +187,7 @@ contract PaymentMethods is Base {
    * @param _id  the payment method id
    */
    function removePaymentMethod(uint256 _id) external  onlyAdmin() { 
-      _dataStore.deletePaymentMethodData(_id); 
+      getDataStore().deletePaymentMethodData(_id); 
       emit RemovePaymentMethod(_id);
    }
 
@@ -221,7 +221,7 @@ contract PaymentMethods is Base {
             isEnabled
         );
 
-        _dataStore.savePaymentMethodData(
+        getDataStore().savePaymentMethodData(
             paymentMethodId,
             _dataToSave
         );
@@ -241,7 +241,7 @@ contract PaymentMethods is Base {
       
       //mapping index starts with 1, not  0
       for(uint256 i = 0; i <= totalCategories; i++ ){
-        categoriesArray[i] = _dataStore.getPaymentMethodsCategoryData(i);
+        categoriesArray[i] = getDataStore().getPaymentMethodsCategoryData(i);
       }
 
       return categoriesArray;

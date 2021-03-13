@@ -29,7 +29,7 @@ contract AssetsStore is StoreEditor  {
      * get the next asset id
      */
     function getNextAssetId() external onlyStoreEditor returns(uint256) {
-        return (totalAssets += 1);
+        return (++totalAssets);
     }
 
     /**

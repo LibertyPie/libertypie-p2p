@@ -8,6 +8,7 @@
   },
   "scripts": {
     "c": "truffle compile",
+    "m": "truffle migrate",
     "test": "echo \"Error: no test specified\" && exit 1",
     "gen_interfaces": "npx generate-contract-interface --importRoot ./contracts < ./contracts/Storage/Storage.sol",
     "flatten": "npx solidity-flattener contracts/Factory.sol > build/Flattened.sol",

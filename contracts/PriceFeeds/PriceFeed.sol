@@ -13,21 +13,26 @@ import "../Base.sol";
 
 contract PriceFeed is Base {
 
-   IPriceFeed PROVIDER_CONTRACT;
+   event SetAssetPriceFeedContract( string indexed _assset, address indexed _contract);
+
+   IPriceFeed ACTIVE_PRICE_FEED_PROVIDER;
+   
+   string ACTIVE_PRICE_FEED_PROVIDER_NAME;
 
    mapping(string => address) public priceFeedOracles;
 
 
    constructor() {
 
-      address chainLinkAddress = new ChainLink();
+      address chainLinkAddress = address(new ChainLink());
 
       //create the price feed oracles
       priceFeedOracles["chainlink"] = chainLinkAddress;
-      priceFeedOracles["open_price_feed"] = new OpenPriceFeed();
+      priceFeedOracles["open_price_feed"] = address(new OpenPriceFeed());
 
       //set active contract 
-      PROVIDER_CONTRACT = IPriceFeed(chainLinkAddress);
+      ACTIVE_PRICE_FEED_PROVIDER = IPriceFeed(chainLinkAddress);
+      ACTIVE_PRICE_FEED_PROVIDER_NAME = "chainlink";
    }
 
 
@@ -35,15 +40,20 @@ contract PriceFeed is Base {
     * @dev chang provider
     * @param _provider (example chainlink)
     */
-    function updateProvider(string memory _provider)  public onlyAdmin {
+    function priceFeedSetActiveProvider(string memory _provider)  public onlyAdmin {
 
-      require(bytes32(_provider) == "chainlink" || bytes32(_provider) == "open_price_feed", statusMsg("UNKNOWN_PROVIDER",_provider));
+      require(toBytes32(_provider) == toBytes32("chainlink") || 
+              toBytes32(_provider) == toBytes32("open_price_feed"),
+              statusMsg("UNKNOWN_PROVIDER",_provider)
+      );
 
-      address _providerContract = priceFeedOracles[_provider];
+      address _providerContractAddr = priceFeedOracles[_provider];
 
-      require(_providerContract != address(0),statusMsg("PROVIDER_CONTRACT_ADDRESS_INVALID"));
+      require(_providerContractAddr != address(0),statusMsg("PROVIDER_CONTRACT_ADDRESS_INVALID"));
 
-      PROVIDER_CONTRACT = IPriceFeed(_providerContract);
+      ACTIVE_PRICE_FEED_PROVIDER = IPriceFeed(_providerContractAddr);
+
+      ACTIVE_PRICE_FEED_PROVIDER_NAME = _provider;
     } //end fun 
 
 
@@ -52,17 +62,39 @@ contract PriceFeed is Base {
     * @param _asset asset symbol
     */
    function getLatestPrice(string memory _asset) public view returns (uint256) {
-      return PROVIDER_CONTRACT.getLatestPrice(_asset);
+      return ACTIVE_PRICE_FEED_PROVIDER.getLatestPrice(_asset);
    } //end fun 
 
+
+   /**
+    * get latestPrice by provider
+    * @param  _provider provider name eg. chainlink
+    * @param _asset  asset symbol eg. eth
+    */
+    function getLatestPriceByProvider(string memory _provider,string memory _asset) public view returns (uint256) {
+      
+      require(toBytes32(_provider) == toBytes32("chainlink") || 
+         toBytes32(_provider) == toBytes32("open_price_feed"),
+         statusMsg("UNKNOWN_PROVIDER",_provider)
+      );
+
+      address _providerContractAddr = priceFeedOracles[_provider];
+
+      require(_providerContractAddr != address(0),statusMsg("PROVIDER_CONTRACT_ADDRESS_INVALID"));
+
+      IPriceFeed _providerContract = IPriceFeed(_providerContractAddr);
+
+      return _providerContract.getLatestPrice(_asset);
+    } //end fun 
 
     /**
      * @dev set priceFeed contract
      * @param _asset the asset  to fetch price feed
      * @param _contract feed contract
      */
-    function setPriceFeedContract(string memory _asset, address _contract) public onlyAdmin {
-      PROVIDER_CONTRACT.setPriceFeedContract(_asset,_contract);
+    function setAssetPriceFeedContract(string memory _asset, address _contract) public onlyAdmin {
+      ACTIVE_PRICE_FEED_PROVIDER.setAssetPriceFeedContract(_asset,_contract);
+      emit SetAssetPriceFeedContract(_asset,_contract);
     }
 
 }  //end contract 

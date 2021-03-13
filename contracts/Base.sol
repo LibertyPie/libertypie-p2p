@@ -10,8 +10,13 @@ import "./PermissionManager/PM.sol";
 import "./Storage/StoreProxy.sol";
 import "./Config.sol";
 
-contract Base is PM, Config {
+contract Base2 is Config {
 
-    //store Proxy
-    IStorage public  _dataStore = StoreProxy(address(this)).getIStorage();
+  /**
+   * @dev getStoreProxy
+   */
+    function getDataStore() public view returns(Istorage) {
+        return StoreProxy(address(this)).getIStorage();
+    }
+
 }

@@ -15,6 +15,8 @@ interface UniswapAnchoredView {
 
 contract OpenPriceFeed is Base, IPriceFeed {
 
+    string public providerName = "Open Price Feed";
+
      //if the uniswap anchor contract is changed
     event uniswapAnchorContractChanged(address indexed _newAddress);
 
@@ -24,18 +26,34 @@ contract OpenPriceFeed is Base, IPriceFeed {
     /**
      * @dev initiate open price feed
      */
-    function _initiate() private {
+    function _initialize() private {
         
         uint256  chainId = getChainID();
 
+        address feedContractAddress;
+        
 
+        //mainnet , default mainnet's address is  hardcoded in OpenPriceFeed.sol
+        if(chainId  == 1){ feedContractAddress = 0x922018674c12a7F0D394ebEEf9B58F186CdE13c1;  } // if ethereum mainnet
+        else if(chainId == 3){ feedContractAddress = 0xBEf4E076A995c784be6094a432b9CA99b7431A3f; }  // if ropsten
+        else if(chainId == 42){  feedContractAddress = 0xbBdE93962Ca9fe39537eeA7380550ca6845F8db7; } //if kovan
+        else {
+            //revert("OpenPriceFeed: Unknown cahinId, kindly use  ropsten, kovan or mainnet");
+        }
+
+        _setUniswapAnchorContract(feedContractAddress);
+    }
+
+
+    constructor() {
+        _initialize();
     }
 
     /**
      * @dev update uniswap anchor contract
      * @param _newAddress  the new contract address
      */
-    function _setUniswapAnchorContract(address _newAddress) internal  {
+    function _setUniswapAnchorContract(address _newAddress) private  {
         
         UNISWAP_ANCHORED_VIEW = UniswapAnchoredView(_newAddress);
 
@@ -56,7 +74,7 @@ contract OpenPriceFeed is Base, IPriceFeed {
     /**
      * getLatestPrice
      */
-    function getLatestPrice(string memory _symbol) public view returns (uint256) {
+    function getLatestPrice(string memory _symbol) public override view returns (uint256) {
         return UNISWAP_ANCHORED_VIEW.price(_symbol);
     } //end fun
 
@@ -66,6 +84,6 @@ contract OpenPriceFeed is Base, IPriceFeed {
      * @param _asset the asset  to fetch price feed
      * @param _contract feed contract
      */
-    function setPriceFeedContract(string memory _asset, address _contract) public onlyAdmin {}
+    function setAssetPriceFeedContract(string memory _asset, address _contract) public override onlyAdmin {}
 
 }//end 

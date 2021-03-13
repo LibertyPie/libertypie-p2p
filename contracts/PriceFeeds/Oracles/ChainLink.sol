@@ -13,7 +13,8 @@ import "@chainlink/contracts/src/v0.7/interfaces/AggregatorV3Interface.sol";
 
 contract ChainLink is IPriceFeed, Base {
 
-    event SetFeedContract( string indexed _assetPair, address indexed _contract);
+    string public providerName = "ChainLink";
+
 
     //lets create storage for the contracts 
     //assetPair => contractAddress
@@ -25,7 +26,7 @@ contract ChainLink is IPriceFeed, Base {
      * @param _contract feed contract
      */
     function _setPriceFeedContract(string memory _asset, address _contract) private {
-        setPriceFeedContract(_asset, _contract);
+        setAssetPriceFeedContract(_asset, _contract);
     }
 
     /**
@@ -33,13 +34,9 @@ contract ChainLink is IPriceFeed, Base {
      * @param _asset the asset  to fetch price feed
      * @param _contract feed contract
      */
-    function setPriceFeedContract(string memory _asset, address _contract) public onlyAdmin {
-        
+    function setAssetPriceFeedContract(string memory _asset, address _contract) public override onlyAdmin {
         //lets get chain id 
         feedsContracts[_asset] = _contract;
-
-        //emit event
-        emit SetFeedContract(_asset,_contract);
     } //end fun 
 
     /**
@@ -59,7 +56,7 @@ contract ChainLink is IPriceFeed, Base {
      * @dev get latest price
      * @param _asset the asset which we need latest price for
      */
-    function getLatestPrice(string memory _asset) public view returns(uint256) {
+    function getLatestPrice(string memory _asset) public override  view returns(uint256) {
         
         AggregatorV3Interface priceFeed = AggregatorV3Interface(getPriceFeedContract(_asset));
 

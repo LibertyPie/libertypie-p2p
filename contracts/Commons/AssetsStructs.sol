@@ -15,16 +15,18 @@ contract AssetsStructs {
      * @dev asset struct item
      */
     struct AssetItem {
-        uint256  id;
-        address  contractAddress;
-        uint8    decimals;
-        bool     isPegged;
-        string   originalName;
-        string   originalSymbol;
-        address  wrapperContract;
-        bool     isEnabled;
-        uint256  createdAt;
-        uint256  updatedAt;
+        uint256   id;
+        address   contractAddress;
+        uint8     decimals;
+        bool      isPegged;
+        string    originalName;
+        string    originalSymbol;
+        address   wrapperContract;
+        string    priceFeedProvider;
+        address   priceFeedContract;
+        bool      isEnabled;
+        uint256   createdAt;
+        uint256   updatedAt;
     }
 
 }

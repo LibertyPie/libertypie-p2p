@@ -93,9 +93,9 @@ contract Offers is Base {
 
       //save offer data 
       //lets get nextOfferId
-      uint256 offerId = _dataStore.getNextOfferId();
+      uint256 offerId = getDataStore().getNextOfferId();
 
-      PaymentMethodsStructs.PaymentMethodItem memory paymentMethodData =  _dataStore.getPaymentMethodData(
+      PaymentMethodsStructs.PaymentMethodItem memory paymentMethodData =  getDataStore().getPaymentMethodData(
          _offerInfo.paymentMethod
       );
 
@@ -133,7 +133,7 @@ contract Offers is Base {
       } //end if
 
       //lets now prepare for save 
-      _dataStore.saveOfferData(
+      getDataStore().saveOfferData(
          offerId,
          OffersStructs.OfferItem({
             id:          offerId,
@@ -148,22 +148,22 @@ contract Offers is Base {
       //lets now save indexes 
 
       //add offer index for user address 
-      _dataStore.setOfferIndex(OFFERS_BY_USER_ADDRESS_INDEX_GROUP, toBytes32(msg.sender), offerId);
+      getDataStore().setOfferIndex(OFFERS_BY_USER_ADDRESS_INDEX_GROUP, toBytes32(msg.sender), offerId);
 
       //add offer index for asset group
-      _dataStore.setOfferIndex(OFFERS_BY_ASSET_INDEX_GROUP, toBytes32(_offerInfo.asset), offerId);
+      getDataStore().setOfferIndex(OFFERS_BY_ASSET_INDEX_GROUP, toBytes32(_offerInfo.asset), offerId);
 
        //add offer index for country group
-      _dataStore.setOfferIndex(OFFERS_BY_COUNTRY_INDEX_GROUP, _offerInfo.countryCode, offerId);
+      getDataStore().setOfferIndex(OFFERS_BY_COUNTRY_INDEX_GROUP, _offerInfo.countryCode, offerId);
 
        //add offer index for currency group
-      _dataStore.setOfferIndex(OFFERS_BY_CURRENCY_INDEX_GROUP, _offerInfo.currencyCode, offerId);
+      getDataStore().setOfferIndex(OFFERS_BY_CURRENCY_INDEX_GROUP, _offerInfo.currencyCode, offerId);
 
       //add offer index for payment method group
-      _dataStore.setOfferIndex(OFFERS_BY_PAYMENT_METHOD_INDEX_GROUP, toBytes32(_offerInfo.paymentMethod), offerId);
+      getDataStore().setOfferIndex(OFFERS_BY_PAYMENT_METHOD_INDEX_GROUP, toBytes32(_offerInfo.paymentMethod), offerId);
 
 
-      _dataStore.setOfferIndex(OFFERS_BY_OFFER_TYPE_INDEX_GROUP, _offerInfo.offerType, offerId);
+      getDataStore().setOfferIndex(OFFERS_BY_OFFER_TYPE_INDEX_GROUP, _offerInfo.offerType, offerId);
       
       emit NewOffer(offerId);
    } //end fun 
@@ -174,7 +174,7 @@ contract Offers is Base {
     * @param _id offer id
     */
    function getOffer(uint256 _id) public view returns (OffersStructs.OfferItem memory) {
-      return _dataStore.getOfferData(_id);
+      return getDataStore().getOfferData(_id);
    }
 
 

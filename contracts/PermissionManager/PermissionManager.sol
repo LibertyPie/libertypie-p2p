@@ -15,10 +15,16 @@ contract PermissionManager {
     string MODERATOR_ROLE = "MODERATOR";
     string ADMIN_ROLE = "ADMIN";
     
+    string STORAGE_EDITOR_ROLE = "STORAGE_EDITOR";
+    
     //roles
     mapping(string => mapping(address => bool)) public Roles;
-    
-    constructor(address _owner) {
+
+    /**
+     * @param _owner, the deployer address
+     * @param _parentContract address of the _parentContract where this is called, it is used for storage editor 
+     */
+    constructor(address _owner, address _parentContract) {
 
         if(_owner  == address(0)){
             _owner = msg.sender;
@@ -28,6 +34,7 @@ contract PermissionManager {
         Roles[SUPER_ADMIN_ROLE][_owner] = true;
         Roles[MODERATOR_ROLE][_owner] = true;
         Roles[ADMIN_ROLE][_owner] = true;
+        Roles[STORAGE_EDITOR_ROLE][_parentContract] = true;
     }
 
     /**
@@ -45,10 +52,18 @@ contract PermissionManager {
     }
 
     /**
-     * isModerator
+     * @dev isModerator
      */
     function isModerator(address _address) public view returns (bool) {
       return hasRole(MODERATOR_ROLE,_address) || isAdmin(_address);
+    }
+
+    /**
+     * @dev is storage editor
+     * @param _address caller's address
+     */
+    function isStorageEditor(address _address) public view  returns(bool) {
+        return hasRole(STORAGE_EDITOR_ROLE,_address);
     }
 
     /**

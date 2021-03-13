@@ -14,11 +14,11 @@ contract StoreProxy is PM {
     /**
      * Store address
      */
-     address public _storageAddr;
+     address public STORAGE_ADDRESS;
 
 
      /**
-      * getStoreImpl
+      * @dev this returns an instance of he same contract
       */
       function getIStorage() public view returns(IStorage) {
           return IStorage(address(this));
@@ -28,14 +28,15 @@ contract StoreProxy is PM {
     /**
      * setStorage
      */
-     function setStorage(address _addr) external onlySuperAdmin {
-        require(_addr != address(0),"XPIE:VALID_STORAGE_ADDRESS_REQUIRED");
-        _storageAddr = _addr;
+     function setStorage(address _address) external onlySuperAdmin {
+        require(_address != address(0),"XPIE:VALID_STORAGE_ADDRESS_REQUIRED");
+        STORAGE_ADDRESS = _address;
      }
     
+    /*
     fallback() external {
         
-        address _target = _storageAddr;
+        address _target = STORAGE_ADDRESS;
 
         assembly {
 
@@ -54,10 +55,5 @@ contract StoreProxy is PM {
         } //end assembly
         
     } //end fallback 
-
-
-   // fallback() external {
-    //    _fallback();
-    //}
-
+    */
 }
