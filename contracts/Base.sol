@@ -10,7 +10,7 @@ import "./PermissionManager/PM.sol";
 import "./Storage/StoreProxy.sol";
 import "./Config.sol";
 
-contract Base2 is Config {
+contract Base is Config {
 
   /**
    * @dev getStoreProxy
