@@ -8,6 +8,7 @@ pragma solidity ^0.7.6;
 
 import "../PermissionManager/PM.sol";
 import "./Storage.sol";
+import "./Interfaces/IStorage.sol";
 
 contract DataStore is PM {
   
@@ -15,14 +16,14 @@ contract DataStore is PM {
     /**
      * Store address
      */
-     address public STORAGE_CORE_ADDRESS;
+     address public STORAGE_ADDRESS;
 
 
     /**
      * @dev install the storage contract
      */
      constructor() {
-         STORAGE_CORE_ADDRESS = address(new Storage());
+         STORAGE_ADDRESS = address(new Storage());
      }
 
 
@@ -30,7 +31,7 @@ contract DataStore is PM {
     * @dev this returns an instance of he same contract
     */
     function getStore() internal view returns(IStorage) {
-        return IStorage(STORAGE_CORE_ADDRESS);
+        return IStorage(STORAGE_ADDRESS);
     }
 
 

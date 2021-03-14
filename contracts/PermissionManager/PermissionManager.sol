@@ -22,19 +22,23 @@ contract PermissionManager {
 
     /**
      * @param _owner, the deployer address
-     * @param _parentContract address of the _parentContract where this is called, it is used for storage editor 
+     * @param _callingContract address of the parent Contract where this is called, it is used for storage editor 
      */
-    constructor(address _owner, address _parentContract) {
+    constructor(address _owner, address _callingContract) {
 
         if(_owner  == address(0)){
             _owner = msg.sender;
+        }
+        
+        if(_callingContract == address(0)){
+           assembly{ _callingContract := caller() }
         }
 
         //add deployer as a super admin
         Roles[SUPER_ADMIN_ROLE][_owner] = true;
         Roles[MODERATOR_ROLE][_owner] = true;
         Roles[ADMIN_ROLE][_owner] = true;
-        Roles[STORAGE_EDITOR_ROLE][_parentContract] = true;
+        Roles[STORAGE_EDITOR_ROLE][_callingContract] = true;
     }
 
     /**
@@ -58,28 +62,13 @@ contract PermissionManager {
       return hasRole(MODERATOR_ROLE,_address) || isAdmin(_address);
     }
 
-
-    /**
-     * get Caller
-     */
-    function getCaller() private view returns(address){
-        address c;
-        assembly { c := caller() }
-        return c;
-    }
-
-    function getCallerX() public view returns(address){
-        return getCaller();
-    }
+ 
 
     /**
      * @dev is storage editor
      * @param _address caller's address
      */
     function isStorageEditor(address _address) public view  returns(bool) {
-        
-        address caller = getCaller();
-
         return hasRole(STORAGE_EDITOR_ROLE,_address);
     }
 

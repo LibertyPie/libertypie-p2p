@@ -72,19 +72,13 @@ contract PM {
       _;
     }
 
-    //permissions 
-    modifier onlyStoreEditor() {
-      require(PERMISSION_MANAGER.isStorageEditor(msg.sender),"ONLY_STORAGE_EDITORS_ALLOWED");
-      _;
-    }
-    
+   
     /**
      * hasRole
      */
     function hasRole(string memory roleName, address _address) public view returns(bool){
       return PERMISSION_MANAGER.hasRole(roleName,_address);
     }
-
 
 
     /**

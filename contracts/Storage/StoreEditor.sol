@@ -9,4 +9,16 @@ pragma experimental ABIEncoderV2;
 
 import "../PermissionManager/PM.sol";
 
-contract StoreEditor is PM {}
+contract StoreEditor is PM {
+
+     //permissions 
+    modifier onlyStoreEditor() {
+
+      address _caller;
+      assembly { _caller := caller() }
+
+      //note, this must be the contract address 
+      require(PERMISSION_MANAGER.isStorageEditor(_caller),"ONLY_STORAGE_EDITORS_ALLOWED");
+      _;
+    }
+}

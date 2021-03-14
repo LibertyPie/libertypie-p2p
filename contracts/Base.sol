@@ -13,9 +13,13 @@ import "./Storage/Interfaces/IStorage.sol";
 
 contract Base is  Config, DataStore {
 
-  IStorage _dataStore = getStore();
+  IStorage _dataStore;
 
   constructor(){
+
+      //Set data store
+      _dataStore = getStore();
+
       setConfigDataStore(_dataStore);
   }
 
