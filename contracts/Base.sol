@@ -7,16 +7,23 @@ pragma solidity ^0.7.6;
 pragma experimental ABIEncoderV2;
 
 import "./PermissionManager/PM.sol";
-import "./Storage/StoreProxy.sol";
+import "./Storage/DataStore.sol";
 import "./Config.sol";
+import "./Storage/Interfaces/IStorage.sol";
 
-contract Base is Config {
+contract Base is  Config, DataStore {
+
+  IStorage _dataStore = getStore();
+
+  constructor(){
+      setConfigDataStore(_dataStore);
+  }
 
   /**
    * @dev getStoreProxy
    */
     function getDataStore() public view returns(IStorage) {
-        return StoreProxy(address(this)).getIStorage();
+        return _dataStore;
     }
 
 }

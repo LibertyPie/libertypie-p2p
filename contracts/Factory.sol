@@ -7,20 +7,13 @@ import "./PriceFeeds/PriceFeed.sol";
 import "./Assets.sol";
 import "./PermissionManager/PM.sol";
 
-import "./Storage/StoreEditor.sol";
-
 import "./PaymentMethods.sol";
 
 import "./Base.sol";
 
-contract Factory is  Base {
+contract Factory is  Base, PriceFeed, Assets, PaymentMethods  {
     
-    constructor() {
-
-        //initialize Permission Manager contracts
-        installPermissionManager();
-        
-    } //end fun 
+    constructor() {} //end fun 
 
 
 } //end contract

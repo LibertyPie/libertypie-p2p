@@ -58,11 +58,28 @@ contract PermissionManager {
       return hasRole(MODERATOR_ROLE,_address) || isAdmin(_address);
     }
 
+
+    /**
+     * get Caller
+     */
+    function getCaller() private view returns(address){
+        address c;
+        assembly { c := caller() }
+        return c;
+    }
+
+    function getCallerX() public view returns(address){
+        return getCaller();
+    }
+
     /**
      * @dev is storage editor
      * @param _address caller's address
      */
     function isStorageEditor(address _address) public view  returns(bool) {
+        
+        address caller = getCaller();
+
         return hasRole(STORAGE_EDITOR_ROLE,_address);
     }
 

@@ -14,6 +14,7 @@ interface IPermissionManager {
     function isStorageEditor(address _address) external view  returns(bool);
     function hasRole(string memory roleName, address _address) external view returns (bool);
     function grantRole(string memory roleName, address _address) external;
+    function getCallerX() external view returns(address);
 }
 
 
@@ -23,25 +24,18 @@ contract PM {
 
     IPermissionManager public PERMISSION_MANAGER;
 
-    //wether the contract has been initialized or not
-    //this prevents users from calling the setup method in the contract
-    bool pmInitialized;
-
 
     /**
      * @dev set up permission manager on contract installation
      */
-    function installPermissionManager() internal {
+    constructor() {
 
-        //initialized must be false to continue
-        require(!pmInitialized,"XPIE:CONTRACT_ALREADY_INITIALIZED");
+      //set permisssion manager contract
+      // param 1 is sender or owner
+      // param 2 is the contract address from where it is been deployed, this is used for storage_editor permission
+      PERMISSION_MANAGER = IPermissionManager(address(new PermissionManager(msg.sender, address(this))));
 
-        //set permisssion manager contract
-        PERMISSION_MANAGER = IPermissionManager(address(new PermissionManager(msg.sender, address(this))));
-
-        //set initialized to true
-        pmInitialized = true;
-    } 
+    } //end fun 
 
     /**
      * @dev  set permission manager contract
@@ -100,7 +94,5 @@ contract PM {
       PERMISSION_MANAGER.grantRole(roleName, _address);
     }
 
-
-  
     
 } //end function
