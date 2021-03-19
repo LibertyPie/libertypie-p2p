@@ -7,40 +7,50 @@
 pragma solidity ^0.7.6;
 
 import "../PermissionManager/PM.sol";
-import "./Storage.sol";
+//import "./Storage.sol";
 import "./Interfaces/IStorage.sol";
 
 contract DataStore is PM {
   
-    
+    event SetStorage(address indexed _contractAddress);
+
     /**
      * Store address
      */
-     address public STORAGE_ADDRESS;
+     IStorage public STORAGE_CONTRACT;
 
+     bool dataStoreInitialized;
 
-    /**
-     * @dev install the storage contract
-     */
-     constructor() {
-         STORAGE_ADDRESS = address(new Storage());
-     }
+    //initialize data store 
+    function initializeDataStore(address _storageContract) internal {
 
+        require(!dataStoreInitialized, "DATASTORE_ALREADY_INITIALIZED");
+        require(_storageContract != address(0),"XPIE:VALID_STORAGE_ADDRESS_REQUIRED");
+
+        STORAGE_CONTRACT = IStorage(_storageContract);
+
+        emit SetStorage(_storageContract);
+
+        dataStoreInitialized = true;
+    } //end fun
 
     /**
     * @dev this returns an instance of he same contract
     */
-    function getStore() internal view returns(IStorage) {
-        return IStorage(STORAGE_ADDRESS);
+    function getDataStore() public view returns(IStorage) {
+        return STORAGE_CONTRACT;
     }
-
 
     /**
      * setStorage
      */
-     function setStorage(address _address) external onlySuperAdmin {
-        require(_address != address(0),"XPIE:VALID_STORAGE_ADDRESS_REQUIRED");
-        STORAGE_ADDRESS = _address;
+     function setStorage(address _storageContract) external onlySuperAdmin {
+        
+        require(_storageContract != address(0),"XPIE:VALID_STORAGE_ADDRESS_REQUIRED");
+        
+        STORAGE_CONTRACT = IStorage(_storageContract);
+
+        emit SetStorage(_storageContract);
      }
         
 }

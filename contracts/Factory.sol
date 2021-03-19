@@ -5,15 +5,29 @@ pragma experimental ABIEncoderV2;
 
 import "./PriceFeeds/PriceFeed.sol";
 import "./Assets.sol";
-import "./PermissionManager/PM.sol";
+//mport "./PermissionManager/PM.sol";
 
 import "./PaymentMethods.sol";
 
-import "./Base.sol";
+//import "./Config.sol";
 
-contract Factory is  Base, PriceFeed, Assets, PaymentMethods  {
+//import "./Storage/DataStore.sol";
+
+
+contract Factory is PaymentMethods, PriceFeed, Assets {
     
-    constructor() {} //end fun 
+    constructor(
+        address _permissionManagerContract,
+        address _storageContract
+    ) {
+
+        //lets initialize pm 
+        initializePermissionManager(_permissionManagerContract);
+
+        //initialize data store 
+        initializeDataStore(_storageContract);
+
+    } //end fun 
 
 
 } //end contract

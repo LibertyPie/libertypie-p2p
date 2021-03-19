@@ -3,3 +3,4 @@ build/
 web_test/
 .secrets.js
 artifacts/
+ganache-20210318-021750.log

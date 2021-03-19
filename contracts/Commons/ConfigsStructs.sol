@@ -12,7 +12,7 @@ pragma experimental ABIEncoderV2;
 contract ConfigsStructs {
 
     struct ConfigItem {
-        bytes32 _key;
+        string _key;
         bytes32 _value;
     }
 }

@@ -9,36 +9,27 @@ contract PermissionManager {
 
     event GrantRole(string roleName, address indexed _address);
     event Revoke(string roleName, address indexed _address);
+    event ConsoleLog(string title, address _testAddress);
 
     //default role 
     string SUPER_ADMIN_ROLE = "SUPER_ADMIN";
     string MODERATOR_ROLE = "MODERATOR";
     string ADMIN_ROLE = "ADMIN";
     
-    string STORAGE_EDITOR_ROLE = "STORAGE_EDITOR";
     
     //roles
-    mapping(string => mapping(address => bool)) public Roles;
+    mapping(string => mapping(address => bool)) private Roles;
 
-    /**
-     * @param _owner, the deployer address
-     * @param _callingContract address of the parent Contract where this is called, it is used for storage editor 
-     */
-    constructor(address _owner, address _callingContract) {
+   
+    constructor() {
 
-        if(_owner  == address(0)){
-            _owner = msg.sender;
-        }
-        
-        if(_callingContract == address(0)){
-           assembly{ _callingContract := caller() }
-        }
+        address _owner = msg.sender;
 
         //add deployer as a super admin
         Roles[SUPER_ADMIN_ROLE][_owner] = true;
         Roles[MODERATOR_ROLE][_owner] = true;
         Roles[ADMIN_ROLE][_owner] = true;
-        Roles[STORAGE_EDITOR_ROLE][_callingContract] = true;
+        
     }
 
     /**
@@ -62,38 +53,15 @@ contract PermissionManager {
       return hasRole(MODERATOR_ROLE,_address) || isAdmin(_address);
     }
 
- 
-
-    /**
-     * @dev is storage editor
-     * @param _address caller's address
-     */
-    function isStorageEditor(address _address) public view  returns(bool) {
-        return hasRole(STORAGE_EDITOR_ROLE,_address);
-    }
 
     /**
      * @dev super admin only modifier
      */
      modifier onlySuperAdmin() {
-        require(isSuperAdmin(msg.sender) == true,"ONLY_SUPER_ADMINS_ALLOWED");
+         //ONLY_SUPER_ADMINS_ALLOWED
+        require(isSuperAdmin(msg.sender) == true, "ONLY_SUPER_ADMINS_ALLOWED");
         _;
      }
-
-
-    /**
-     * @dev add Role
-     * @param roleName roleName
-     */
-    function addRole(string memory roleName)  public onlySuperAdmin {
-        
-        require(bytes(roleName).length > 0,"ROLE_NAME_REQUIRED");
-
-        // add role 
-        Roles[roleName][msg.sender] = true;
-
-        emit GrantRole(roleName,msg.sender);
-    }//end fun  
 
 
     /**
@@ -101,6 +69,8 @@ contract PermissionManager {
      */
     function grantRole(string memory roleName, address _address) public onlySuperAdmin {
 
+        require(bytes(roleName).length > 0,"ROLE_NAME_REQUIRED");
+        
         //grant the role 
          Roles[roleName][_address] = true;
 

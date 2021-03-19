@@ -11,8 +11,9 @@ import "./Oracles/ChainLink.sol";
 import "./Oracles/OpenPriceFeed.sol";
 import "../Base.sol";
 
-contract PriceFeed is Base {
+contract PriceFeed is Base, ChainLink {
 
+   /*
    event SetAssetPriceFeedContract( string indexed _assset, address indexed _contract);
 
    IPriceFeed ACTIVE_PRICE_FEED_PROVIDER;
@@ -39,7 +40,7 @@ contract PriceFeed is Base {
    /**
     * @dev chang provider
     * @param _provider (example chainlink)
-    */
+    *
     function priceFeedSetActiveProvider(string memory _provider)  public onlyAdmin {
 
       require(toBytes32(_provider) == toBytes32("chainlink") || 
@@ -60,7 +61,7 @@ contract PriceFeed is Base {
    /**
     * @dev get latest price
     * @param _asset asset symbol
-    */
+    *
    function getLatestPrice(string memory _asset) public view returns (uint256) {
       return ACTIVE_PRICE_FEED_PROVIDER.getLatestPrice(_asset);
    } //end fun 
@@ -70,7 +71,7 @@ contract PriceFeed is Base {
     * get latestPrice by provider
     * @param  _provider provider name eg. chainlink
     * @param _asset  asset symbol eg. eth
-    */
+    *
     function getLatestPriceByProvider(string memory _provider,string memory _asset) public view returns (uint256) {
       
       require(toBytes32(_provider) == toBytes32("chainlink") || 
@@ -91,10 +92,11 @@ contract PriceFeed is Base {
      * @dev set priceFeed contract
      * @param _asset the asset  to fetch price feed
      * @param _contract feed contract
-     */
+     *
     function setAssetPriceFeedContract(string memory _asset, address _contract) public onlyAdmin {
       ACTIVE_PRICE_FEED_PROVIDER.setAssetPriceFeedContract(_asset,_contract);
       emit SetAssetPriceFeedContract(_asset,_contract);
     }
+    */
 
 }  //end contract 

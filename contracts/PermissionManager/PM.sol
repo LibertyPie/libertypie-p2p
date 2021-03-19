@@ -5,7 +5,6 @@
 */
 pragma solidity ^0.7.6;
 
-import  "./PermissionManager.sol";
 
 interface IPermissionManager {
     function isSuperAdmin(address _address) external view  returns(bool);
@@ -14,9 +13,7 @@ interface IPermissionManager {
     function isStorageEditor(address _address) external view  returns(bool);
     function hasRole(string memory roleName, address _address) external view returns (bool);
     function grantRole(string memory roleName, address _address) external;
-    function getCallerX() external view returns(address);
 }
-
 
 contract PM {
 
@@ -24,19 +21,34 @@ contract PM {
 
     IPermissionManager public PERMISSION_MANAGER;
 
+    bool pmInitialized;
+    
+    address _owner;
+
+    constructor() {
+      _owner = msg.sender;
+    }
 
     /**
-     * @dev set up permission manager on contract installation
+     * initializePM
      */
-    constructor() {
+    function initializePermissionManager(address _permissionManager) internal {
+      
+      require(!pmInitialized, "PERMISSION_MANAGER_ALREADY_INITIALIZED");
 
-      //set permisssion manager contract
-      // param 1 is sender or owner
-      // param 2 is the contract address from where it is been deployed, this is used for storage_editor permission
-      PERMISSION_MANAGER = IPermissionManager(address(new PermissionManager(msg.sender, address(this))));
+      require(_owner == msg.sender, "ONLY_CONTRACT_OWNER_CAN_INITIALIZE");
+      
+      PERMISSION_MANAGER = IPermissionManager(_permissionManager);
 
-    } //end fun 
+      //lets add contract as permitted to write on storage 
+      //PERMISSION_MANAGER.grantRole("STORAGE_EDITOR", address(this));
 
+      emit SetPermissionManager(_permissionManager);
+
+      pmInitialized = true;
+    }
+
+   
     /**
      * @dev  set permission manager contract
      */
@@ -88,5 +100,4 @@ contract PM {
       PERMISSION_MANAGER.grantRole(roleName, _address);
     }
 
-    
 } //end function

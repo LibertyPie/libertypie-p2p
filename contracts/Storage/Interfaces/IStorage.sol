@@ -13,7 +13,7 @@ import "./IOfferStore.sol";
 import "./IConfigStore.sol";
 
 interface IStorage is IPaymentMethodsStore, IAssetStore, IOfferStore, IConfigStore {
-
+    
     /**
      * Basic Store setters
      */

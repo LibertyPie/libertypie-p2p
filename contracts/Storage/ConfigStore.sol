@@ -14,48 +14,39 @@ contract ConfigStore is StoreEditor  {
     uint256 totalEntries;
 
     //config 
-    mapping(uint256 => bytes32) private configData;
+    mapping(string => bytes32) private configData;
     
     //config indexes
-    mapping(bytes32 => uint256) private ConfigIdsMap;
+    mapping(uint256 => string) private configKeyMap;
 
-    mapping(uint256 => bytes32) private ConfigKeysMap;
     
     /**
      * @dev get config data
      * @param _key a byte32 key
      */
-    function getConfigData(bytes32 _key) public view returns (bytes32){
-        uint256 index = ConfigIdsMap[_key];
-        require(index > 0, "XPIE:UNKNOWN_KEY");
-        return configData[index];
+    function getConfigData(string memory _key) public view returns (bytes32){
+        return configData[_key];
     }
 
     /**
      * @dev get all config data
      */
-    function addConfigData(bytes32 _key, bytes32 _value) external onlyStoreEditor {
-
-        uint256 _id = ++totalEntries;
-
-        configData[_id] = _value;
-
-        //lets save the key first
-        ConfigIdsMap[_key] = _id;
-
-        ConfigKeysMap[_id] = _key;
+    function addConfigData(string memory _key, bytes32 _value) external onlyStoreEditor {
+        configData[_key] = _value;
+        configKeyMap[++totalEntries] = _key;
     } //end fun
 
 
     /**
     * allConfigData
     */
-    function getAllConfigData() external view returns (ConfigsStructs.ConfigItem[] memory) {
+    function getAllConfigData() public view returns (ConfigsStructs.ConfigItem[] memory) {
 
-        ConfigsStructs.ConfigItem[] memory configsArray = new ConfigsStructs.ConfigItem[](totalEntries);
+       ConfigsStructs.ConfigItem[]  memory configsArray = new ConfigsStructs.ConfigItem[](totalEntries+1);
 
         for(uint256 i = 1; i <= totalEntries; i++){
-            configsArray[i] = ConfigsStructs.ConfigItem(ConfigKeysMap[i],configData[i]);
+            string memory _key = configKeyMap[i];
+            if(bytes(_key).length > 0){ configsArray[i] = ConfigsStructs.ConfigItem(_key,configData[_key]); }
         }
 
         return configsArray;

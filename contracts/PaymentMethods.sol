@@ -23,11 +23,6 @@ contract PaymentMethods is Base {
     event RemovePaymentMethod(uint256 _id);
 
     
-    constructor() {
-       // string[] memory countries = new string [](0);
-        //_addPaymentMethodCategory("Bank", countries, true);
-    }
-
     /**
      * @dev getTotalPaymentMethods
      */

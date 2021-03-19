@@ -12,11 +12,9 @@ contract Utils {
     /**
      * @dev get chain id
      */
-    function getChainID() public pure returns (uint256) {
+    function getChainID() public view returns (uint256) {
         uint256 id;
-        assembly {
-            id := chainid()
-        }
+        assembly { id := chainid() }
         return id;
     } //end fun
     
