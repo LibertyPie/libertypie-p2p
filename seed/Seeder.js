@@ -1,4 +1,6 @@
 const ConfigDataObj = require("./Config");
+const ethers = require("ethers");
+
 
 module.exports =  class {
 
@@ -6,15 +8,26 @@ module.exports =  class {
     static async seedConfigData(deployedInstance) {
         try {
 
-       Object.keys(ConfigDataObj).forEach(async (key) => {
+          for(let key of Object.keys(ConfigDataObj)){
             
             let value = ConfigDataObj[key];
 
-            let result = await deployedInstance.setConfig(key, value);
+            try {
+                
+                console.log(`Inserting Config ${key}:${value} -> ${ethers.utils.formatBytes32String(value.toString())}`)
+                
 
-            console.log(`Seeding Config Data Success: ${result.tx}`)
-            
-        });
+                let result = await deployedInstance.setConfigData(key, ethers.utils.formatBytes32String(value.toString()));
+
+                console.log(` Seeding Config Data Success txHash: ${result.tx}`)
+                
+                //console.log(result)
+
+                //console.log(deployedInstance)
+            } catch(e) {
+                console.log(`seedConfigData Error: ${e}`,e)
+            }
+        }
 
         } catch(e) {
         errorMsg(`seedConfigData Error: ${e}`)

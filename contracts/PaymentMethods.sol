@@ -142,7 +142,7 @@ contract PaymentMethods is Base {
     ) external  onlyAdmin() returns(uint256) {
 
         //lets  check if categoryId exists 
-        require(categoryId >=0 && categoryId <= getTotalPaymentMethodsCategories(),"XPIE:UNKNOWN_CATEGORY");
+        require(categoryId > 1 && categoryId <= getTotalPaymentMethodsCategories(),statusMsg("UNKNOWN_CATEGORY"));
 
         //avoid totalPaymentTypes++
         //counting starts from 1, so index 0 wont exist
@@ -204,7 +204,7 @@ contract PaymentMethods is Base {
     ) external  onlyAdmin()  {
         
         //lets check if 
-         require(paymentMethodId >= 0 && paymentMethodId  <= getTotalPaymentMethods(),"XPIE:UNKNOWN_PAYMENT_METHOD");
+         require(paymentMethodId > 0 && paymentMethodId  <= getTotalPaymentMethods(),statusMsg("UNKNOWN_PAYMENT_METHOD"));
    
         PaymentMethodsStructs.PaymentMethodItem memory _dataToSave = PaymentMethodsStructs.PaymentMethodItem(
             paymentMethodId, 
@@ -232,10 +232,10 @@ contract PaymentMethods is Base {
    function  getPaymentMethodsCategories() public view returns (PaymentMethodsStructs.CategoryItem[] memory) {
     
       uint256 totalCategories = getTotalPaymentMethodsCategories(); 
-      PaymentMethodsStructs.CategoryItem[] memory  categoriesArray = new PaymentMethodsStructs.CategoryItem[] (totalCategories);
+      PaymentMethodsStructs.CategoryItem[] memory  categoriesArray = new PaymentMethodsStructs.CategoryItem[] (totalCategories + 1);
       
       //mapping index starts with 1, not  0
-      for(uint256 i = 0; i <= totalCategories; i++ ){
+      for(uint256 i = 1; i <= totalCategories; i++ ){
         categoriesArray[i] = getDataStore().getPaymentMethodsCategoryData(i);
       }
 
@@ -253,9 +253,9 @@ contract PaymentMethods is Base {
       uint256 totalPaymentMethods = getTotalPaymentMethods();
 
       //lets fetch the  payment types ids
-      PaymentMethodsStructs.PaymentMethodItem[] memory paymentMethodsArray   = new PaymentMethodsStructs.PaymentMethodItem[] (totalPaymentMethods);
+      PaymentMethodsStructs.PaymentMethodItem[] memory paymentMethodsArray   = new PaymentMethodsStructs.PaymentMethodItem[] (totalPaymentMethods + 1);
 
-        for(uint256  i = 0; i <= totalPaymentMethods; i++){
+        for(uint256  i = 1; i <= totalPaymentMethods; i++){
 
             PaymentMethodsStructs.PaymentMethodItem memory paymentMethodData =  getPaymentMethod(i);
 
@@ -275,9 +275,10 @@ contract PaymentMethods is Base {
 
       uint256 totalPaymentMethods = getTotalPaymentMethods();
 
-      PaymentMethodsStructs.PaymentMethodItem[] memory paymentMethodsArray   = new PaymentMethodsStructs.PaymentMethodItem[] (totalPaymentMethods);
 
-      for(uint256 i = 0; i <= totalPaymentMethods; i++ ){
+      PaymentMethodsStructs.PaymentMethodItem[] memory paymentMethodsArray   = new PaymentMethodsStructs.PaymentMethodItem[] (totalPaymentMethods + 1);
+
+      for(uint256 i = 1; i <= totalPaymentMethods; i++ ){
          paymentMethodsArray[i] = getPaymentMethod(i);
       }
 

@@ -18,7 +18,7 @@ contract ChainLink is IPriceFeed, Base {
 
     //lets create storage for the contracts 
     //assetPair => contractAddress
-    mapping(string  => address) public feedsContracts;
+    mapping(string  => address) private feedsContracts;
     
     /**
      * @dev set priceFeed contract

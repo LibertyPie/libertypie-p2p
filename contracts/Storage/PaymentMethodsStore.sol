@@ -30,7 +30,7 @@ contract PaymentMethodsStore is StoreEditor  {
      * @dev generate or get next catId
      */
     function getNextPaymentMethodCategoryId() external onlyStoreEditor returns(uint256) {
-        return (totalPaymentMethodsCategories += 1);
+        return (++totalPaymentMethodsCategories);
     }
 
     /**
@@ -51,7 +51,7 @@ contract PaymentMethodsStore is StoreEditor  {
      * getNextPaymentMethodId
      */
     function getNextPaymentMethodId() external onlyStoreEditor returns(uint256) {
-        return (totalPaymentMethods += 1);
+        return (++totalPaymentMethods);
     }
 
     /**

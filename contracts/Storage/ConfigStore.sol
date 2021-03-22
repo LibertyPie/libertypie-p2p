@@ -11,7 +11,7 @@ import "../Commons/ConfigsStructs.sol";
 contract ConfigStore is StoreEditor  {
 
     //total Config
-    uint256 totalEntries;
+    uint256 public totalEntries;
 
     //config 
     mapping(string => bytes32) private configData;
@@ -41,8 +41,9 @@ contract ConfigStore is StoreEditor  {
     * allConfigData
     */
     function getAllConfigData() public view returns (ConfigsStructs.ConfigItem[] memory) {
+        
 
-       ConfigsStructs.ConfigItem[]  memory configsArray = new ConfigsStructs.ConfigItem[](totalEntries+1);
+       ConfigsStructs.ConfigItem[]  memory configsArray = new ConfigsStructs.ConfigItem[](totalEntries + 1);
 
         for(uint256 i = 1; i <= totalEntries; i++){
             string memory _key = configKeyMap[i];

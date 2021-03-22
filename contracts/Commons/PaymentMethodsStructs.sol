@@ -19,6 +19,7 @@ contract PaymentMethodsStructs {
       uint256 minPaymentWindow;
       uint256 maxPaymentWindow;
       string[] countries;
+      string[] continents;
       bool isEnabled;
    }
 
@@ -29,7 +30,6 @@ contract PaymentMethodsStructs {
     struct CategoryItem {
         uint256 id; 
         string name;
-        string[] countries;
         bool isEnabled;
     }
     

@@ -28,14 +28,14 @@ contract Config is PM, Utils, DataStore {
      * @param _key config key
      * @param _value cofig data
      */
-    function setConfig(string memory _key, bytes32 _value) public {
+    function setConfigData(string memory _key, bytes32 _value) public {
         getDataStore().addConfigData(_key, _value);
     }
 
     /**
      * get all config data
      */
-    function getAllConfigData() public view returns (ConfigsStructs.ConfigItem[] memory){
+    function getAllConfigs() public view returns (ConfigsStructs.ConfigItem[] memory){
        return  getDataStore().getAllConfigData();
     }
 
