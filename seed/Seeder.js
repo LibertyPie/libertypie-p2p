@@ -1,4 +1,5 @@
 const ConfigDataObj = require("./Config");
+const PaymentMethodsDataArray = require("./PaymentMethods");
 const ethers = require("ethers");
 
 
@@ -30,8 +31,25 @@ module.exports =  class {
         }
 
         } catch(e) {
-        errorMsg(`seedConfigData Error: ${e}`)
-        console.log(e)
+            errorMsg(`seedConfigData Error: ${e}`)
+            console.log(e)
+        }
+    }
+
+
+    /**
+     * seed Payment methods 
+     */
+    static function seedPaymentMethodsData(deployedInstance){
+        try {
+            
+            for(let dataObj of PaymentMethodsDataArray){
+                
+            }
+            
+        } catch (e) {
+            errorMsg(`seedPaymentMethodsData Error: ${e}`)
+            console.log(e)
         }
     }
 
