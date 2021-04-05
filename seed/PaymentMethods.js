@@ -118,7 +118,6 @@ module.exports = [
         },
         
         children: [
-            {
             "Abra",
             "AdvCash",
             "Airline Tickets",

@@ -47,11 +47,10 @@ contract PaymentMethods is Base {
     * @return uint256 new category  id
    */
    function addPaymentMethodCategory(
-       string calldata name,
-       string[] memory countries,
+       string memory name,
        bool isEnabled
     ) external  onlyAdmin() returns(uint256) {
-        return _addPaymentMethodCategory(name,countries,isEnabled);
+        return _addPaymentMethodCategory(name,slug,isEnabled);
     }
      
 
@@ -63,7 +62,6 @@ contract PaymentMethods is Base {
    */
    function _addPaymentMethodCategory(
        string   memory name,
-       string[] memory countries,
        bool isEnabled
     ) private returns(uint256) {
      
@@ -72,7 +70,6 @@ contract PaymentMethods is Base {
         PaymentMethodsStructs.CategoryItem memory _dataToSave = PaymentMethodsStructs.CategoryItem(
             catId,
             name,
-            countries,
             isEnabled
         );
 
@@ -241,6 +238,8 @@ contract PaymentMethods is Base {
 
       return categoriesArray;
    } //end fun 
+
+   
 
 
   /* 
