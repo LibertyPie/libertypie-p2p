@@ -1,42 +1,29 @@
-const ConfigDataObj = require("./Config");
-const PaymentMethodsDataArray = require("./PaymentMethods");
+const ConfigDataObj = require("./files/Config");
+const PaymentMethodsDataArray = require("./files/PaymentMethods");
 const ethers = require("ethers");
 var slugify = require('slugify')
 
 
 module.exports =  class {
 
-    factoryInstance = null;
-
-    constructor(_factoryInstance) {
-        this.factoryInstance = _factoryInstance;
+    getRegistry(){
+        return [
+            {
+                method: "seedConfigData",
+                contract: "Factory"
+            },
+            {
+                method: "seedPaymentMethodsData",
+                contract: "Factory"
+            }
+        ];
     }
 
     //seed config data
-    async seedConfigData() {
+    async seedConfigData(contractObj) {
         try {
 
-          for(let key of Object.keys(ConfigDataObj)){
-            
-            let value = ConfigDataObj[key];
-
-            try {
-                
-                console.log(`Inserting Config ${key}:${value} -> ${ethers.utils.formatBytes32String(value.toString())}`)
-                
-
-                let result = await this.factoryInstance.setConfigData(key, ethers.utils.formatBytes32String(value.toString()));
-
-                console.log(` Seeding Config Data Success txHash: ${result.tx}`)
-                
-                //console.log(result)
-
-                //console.log(deployedInstance)
-            } catch(e) {
-                console.log(`seedConfigData Error: ${e}`,e)
-            }
-        }
-
+          
         } catch(e) {
             errorMsg(`seedConfigData Error: ${e}`)
             console.log(e)

@@ -43,21 +43,19 @@ contract PaymentMethods is Base {
     /**
     * @dev add a new payment type category
     * @param name category name in string
-    * @param countries supported countries, leave empty to target all countries
     * @return uint256 new category  id
    */
    function addPaymentMethodCategory(
        string memory name,
        bool isEnabled
     ) external  onlyAdmin() returns(uint256) {
-        return _addPaymentMethodCategory(name,slug,isEnabled);
+        return _addPaymentMethodCategory(name,isEnabled);
     }
      
 
     /**
     * @dev add a new payment type category
     * @param name category name in string
-    * @param countries supported countries, leave empty to target all countries
     * @return uint256 new category  id
    */
    function _addPaymentMethodCategory(
@@ -98,20 +96,17 @@ contract PaymentMethods is Base {
     * @dev add a new payment type category
     * @param categoryId the category id
     * @param newCategoryName  new category name to change
-    * @param countries supported countries leave empty to target all
     * @param isEnabled if the category is enabled or not
     */
     function updatePaymentMethodCategory(
         uint256 categoryId,  
-        string calldata newCategoryName,
-        string[] memory countries,
+        string memory newCategoryName,
         bool isEnabled
     ) external  onlyAdmin() {
       
        PaymentMethodsStructs.CategoryItem memory _dataToSave = PaymentMethodsStructs.CategoryItem(
             categoryId,
             newCategoryName,
-            countries,
             isEnabled
         );
 
@@ -127,6 +122,9 @@ contract PaymentMethods is Base {
    * @dev add a new payment method
    * @param name payment method name
    * @param categoryId category id for the new payment  type
+   * @param countries supported countries
+   * @param continents Supported continents
+   * @param isEnabled is this payment method enabled
    * @return uint256
    */
    function addPaymentMethod(
@@ -135,6 +133,7 @@ contract PaymentMethods is Base {
        uint256 minPaymentWindow,
        uint256 maxPaymentWindow,
        string[] memory countries,
+       string[] memory continents,
        bool isEnabled 
     ) external  onlyAdmin() returns(uint256) {
 
@@ -152,6 +151,7 @@ contract PaymentMethods is Base {
             minPaymentWindow,
             maxPaymentWindow,
             countries,
+            continents,
             isEnabled
         );
 
@@ -164,6 +164,11 @@ contract PaymentMethods is Base {
 
         return id;
    } //end 
+
+   /**
+    * @dev add payment method bulk
+    *
+    */
 
 
     /**
@@ -189,6 +194,9 @@ contract PaymentMethods is Base {
    *  @param paymentMethodId old paymentType id
    *  @param name the new name of the paymentType
    *  @param  categoryId the new category id of the payment type
+   * @param countries supported countries
+   * @param continents Supported continents
+   * @param isEnabled is this payment method enabled
    */
    function updatePaymentMethod(
        uint256 paymentMethodId, 
@@ -197,6 +205,7 @@ contract PaymentMethods is Base {
        uint256 minPaymentWindow,
        uint256 maxPaymentWindow,
        string[] memory countries,
+       string[] memory continents,
        bool isEnabled 
     ) external  onlyAdmin()  {
         
@@ -210,6 +219,7 @@ contract PaymentMethods is Base {
             minPaymentWindow,
             maxPaymentWindow,
             countries,
+            continents,
             isEnabled
         );
 

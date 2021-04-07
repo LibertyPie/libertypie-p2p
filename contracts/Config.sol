@@ -28,9 +28,18 @@ contract Config is PM, Utils, DataStore {
      * @param _key config key
      * @param _value cofig data
      */
-    function setConfigData(string memory _key, bytes32 _value) public {
+    function setConfigData(string memory _key, bytes32 _value) public onlyAdmin {
         getDataStore().addConfigData(_key, _value);
     }
+
+    /**
+     * setConfigDataBulk
+     */
+    function setConfigDataBulk(ConfigsStructs.ConfigItem[] memory _data) public onlyAdmin {
+        for(uint i = 0; i <= _data.length; i++){
+            getDataStore().addConfigData(_data[i]._key, _data[i]._value);
+        }
+    } 
 
     /**
      * get all config data
