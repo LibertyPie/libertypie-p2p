@@ -135,7 +135,7 @@ contract PaymentMethods is Base {
        string[] memory countries,
        string[] memory continents,
        bool isEnabled 
-    ) external  onlyAdmin() returns(uint256) {
+    ) public  onlyAdmin() returns(uint256) {
 
         //lets  check if categoryId exists 
         require(categoryId > 1 && categoryId <= getTotalPaymentMethodsCategories(),statusMsg("UNKNOWN_CATEGORY"));
@@ -166,9 +166,43 @@ contract PaymentMethods is Base {
    } //end 
 
    /**
-    * @dev add payment method bulk
-    *
+    * @dev add payment method bulk, note that, here we set the id to 0, which means we will generate the id and replace it
+    * @param _dataArray PaymentMethodsStructs.PaymentMethodItem
+    * @return uint256[]
     */
+    function addPaymentMethodsBulk(PaymentMethodsStructs.PaymentMethodItem[] memory _dataArray) public onlyAdmin() returns(uint256[] memory) {
+
+        uint256[] memory processedIds = new uint256[](_dataArray.length);
+
+        for(uint256 idx = 0; idx <= _dataArray.length; idx++ ){
+            
+            //lets  check if categoryId exists 
+            require(_dataArray[idx].categoryId > 1 && _dataArray[idx].categoryId <= getTotalPaymentMethodsCategories(),
+                    statusMsg("UNKNOWN_CATEGORY_ID",toBytes32(_dataArray[idx].categoryId))
+            );
+
+            //counting starts from 1, so index 0 wont exist
+            uint256 id = getDataStore().getNextPaymentMethodId();
+
+            // here the id was set to 0, so lets replace it with auto generated it 
+            _dataArray[idx].id = id;
+
+    
+            //lets save the data 
+            getDataStore().savePaymentMethodData(
+                id,
+                _dataArray[idx]
+            );
+
+                 //lets save the id in the processedIds
+            processedIds[idx] = id;
+            
+            emit AddPaymentMethod(id);
+
+        } //end for loop
+
+        return processedIds;
+    }//end fun 
 
 
     /**
