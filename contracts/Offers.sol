@@ -24,10 +24,21 @@ contract Offers is Base {
     event DisableOffer(uint256 offerId);
 
     event UpdateOffer(uint256 offerId);
-    
 
-    // @dev get variables for the data store 
-    bytes32 TOTAL_OFFERS_STORE_KEY = keccak256("Offers_total_offers");
+   struct OfferListFilter {
+      string memory asset;
+      bytes32  offerType;
+      bytes32  pricingMode;
+      byte32   countryCode;
+      address owner;
+      uint256 paymentMethod;
+      uint256 minRating;
+      uint256 maxRating;
+   }
+
+    
+   // @dev get variables for the data store 
+   bytes32 TOTAL_OFFERS_STORE_KEY = keccak256("Offers_total_offers");
 
     // offer types
     bytes32 OFFER_TYPE_BUY  =  toBytes32("buy");
@@ -178,14 +189,17 @@ contract Offers is Base {
     * @dev get offer by id 
     * @param _id offer id
     */
-   function getOffer(uint256 _id) public view returns (OffersStructs.OfferItem memory) {
+   function getOfferById(uint256 _id) public view returns (OffersStructs.OfferItem memory) {
       return getDataStore().getOfferData(_id);
    }
 
 
    /**
     * @dev get list of offers with filter included 
-    *  
+    * @dev Offer filter
     */
+    function getOffers(OfferListFilter _filter) public view returns (OffersStructs.OfferItem[] memory) {
+
+    } //end fun 
 
 }  //end contract 

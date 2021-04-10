@@ -14,7 +14,7 @@ import "./PaymentMethods.sol";
 //import "./Storage/DataStore.sol";
 
 
-contract Factory is PaymentMethods, PriceFeed, Assets {
+contract Factory is  PaymentMethods, PriceFeed, Assets {
     
     constructor(
         address _permissionManagerContract,

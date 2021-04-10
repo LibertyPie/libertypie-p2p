@@ -22,8 +22,7 @@ contract PaymentMethods is Base {
     event UpdatePaymentMethod(uint256 _id);
     event RemovePaymentMethod(uint256 _id);
 
-    
-    /**
+        /**
      * @dev getTotalPaymentMethods
      */
      function getTotalPaymentMethods() public view returns(uint256) {
@@ -38,30 +37,15 @@ contract PaymentMethods is Base {
      } //end fun 
 
 
-    
-
     /**
     * @dev add a new payment type category
     * @param name category name in string
     * @return uint256 new category  id
    */
    function addPaymentMethodCategory(
-       string memory name,
-       bool isEnabled
-    ) external  onlyAdmin() returns(uint256) {
-        return _addPaymentMethodCategory(name,isEnabled);
-    }
-     
-
-    /**
-    * @dev add a new payment type category
-    * @param name category name in string
-    * @return uint256 new category  id
-   */
-   function _addPaymentMethodCategory(
        string   memory name,
        bool isEnabled
-    ) private returns(uint256) {
+    ) external  onlyAdmin() returns(uint256) {
      
         uint256 catId = getDataStore().getNextPaymentMethodCategoryId();
 
@@ -79,17 +63,17 @@ contract PaymentMethods is Base {
         emit AddPaymentMethodCategory(catId);
 
         return catId;
-   } //end fun 
+    } //end fun 
 
 
     /**
-   * @dev delete a cetegory
-   * @param _id category  id
-   */
-   function removePaymentMethodCategory(uint256 _id) external onlyAdmin() {
+    * @dev delete a cetegory
+    * @param _id category  id
+    */
+    function removePaymentMethodCategory(uint256 _id) external onlyAdmin() {
         getDataStore().deletePaymentMethodsCategoryData(_id);
         emit RemovePaymentMethodCategory(_id);
-   } //end fun 
+    } //end fun 
 
 
     /**
@@ -118,14 +102,15 @@ contract PaymentMethods is Base {
         emit UpdatePaymentMethodCategory(categoryId);
     } //end fun 
 
+
     /**
-   * @dev add a new payment method
-   * @param name payment method name
-   * @param categoryId category id for the new payment  type
-   * @param countries supported countries
-   * @param continents Supported continents
-   * @param isEnabled is this payment method enabled
-   * @return uint256
+    * @dev add a new payment method
+    * @param name payment method name
+    * @param categoryId category id for the new payment  type
+    * @param countries supported countries
+    * @param continents Supported continents
+    * @param isEnabled is this payment method enabled
+    * @return uint256
    */
    function addPaymentMethod(
        string memory name, 
@@ -165,45 +150,6 @@ contract PaymentMethods is Base {
         return id;
    } //end 
 
-   /**
-    * @dev add payment method bulk, note that, here we set the id to 0, which means we will generate the id and replace it
-    * @param _dataArray PaymentMethodsStructs.PaymentMethodItem
-    * @return uint256[]
-    */
-    function addPaymentMethodsBulk(PaymentMethodsStructs.PaymentMethodItem[] memory _dataArray) public onlyAdmin() returns(uint256[] memory) {
-
-        uint256[] memory processedIds = new uint256[](_dataArray.length);
-
-        for(uint256 idx = 0; idx <= _dataArray.length; idx++ ){
-            
-            //lets  check if categoryId exists 
-            require(_dataArray[idx].categoryId > 1 && _dataArray[idx].categoryId <= getTotalPaymentMethodsCategories(),
-                    statusMsg("UNKNOWN_CATEGORY_ID",toBytes32(_dataArray[idx].categoryId))
-            );
-
-            //counting starts from 1, so index 0 wont exist
-            uint256 id = getDataStore().getNextPaymentMethodId();
-
-            // here the id was set to 0, so lets replace it with auto generated it 
-            _dataArray[idx].id = id;
-
-    
-            //lets save the data 
-            getDataStore().savePaymentMethodData(
-                id,
-                _dataArray[idx]
-            );
-
-                 //lets save the id in the processedIds
-            processedIds[idx] = id;
-            
-            emit AddPaymentMethod(id);
-
-        } //end for loop
-
-        return processedIds;
-    }//end fun 
-
 
     /**
     * @dev getPaymentMethod
@@ -223,48 +169,27 @@ contract PaymentMethods is Base {
    }
 
 
-    /**
+   /**
    *  @dev update  payment type info
-   *  @param paymentMethodId old paymentType id
-   *  @param name the new name of the paymentType
+   *  @param _dataToSave payment method data
    *  @param  categoryId the new category id of the payment type
-   * @param countries supported countries
-   * @param continents Supported continents
-   * @param isEnabled is this payment method enabled
    */
    function updatePaymentMethod(
-       uint256 paymentMethodId, 
-       string  memory name, 
-       uint256 categoryId,
-       uint256 minPaymentWindow,
-       uint256 maxPaymentWindow,
-       string[] memory countries,
-       string[] memory continents,
-       bool isEnabled 
+       PaymentMethodsStructs.PaymentMethodItem memory _dataToSave,
+       uint256 categoryId
     ) external  onlyAdmin()  {
         
         //lets check if 
-         require(paymentMethodId > 0 && paymentMethodId  <= getTotalPaymentMethods(),statusMsg("UNKNOWN_PAYMENT_METHOD"));
-   
-        PaymentMethodsStructs.PaymentMethodItem memory _dataToSave = PaymentMethodsStructs.PaymentMethodItem(
-            paymentMethodId, 
-            name, 
-            categoryId,
-            minPaymentWindow,
-            maxPaymentWindow,
-            countries,
-            continents,
-            isEnabled
-        );
+        require(_dataToSave.id > 0 && _dataToSave.id  <= getTotalPaymentMethods(),statusMsg("UNKNOWN_PAYMENT_METHOD"));
+
 
         getDataStore().savePaymentMethodData(
-            paymentMethodId,
+            _dataToSave.id,
             _dataToSave
         );
 
-        emit UpdatePaymentMethod(paymentMethodId);
+        emit UpdatePaymentMethod(_dataToSave.id);
    } //end fun
-
 
    /**
    *  @dev get all payment types categories 
@@ -284,9 +209,7 @@ contract PaymentMethods is Base {
    } //end fun 
 
    
-
-
-  /* 
+    /* 
    * @dev get payment types using it category id
    * @param categoryId uint256 category id 
    * @return PaymentMethodsStructs.PaymentMethodItem[] memory
@@ -328,7 +251,8 @@ contract PaymentMethods is Base {
       return paymentMethodsArray;
    }
 
-   /**
+
+    /**
     * @dev Fetch payment types and categories in a single query
     */
    function getPaymentMethodsAndCategories() 
@@ -338,5 +262,5 @@ contract PaymentMethods is Base {
     {
       return (getPaymentMethodsCategories(),getPaymentMethods());
    }//end 
-   
+    
 }//end contract

@@ -16,7 +16,7 @@ contract OffersStore is StoreEditor  {
 
     
     //OfferIndexes 
-    mapping(bytes32 => mapping(bytes32 => uint256[])) public OffersIndexes;
+    mapping(bytes32 => mapping(bytes32 => uint256[])) private OffersIndexes;
 
 
     /**

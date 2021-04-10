@@ -50,7 +50,7 @@ module.exports = {
       port: 7545,            // Standard Ethereum port (default: none)
       network_id: "*",       // Any network (default: none)
       //from: '0x0b37601E9d56Aace9A50886BaD82De34cF7EFA57',
-      gas: 20521975
+      gas: 1000000000000000
     },
 
     kovan: {

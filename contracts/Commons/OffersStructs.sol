@@ -48,6 +48,7 @@ contract OffersStructs {
     }  
 
 
+
     //offer index Item
     //struct OfferIndexesItem {
     //   mapping(bytes32 => uint256[]) ids;
