@@ -18,6 +18,9 @@ contract OffersStore is StoreEditor  {
     //OfferIndexes 
     mapping(bytes32 => mapping(bytes32 => uint256[])) private OffersIndexes;
 
+    //OfferStats 
+    mapping(uint256 => uint]) private OfferRatings;
+
 
     /**
      * @dev totalOffers
@@ -84,4 +87,19 @@ contract OffersStore is StoreEditor  {
     function indexesHasId(bytes32 _indexName, bytes32 _key, uint256 _id) public view returns(bool) {
         return false;
     }
+
+    /**
+     * getRating
+     */
+    function getOfferRating(uint256 offerId) public returns (uint) {
+        return OfferRatings[offerId];
+    }
+
+    /**
+     * setOfferRating
+     */
+    function setOfferRating(uint256 offerId, uint rating) public onlyStoreEditor {
+        OfferRatings[offerId] = rating;
+    }
+    
 } //end contract

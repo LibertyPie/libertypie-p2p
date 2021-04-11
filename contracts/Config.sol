@@ -32,14 +32,6 @@ contract Config is PM, Utils, DataStore {
         getDataStore().addConfigData(_key, _value);
     }
 
-    /**
-     * setConfigDataBulk
-     
-    function setConfigDataBulk(ConfigsStructs.ConfigItem[] memory _data) public onlyAdmin {
-        for(uint i = 0; i <= _data.length; i++){
-            getDataStore().addConfigData(_data[i]._key, _data[i]._value);
-        }
-    }*/ 
 
     /**
      * get all config data

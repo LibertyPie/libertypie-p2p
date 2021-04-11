@@ -30,16 +30,20 @@ contract Offers is Base {
       bytes32  offerType;
       bytes32  pricingMode;
       byte32   countryCode;
-      address owner;
-      uint256 paymentMethod;
-      uint256 minRating;
-      uint256 maxRating;
+      address  owner;
+      uint256  paymentMethod;
+      uint256  minRating;
+      uint256  maxRating;
    }
 
-    
-   // @dev get variables for the data store 
-   bytes32 TOTAL_OFFERS_STORE_KEY = keccak256("Offers_total_offers");
+   int OFFER_SORT_ASC =  0;
+   int OFFER_SORT_DESC = 1;
 
+   struct OfferSort {
+      bytes32 sortField;
+      int sortType;
+   }
+    
     // offer types
     bytes32 OFFER_TYPE_BUY  =  toBytes32("buy");
     bytes32 OFFER_TYPE_SELL =  toBytes32("sell");
@@ -198,8 +202,51 @@ contract Offers is Base {
     * @dev get list of offers with filter included 
     * @dev Offer filter
     */
-    function getOffers(OfferListFilter _filter) public view returns (OffersStructs.OfferItem[] memory) {
+   function getOffers(
+      uint256 startId,
+      uint256 dataPerPage,
+      OfferSort sort,
+      OfferListFilter _filter
+   ) public view returns (OffersStructs.OfferItem[] memory) {
+
+      require(dataPerPage > 0 && dataPerPage <= 100, statusMsg("DATA_PER_PAGE_PARAM_INVALID", dataPerPage));
+
+      if(startId == 0 && sort.sortType == OFFER_SORT_DESC){
+         return getOffersSortByIdsDESC(startId, dataPerPage, _filter);
+      }
+
 
     } //end fun 
+
+
+    /**
+     * getOffersSortByIdsDesc
+     */
+     function getOffersSortByIdsDESC(
+         uint256 startOfferId,
+         uint256 dataPerPage,
+         OfferListFilter _filter
+     ) private view returns (OffersStructs.OfferItem[] memory) {
+
+         uint256 totalOffers = getDataStore().getTotalOffers;
+         OffersStructs.OfferItem[] memory processedData = new OffersStructs.OfferItem[] (dataPerPage + 1);
+
+         if(startId == 0) {
+            startId = totalOffers;
+         }
+
+         for(uint256 i = startId; i <= 0; i--){
+            
+            OffersStruct.OfferItem memory offerItem  = getOfferById(i);
+
+            //lets check filters 
+            if(_filter.owner != address(0) && _filter.owner == offerItem.owner){
+               processedData.push(processedData);
+            }
+
+         }
+
+         return processedData;
+     } //end fun
 
 }  //end contract 
