@@ -6,7 +6,7 @@
 pragma solidity ^0.7.6;
 pragma experimental ABIEncoderV2;
 import "./StoreEditor.sol";
-import "../Commons/TradesStruct.sol";
+import "../Commons/TradesStructs.sol";
 
 
 contract TradesStore is StoreEditor  {
@@ -15,7 +15,7 @@ contract TradesStore is StoreEditor  {
     uint256 totalTrades;
 
     //Trades 
-    mapping(uint256 => TradesStruct.TradeInfo) private Trades;
+    mapping(uint256 => TradesStructs.TradeInfo) private Trades;
 
 
     /**
@@ -35,14 +35,14 @@ contract TradesStore is StoreEditor  {
     /**
      * getTrade
      */
-    function getTrade(uint256 _id) public view returns(TradesStruct.TradeInfo) {
+    function getTrade(uint256 _id) public view returns(TradesStructs.TradeInfo memory) {
         return Trades[_id];
     }
 
     /**
      * saveTradeInfo
      */
-     function saveTradeInfo(uint256 _id, TradesStruct.TradeInfo _tradeInfo) public onlyStoreEditor {
+     function saveTradeInfo(uint256 _id, TradesStructs.TradeInfo memory _tradeInfo) public onlyStoreEditor {
         Trades[_id] = _tradeInfo;
      } //end fun 
 }

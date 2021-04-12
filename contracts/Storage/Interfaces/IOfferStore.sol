@@ -16,6 +16,9 @@ interface IOfferStore {
     function getOfferData(uint256 _id) external view returns(OffersStructs.OfferItem memory);
     function deleteOfferData(uint256 _id) external;
 
+     function getOfferRating(uint256 offerId) public view returns (uint);
+    function setOfferRating(uint256 offerId, uint rating) external;
+
     //indexes
     function setOfferIndex(bytes32 _indexName, bytes32 _key, uint256 _id) external;
 }

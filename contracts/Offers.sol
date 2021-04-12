@@ -9,7 +9,6 @@ pragma experimental ABIEncoderV2;
 
 
 import "./Assets.sol";
-//import "./Storage/StoreProxy.sol";
 import "./Commons/OffersStructs.sol";
 import "./Commons/PaymentMethodsStructs.sol";
 import "./Base.sol";
@@ -26,22 +25,21 @@ contract Offers is Base {
     event UpdateOffer(uint256 offerId);
 
    struct OfferListFilter {
-      string memory asset;
+      address  asset;
       bytes32  offerType;
       bytes32  pricingMode;
-      byte32   countryCode;
+      bytes32  countryCode;
       address  owner;
       uint256  paymentMethod;
       uint256  minRating;
-      uint256  maxRating;
    }
 
-   int OFFER_SORT_ASC =  0;
-   int OFFER_SORT_DESC = 1;
+   int public OFFER_SORT_ASC =  0;
+   int public  OFFER_SORT_DESC = 1;
 
    struct OfferSort {
-      bytes32 sortField;
-      int sortType;
+      bytes32 orderBy;
+      int     orderMode;
    }
     
     // offer types
@@ -203,18 +201,24 @@ contract Offers is Base {
     * @dev Offer filter
     */
    function getOffers(
-      uint256 startId,
+      uint256 startOfferId,
       uint256 dataPerPage,
-      OfferSort sort,
-      OfferListFilter _filter
+      OfferSort memory sort,
+      OfferListFilter memory _filter
    ) public view returns (OffersStructs.OfferItem[] memory) {
 
-      require(dataPerPage > 0 && dataPerPage <= 100, statusMsg("DATA_PER_PAGE_PARAM_INVALID", dataPerPage));
+      require(dataPerPage > 0 && dataPerPage <= 100, statusMsg("DATA_PER_PAGE_PARAM_INVALID", toBytes32(dataPerPage)));
 
-      if(startId == 0 && sort.sortType == OFFER_SORT_DESC){
-         return getOffersSortByIdsDESC(startId, dataPerPage, _filter);
-      }
+      if(sort.orderBy == "id" && sort.orderMode == OFFER_SORT_ASC){
+        return  getOffersSortByIdsASC(startOfferId, dataPerPage, _filter);
+      } 
 
+      /*
+      else if(sort.orderBy == "id" && sort.orderMode == OFFER_SORT_DESC) {
+         return getOffersSortByIdsASC(startId, dataPerPage, _filter);
+      }*/
+
+      return getOffersSortByIdsDESC(startOfferId, dataPerPage, _filter);
 
     } //end fun 
 
@@ -225,28 +229,106 @@ contract Offers is Base {
      function getOffersSortByIdsDESC(
          uint256 startOfferId,
          uint256 dataPerPage,
-         OfferListFilter _filter
+         OfferListFilter memory _filter
      ) private view returns (OffersStructs.OfferItem[] memory) {
 
-         uint256 totalOffers = getDataStore().getTotalOffers;
+         uint256 totalOffers = getDataStore().getTotalOffers();
+
          OffersStructs.OfferItem[] memory processedData = new OffersStructs.OfferItem[] (dataPerPage + 1);
 
-         if(startId == 0) {
-            startId = totalOffers;
+         if(startOfferId == 0) {
+            startOfferId = totalOffers;
          }
 
-         for(uint256 i = startId; i <= 0; i--){
+         for(uint256 i = startOfferId; i <= 0; i--){
             
-            OffersStruct.OfferItem memory offerItem  = getOfferById(i);
-
-            //lets check filters 
-            if(_filter.owner != address(0) && _filter.owner == offerItem.owner){
-               processedData.push(processedData);
+            OffersStructs.OfferItem memory offerItem  = getOfferById(i);
+            
+            if(!computeOfferListFilter(offerItem, _filter)) {
+               continue;
             }
 
-         }
+            //add offer item into the array
+            processedData[i] = offerItem;
+
+            if(processedData.length >= dataPerPage){
+               break;
+            }
+         } //end loop
 
          return processedData;
      } //end fun
+
+
+     /**
+     * getOffersSortByIdsASC
+     */
+     function getOffersSortByIdsASC(
+         uint256 startOfferId,
+         uint256 dataPerPage,
+         OfferListFilter memory _filter
+     ) private view returns (OffersStructs.OfferItem[] memory) {
+
+         uint256 totalOffers = getDataStore().getTotalOffers();
+
+         OffersStructs.OfferItem[] memory processedData = new OffersStructs.OfferItem[] (dataPerPage + 1);
+
+
+         for(uint256 i = startOfferId; i <= totalOffers; i++){
+            
+            OffersStructs.OfferItem memory offerItem  = getOfferById(i);
+            
+            if(!computeOfferListFilter(offerItem, _filter)) {
+               continue;
+            }
+
+            //add offer item into the array
+            processedData[i] = offerItem;
+
+            if(processedData.length >= dataPerPage){
+               break;
+            }
+         } //end loop
+
+         return processedData;
+     } //end fun
+
+     /**
+      * computeOfferListFilter
+      */
+      function computeOfferListFilter(
+         OffersStructs.OfferItem memory offerItem,
+         OfferListFilter memory _filter
+      ) public view returns(bool) {
+
+         bool isEligible = true;
+
+         //lets check filters 
+         if(_filter.owner != address(0) && !(_filter.owner == offerItem.owner)){
+            isEligible = false;
+         }
+
+         if(_filter.offerType.length > 0 && !(_filter.offerType == offerItem.offerInfo.offerType)){
+            isEligible = false;
+         }
+
+         if(_filter.pricingMode.length > 0 && !(_filter.pricingMode == offerItem.pricingInfo.pricingMode)){
+            isEligible = false;
+         }
+
+         if(_filter.countryCode.length > 0 && !(_filter.countryCode == offerItem.offerInfo.countryCode)) {
+            isEligible = false;
+         } //end if 
+
+         //lets check offer rating
+         uint offerRating = getDataStore().getOfferRating(offerItem.id);
+
+         if(_filter.minRating > 0 && !(offerRating >= _filter.minRating)){
+            isEligible = false;
+         }
+
+
+         return isEligible;
+      } //end 
 
 }  //end contract 

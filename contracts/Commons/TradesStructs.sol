@@ -20,7 +20,7 @@ contract TradesStructs {
        address   tradeGuardian;
        uint256   createdAt;
        uint256   expiresAt;
-       boolean   isSuccess; 
+       bool   isSuccess; 
     }
 
 
