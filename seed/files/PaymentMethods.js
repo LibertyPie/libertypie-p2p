@@ -4,7 +4,7 @@
 * @license SPDX-License-Identifier: MIT
 */
 
-const Utils = require("../../utils")
+const Utils = require("../../classes/Utils")
 
 module.exports = [
     {

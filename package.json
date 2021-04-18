@@ -9,6 +9,7 @@
   "scripts": {
     "c": "truffle compile",
     "m": "truffle migrate",
+    "ms": "truffle migrate && npm run seed",
     "test": "echo \"Error: no test specified\" && exit 1",
     "gen_interfaces": "npx generate-contract-interface --importRoot ./contracts < ./contracts/Storage/Storage.sol",
     "f": "npx solidity-flattener contracts/Factory.sol > build/Flattened.sol",

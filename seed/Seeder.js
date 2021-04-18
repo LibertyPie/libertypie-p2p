@@ -1,35 +1,39 @@
 const ConfigDataObj = require("./files/Config");
 const PaymentMethodsDataArray = require("./files/PaymentMethods");
 const ethers = require("ethers");
-var slugify = require('slugify')
-
+//var slugify = require('slugify');
+const Utils = require("../classes/Utils");
+const Status = require("../classes/Status");
 
 module.exports =  class {
 
     getRegistry(){
         return [
             {
-                method: "seedConfigData",
-                contract: "Factory"
+                file: "Config"
             },
-            {
-                method: "seedPaymentMethodsData",
-                contract: "Factory"
+            {   
+                file:   "PaymentMethods",
+                processor: "seedPaymentMethodsData"
             }
         ];
     }
 
-    //seed config data
-    async seedConfigData(contractObj) {
-        try {
 
-          
-        } catch(e) {
-            errorMsg(`seedConfigData Error: ${e}`)
-            console.log(e)
-        }
-    }
+    /**
+     * genericSeedProcessor
+     */
+     async standardSeedProcessor(contract, method, args) {
+         try {
 
+             let result = contract.methods[method](args);
+
+             console.log(result)
+         } catch (e) {
+              console.log(`standardSeedProcessor Error ${e.message}`,e)
+            return Status.errorPromise(`standardSeedProcessor Error: ${e.message}`)
+         }
+     }
 
     /**
      * seed Payment methods 
@@ -53,17 +57,17 @@ module.exports =  class {
             }
             
         } catch (e) {
-            errorMsg(`seedPaymentMethodsData Error: ${e}`)
+            Utils.errorMsg(`seedPaymentMethodsData Error: ${e}`)
             console.log(e)
         }
     }
 
     //lets check if category exists 
-    static async getPaymentMethodCategories() {
+    static async getPaymentMethodCategories(factoryInst) {
         try {
 
             //lets check if the category slug exists
-            let result = await this.factoryInstance.getPaymentMethodsCategories();
+            let result = await factoryInst.getPaymentMethodsCategories();
 
             console.log(result)
 

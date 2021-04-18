@@ -47,8 +47,7 @@ module.exports =  (deployer) => {
 
                 infoMsg(`Seeding data into Factory Config contract `)
 
-                await Seeder.seedConfigData(_fInstance);
-
+                
               } catch(e){
 
                  errorMsg(`Seeding Data for Factory (Main) contract Error: ${e.message}`)
@@ -62,25 +61,5 @@ module.exports =  (deployer) => {
   });// end deploy permission manager
 
 };
-
-
-function successMsg(msg){
-  console.log()
-  console.log(`==>> %c${colors.bold.green(msg)}`,"font-size: x-large")
-  console.log()
-}
-
-function infoMsg(msg){
-  console.log()
-  console.log(`==>> %c${colors.bold.blue(msg)}`,"font-size: x-large")
-  console.log()
-}
-
-
-function errorMsg(msg){
-  console.log()
-  console.log(`==>> %c${colors.bold.red(msg)}`,"font-size: x-large")
-  console.log()
-}
 
 

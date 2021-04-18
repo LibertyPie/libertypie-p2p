@@ -63,6 +63,8 @@ contract Offers is Base {
 
    bytes32 OFFERS_BY_PAYMENT_METHOD_INDEX_GROUP = toBytes32("OFFERS_BY_PAYMENT_METHOD");
 
+   //offer rating groups
+   bytes32 OFFERS_RATING_GROUPS =  toBytes32("OFFERS_RATING_GROUPS");
         
    /**
    * @dev add a  new offer 

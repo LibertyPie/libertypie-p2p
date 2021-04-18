@@ -72,8 +72,11 @@ run = async () => {
     //lets get the registry
     let seedRegistryArray = _seeder.getRegistry();
 
-    for(let seedInfo of seedRegistryArray){
+    for(let registryItem of seedRegistryArray){
         
+        //lets get the file 
+        let seedInfo = 
+
        //lets get 
        let contractName = seedInfo.contract || "";
        let methodName = seedInfo.method || "";
