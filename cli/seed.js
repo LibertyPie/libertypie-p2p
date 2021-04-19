@@ -4,7 +4,6 @@ const ethers = require("ethers");
 const process = require("process");
 const colors = require("colors");
 const web3 = require("web3")
-const Seeder = require("../seed/Seeder");
 const secrets = require("../.secrets.js");
 const Web3 = require("web3")
 const { ArgumentParser } = require('argparse');
@@ -12,6 +11,9 @@ const { version } = require('../package.json');
 const truffleConfig = require("../truffle-config");
 const path = require("path");
 var Web3Net = require('web3-net');
+
+const seederRegistry = require("../seed/registry");
+
 
 
 run = async () => {
@@ -67,23 +69,38 @@ run = async () => {
     //lets get network id
     let networkId = await web3Net.getId();
 
-    let _seeder = new Seeder();
+    //let _seeder = new Seeder();
 
     //lets get the registry
-    let seedRegistryArray = _seeder.getRegistry();
+    //let seedRegistryArray = _seeder.getRegistry();
 
-    for(let registryItem of seedRegistryArray){
+    for(let seedFileName of seederRegistry){
         
+        let seedFile = (seedFileName || "").trim();
+
+        if(seedFile.length == 0){
+            console.log(registryItem)
+            throw new Error(`Registry seed file missing`);
+        }
+
         //lets get the file 
-        let seedInfo = 
+        let seedInfo = require(`../seed/files/${seedFile}`)
 
        //lets get 
        let contractName = seedInfo.contract || "";
-       let methodName = seedInfo.method || "";
+       let contractMethod = seedInfo.method || "";
+       let seedProcessor = seedInfo.processor || "standardSeedProcessor";
+       let seedDataArray = seedInfo.data || []
+       
 
-        if(contractName.length == 0){ throw new Error(`Unknown seed contract ${contractName}`) }
+        if(seedProcessor == "standardSeedProcessor"){
 
-        if(methodName.length == 0){ throw new Error(`Unknown seed method ${methodName}`) } 
+            if(contractName.length == 0){ throw new Error(`Unknown seed contract ${contractName}`) }
+
+            if(contractMethod.length == 0){ throw new Error(`Unknown seed method ${contractMethod}`) } 
+
+            seedProcessor = require("../seed/processors/StandardSeedProcessor");
+        }
 
         let contractInfo; 
         
@@ -104,12 +121,18 @@ run = async () => {
         console.log(`Seeding data to contract ${contractName} at ${contractAddress}`)
 
         //lets load the contract in web3js
-        let contractObj = new web3.eth.Contract(contractAbi,contractAddress);
+        let contractInstance = new web3.eth.Contract(contractAbi,contractAddress);
 
         //console.log(contractObj)
+        //contractObj,contractMethod, seedDataArray
 
         //lets methodName
-        let seedResult = _seeder[methodName](contractObj);
+        let seedResult = seedProcessor({
+            contractInstance, 
+            contractMethod,
+            argsArray: seedDataArray,
+            networkId 
+        });
     } //end for 
 }
 

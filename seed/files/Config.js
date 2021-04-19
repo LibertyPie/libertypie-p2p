@@ -2,7 +2,7 @@ const ethers = require("ethers");
 
 module.exports =  {
     contract: "Factory",
-    method: "SetConfigData",
+    method: "setConfigData",
     data: [
         
         //minimum payment window 
