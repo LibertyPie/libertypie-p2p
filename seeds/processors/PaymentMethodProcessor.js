@@ -6,6 +6,7 @@ const Status = require("../../classes/Status");
 const slugify = require('slugify')
 
 var pmCatsDataArray = null;
+var paymentMethodsByCatIdObj = {}
 
 module.exports = async ({
     contractName,
@@ -28,7 +29,7 @@ module.exports = async ({
 
         pmCatsDataArray = pmCatsStatus.data;
 
-        console.log(pmCatsDataArray)
+        //console.log(pmCatsDataArray)
             
         for(let index in argsArray){
 
@@ -106,7 +107,20 @@ module.exports = async ({
                     paymentMethodInfo = pmDefaultOpts;
                 } //end if 
 
-                console.log("paymentMethodInfo ==> ", paymentMethodInfo)
+                ///console.log("paymentMethodInfo ==> ", paymentMethodInfo)
+
+                //lets get the payment metho info by name
+                let chainPaymentMethodInfoStatus = await getPaymentMethodInfoByName(contractInstance,chainCategoryId,paymentMethodInfo.name);
+
+                let chainPaymentMethodInfo = chainPaymentMethodInfoStatus.data || null;
+
+                //field is empty, lets add data
+                if(chainPaymentMethodInfo == null || chainPaymentMethodInfo.length == 0){
+
+                    //lets insert the data 
+                    let insertPmDataStatus = await 
+                } //end 
+
             }//end loop
         }//end loop
         
@@ -172,7 +186,59 @@ getCategoryInfoByName = async (categoryName) => {
         if(chainCatName.length > 0 && chainCatName == catNameSlug){
             return Status.successPromise("", catInfo)
         }
-    }
+    } //end lop
 
     return Status.successPromise("", null);
 } //end fun 
+
+
+/**
+ * getPaymentMethodInfo
+ */
+ getPaymentMethodsByCategoryId = async (contractInstance, categoryId) => {
+    try {
+
+        if(categoryId in paymentMethodsByCatIdObj){
+            return  Status.successPromise("",paymentMethodsByCatIdObj[categoryId])
+        }
+
+        //lets check if the category slug exists
+        let resultsData = await contractInstance.methods.getPaymentMethodsByCategory(categoryId).call();
+
+        paymentMethodsByCatIdObj[categoryId] = resultsData;
+
+        return Status.successPromise("",resultsData)
+
+    } catch (e) {
+        console.log(`getPaymentMethodsByCategoryId Error ${e.message}`,e)
+        return Status.errorPromise(`getPaymentMethodsByCategoryId Error: ${e.message}`)
+    }
+ }
+
+ /**
+  * getPaymentMethodByName
+  */
+getPaymentMethodInfoByName = async (contractInstance, categoryId, paymentMethodName) => {
+
+    //lets get payment methods by catId
+    let paymentMethodsByCatIds = await getPaymentMethodsByCategoryId(contractInstance, categoryId);
+
+    if(paymentMethodsByCatIds.isError()){
+        return paymentMethodsByCatIds;
+    }
+
+    let dataArray = paymentMethodsByCatIds.data || []
+
+    paymentMethodName = paymentMethodName.trim();
+
+    for(let pmInfo in dataArray){
+
+        if(pmInfo.id <= 0) continue;
+
+        if(paymentMethodName == pmInfo.name){
+            return Status.successPromise("",pmInfo)
+        }
+    } //end loop 
+
+    return Status.successPromise("", null);
+} //end un 
