@@ -11,7 +11,7 @@ const { version } = require('../package.json');
 const truffleConfig = require("../truffle-config");
 const path = require("path");
 var Web3Net = require('web3-net');
-
+const Utils = require("../classes/Utils");
 const seederRegistry = require("../seed/registry");
 
 
@@ -64,8 +64,6 @@ run = async () => {
     let web3 = new Web3(provider);
     let web3Net = new Web3Net(provider);
 
-    //console.log(web3)
-
     //lets get network id
     let networkId = await web3Net.getId();
 
@@ -73,6 +71,8 @@ run = async () => {
 
     //lets get the registry
     //let seedRegistryArray = _seeder.getRegistry();
+
+    let web3Account = web3.currentProvider.addresses[0];
 
     for(let seedFileName of seederRegistry){
         
@@ -127,12 +127,22 @@ run = async () => {
         //contractObj,contractMethod, seedDataArray
 
         //lets methodName
-        let seedResult = seedProcessor({
+        let seedResult = await seedProcessor({
+            contractName,
             contractInstance, 
             contractMethod,
             argsArray: seedDataArray,
-            networkId 
+            networkId,
+            web3,
+            web3Account
         });
+
+        if(seedResult.isError()){
+            Utils.errorMsg(seedResult)
+            throw new Error(seedResult.message)
+        } 
+
+        Utils.successMsg(seedResult)
     } //end for 
 }
 

@@ -23,7 +23,7 @@ const HDWalletProvider = require('@truffle/hdwallet-provider');
 //
 
 //const fs = require('fs');
-const { projectId, privateKeys, mnemonic, apiKey } = require(__dirname+'/.secrets.js');
+const { projectId, privateKeys, mnemonic, apiKey, localDevPrivateKey } = require(__dirname+'/.secrets.js');
 
 
 module.exports = {
@@ -46,11 +46,15 @@ module.exports = {
     // options below to some value.
     //
     development: {
-      host: "127.0.0.1",     // Localhost (default: none)
-      port: 7545,            // Standard Ethereum port (default: none)
+      //host: "127.0.0.1",     // Localhost (default: none)
+      ///port: 7545,            // Standard Ethereum port (default: none)
       network_id: "*",       // Any network (default: none)
       //from: '0x0b37601E9d56Aace9A50886BaD82De34cF7EFA57',
-      gas: 1000000000000000
+      gas: 1000000000000000,
+
+      provider: function() {
+        return (new HDWalletProvider(localDevPrivateKey, `http://127.0.0.1:7545`))
+      },
     },
 
     kovan: {

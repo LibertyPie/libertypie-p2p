@@ -5,7 +5,7 @@
 */
 
 const Utils = require("../../classes/Utils");
-const dataProcessor = require("../processors/PMProcessor");
+const dataProcessor = require("../processors/PaymentMethodProcessor");
 
 module.exports = {
 
@@ -15,7 +15,7 @@ module.exports = {
 
     data: [
         {
-            name: "Bank Transfers",
+            category: "Bank Transfers",
             isEnabled: true,
 
             children: [
@@ -113,7 +113,7 @@ module.exports = {
         },
 
         {
-            name: "Online Transfers",
+            category: "Online Transfers",
             isEnabled: true,
 
             defaultOptions: {
@@ -293,7 +293,7 @@ module.exports = {
         },
 
         {
-            name: "Cash Payments / Remittance",
+            category: "Cash Payments / Remittance",
             isEnabled: true,
 
             defaultOptions: {
@@ -334,7 +334,7 @@ module.exports = {
             ]   
         },
         {
-            name: "Gift Cards",
+            category: "Gift Cards",
             isEnabled: true,
 
             defaultOptions: {
@@ -476,7 +476,7 @@ module.exports = {
             ]
         },
         {
-            name: "Debit/Credit Cards",
+            category: "Debit/Credit Cards",
             isEnabled: true,
 
             defaultOptions: {
@@ -515,7 +515,7 @@ module.exports = {
 
         },
         {
-            name: "Cryptocurrencies",
+            category: "Cryptocurrencies",
             isEnabled: true,
 
             defaultOptions: {
@@ -542,7 +542,7 @@ module.exports = {
         },
 
         {
-            name: "Goods & Services",
+            category: "Goods & Services",
             isEnabled: true,
 
             defaultOptions: {

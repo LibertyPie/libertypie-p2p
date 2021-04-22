@@ -29,6 +29,7 @@
   "homepage": "https://github.com/LibertyPie/Core#readme",
   "dependencies": {
     "@chainlink/contracts": "^0.1.6",
+    "@libertypie/truffle-seeder": "^1.0.9",
     "@openzeppelin/contracts": "^3.4.0",
     "@truffle/hdwallet-provider": "^1.1.1",
     "argparse": "^2.0.1",
