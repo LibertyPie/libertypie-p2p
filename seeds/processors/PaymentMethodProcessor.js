@@ -98,7 +98,7 @@ module.exports = async ({
 
                 if(typeof paymentMethodInfo == 'string'){
 
-                    if(defaultOptions == null){
+                    if(pmDefaultOpts == null){
                         throw new Error(`Category defaultOptions parameter is required if a child is a string at category ${categoryName}, child ${paymentMethodInfo}`)
                     }
 
