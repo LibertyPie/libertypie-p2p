@@ -3,6 +3,7 @@ const ethers = require("ethers");
 //var slugify = require('slugify');
 const Utils = require("../../classes/Utils");
 const Status = require("../../classes/Status");
+const slugify = require('slugify')
 
 var pmCatsDataArray = null;
 
@@ -26,34 +27,24 @@ module.exports = async ({
         }
 
         pmCatsDataArray = pmCatsStatus.data;
+
+        console.log(pmCatsDataArray)
             
         for(let index in argsArray){
 
             let argDataArray = argsArray[index];
-            
-            /*/lets get categoryName 
-            let categoryName = paymentMehodInfoObj.name;
-            let isCatEnabled = paymentMehodInfoObj.isEnabled;
-
-            //let defaultOpts 
-            let defaultOpts = paymentMehodInfoObj.defaultOptions || {};
-
-            //let categoryNameSlug = slugify(categoryName)
-            */
-            
-            //payment Method Categories 
-          
 
             //yarn seeder-run
 
             let categoryName = (argDataArray.category || "")
+            let isCategoryEnabled = (argDataArray.isEnabled || true)
 
             let chainCategoryId;
 
             Utils.infoMsg(`Checking if category ${categoryName} exists`)
 
             //lets get cat info by name
-            let chainCatInfoStatus = getCategoryInfoByName(categoryName)
+            let chainCatInfoStatus = await getCategoryInfoByName(categoryName)
 
             if(chainCatInfoStatus.isError()){
                 Utils.errorMsg(`Failed to get category Info for ${categoryName}`)
@@ -64,21 +55,47 @@ module.exports = async ({
 
             //if empty data, then lets insert the data
             if(!(chainCatInfo == null || chainCatInfo.length == 0) && chainCatInfo.id > 0){
-                chainCategoryId = chainCatInfo.id;
+                
+                chainCategoryId = parseInt(hainCatInfo.id);
 
                 Utils.infoMsg(`Category ${categoryName} exists with id: ${chainCategoryId}`)
             } else {
                 
                 Utils.infoMsg(`Category ${categoryName} does not exists adding to chain`)
+
+                 let addPaymentCategoryResult = await contractInstance.methods.addPaymentMethodCategory(categoryName, isCategoryEnabled)
+                                            .send({from: web3Account});
+
+
+                if(!addPaymentCategoryResult.status){
+                    Utils.errorMsg(`Failed to add category: '${categoryName}', txHash: ${addPaymentCategoryResult.transactionHash}`)
+                    continue
+                }
+
+
+                chainCategoryId = addPaymentCategoryResult.events.AddPaymentMethodCategory.returnValues[0];
+
+                chainCategoryId = parseInt(chainCategoryId);
                 
                 //at this point, lets add category
-                console.log("Lol Adding category")
-            }
+               Utils.infoMsg(`Category name ${categoryName} added, id: ${chainCategoryId} , txHash: ${addPaymentCategoryResult.transactionHash}`)
 
-            console.log("categoryName: ", categoryName)
-            
-           
-        }
+               //lets add to this list pmCatsDataArray
+               pmCatsDataArray[chainCategoryId] = {id: chainCategoryId, name: categoryName};
+            }            
+
+            //lets get category children
+            let categoryChildrenArray = (argDataArray.children || [])
+
+
+            //lets now loop the children 
+            for(let ci in categoryChildrenArray) {
+
+                let paymentMethodInfo = categoryChildrenArray[ci];
+
+                
+            }//end loop
+        }//end loop
         
         return Status.errorPromise()
     } catch (e) {
@@ -144,5 +161,5 @@ getCategoryInfoByName = async (categoryName) => {
         }
     }
 
-    return Status..successPromise("", null);
+    return Status.successPromise("", null);
 } //end fun 
