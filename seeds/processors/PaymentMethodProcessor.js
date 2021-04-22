@@ -17,15 +17,13 @@ module.exports = async ({
     try {
 
         //payment Method Categories 
-        let paymentMethodCategories = await getPaymentMethodCategories(contractInstance);
+        let pmCatsStatus = await getPaymentMethodCategories(contractInstance);
 
-        console.log(paymentMethodCategories)
-
-        if(paymentMethodCategories.isError()){
-            return paymentMethodCategories;
+        if(pmCatsStatus.isError()){
+            return pmCatsStatus;
         }
 
-        return Status.errorPromise()
+        let pmCatsDataArray = pmCatsStatus.data;
             
         for(let index in argsArray){
 
@@ -42,17 +40,20 @@ module.exports = async ({
             */
             
             //payment Method Categories 
-            let paymentMethodCategories = getPaymentMethodCategories(contractInstance);
-            
+          
 
             //yarn seeder-run
 
             let categoryName = (argDataArray.category || "")
 
             //lets check if the category exists, if not we insert it 
+            for(let chainCatInfo of pmCatsDataArray){
+                
+            }
 
+            console.log("categoryName: ", categoryName)
             
-            if(index == 1) break;
+           
         }
         
         return Status.errorPromise()
