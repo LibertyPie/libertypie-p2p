@@ -32,12 +32,12 @@ module.exports = async ({
             
         for(let index in argsArray){
 
-            let argDataArray = argsArray[index];
+            let pmDataInfo = argsArray[index];
 
             //yarn seeder-run
 
-            let categoryName = (argDataArray.category || "")
-            let isCategoryEnabled = (argDataArray.isEnabled || true)
+            let categoryName = (pmDataInfo.category || "")
+            let isCategoryEnabled = (pmDataInfo.isEnabled || true)
 
             let chainCategoryId;
 
@@ -84,8 +84,11 @@ module.exports = async ({
                pmCatsDataArray[chainCategoryId] = {id: chainCategoryId, name: categoryName};
             }            
 
+            //paymentGatewayDefaultOpts
+            let pmDefaultOpts = pmDataInfo.defaultOptions || null;
+
             //lets get category children
-            let categoryChildrenArray = (argDataArray.children || [])
+            let categoryChildrenArray = (pmDataInfo.children || [])
 
 
             //lets now loop the children 
@@ -93,7 +96,17 @@ module.exports = async ({
 
                 let paymentMethodInfo = categoryChildrenArray[ci];
 
-                
+                if(typeof paymentMethodInfo == 'string'){
+
+                    if(defaultOptions == null){
+                        throw new Error(`Category defaultOptions parameter is required if a child is a string at category ${categoryName}, child ${paymentMethodInfo}`)
+                    }
+
+                    pmDefaultOpts['name'] = paymentMethodInfo;
+                    paymentMethodInfo = pmDefaultOpts;
+                }
+
+
             }//end loop
         }//end loop
         
