@@ -42,13 +42,17 @@ module.exports = async ({
 
             let chainCategoryId;
 
-            Utils.infoMsg(`Checking if category ${categoryName} exists`)
+            Utils.infoMsg(`Processing Category: ${categoryName}`)
+
+            console.log('')
+
+            Utils.infoMsg(`Checking if category '${categoryName}' exists`)
 
             //lets get cat info by name
             let chainCatInfoStatus = await getCategoryInfoByName(categoryName)
 
             if(chainCatInfoStatus.isError()){
-                Utils.errorMsg(`Failed to get category Info for ${categoryName}`)
+                Utils.errorMsg(`Failed to get category Info for '${categoryName}'`)
                 return chainCatInfoStatus;
             }
 
@@ -65,7 +69,7 @@ module.exports = async ({
                 Utils.infoMsg(`Category ${categoryName} does not exists adding to chain`)
 
                  let addPaymentCategoryResult = await contractInstance.methods.addPaymentMethodCategory(categoryName, isCategoryEnabled)
-                                            .send({from: web3Account});
+                                                        .send({from: web3Account});
 
 
                 if(!addPaymentCategoryResult.status){
@@ -79,7 +83,7 @@ module.exports = async ({
                 chainCategoryId = parseInt(chainCategoryId);
                 
                 //at this point, lets add category
-               Utils.infoMsg(`Category name ${categoryName} added, id: ${chainCategoryId} , txHash: ${addPaymentCategoryResult.transactionHash}`)
+               Utils.successMsg(`Category name '${categoryName}' added, id: ${chainCategoryId} , txHash: ${addPaymentCategoryResult.transactionHash}`)
 
                //lets add to this list pmCatsDataArray
                pmCatsDataArray[chainCategoryId] = {id: chainCategoryId, name: categoryName};
@@ -116,9 +120,32 @@ module.exports = async ({
 
                 //field is empty, lets add data
                 if(chainPaymentMethodInfo == null || chainPaymentMethodInfo.length == 0){
+                    
+                     Utils.infoMsg(`PaymentMethod ${paymentMethodInfo.name} does not exist, adding it`)
+
+                    let dataParam = [
+                        paymentMethodInfo.name,
+                        chainCategoryId,
+                        paymentMethodInfo.minPaymentWindow,
+                        paymentMethodInfo.maxPaymentWindow,
+                        paymentMethodInfo.countries,
+                        paymentMethodInfo.continents,
+                        paymentMethodInfo.isEnabled
+                    ];
+
+                    console.log("pm dataParam ==>> ", dataParam)
 
                     //lets insert the data 
-                    let insertPmDataStatus = await 
+                    let insertPmDataResults = await contractInstance.methods.addPaymentMethod(...dataParam).send({from: web3Account})
+
+                    if(!insertPmDataStatus.status){
+                        Utils.errorMsg(`Adding paymentMethod ${paymentMethodInfo.name} failed, txHash: ${insertPmDataResults.transactionHash}`)
+                        continue;
+                    }
+
+                    let paymentMethodId = insertPmDataResults.events.AddPaymentMethod.returnValues[0];
+
+                    Utils.successMsg(`PaymentMethod ${paymentMethodInfo.name} added successfully, id: ${paymentMethodId}, txHash: ${insertPmDataResults.transactionHash}`)
                 } //end 
 
             }//end loop

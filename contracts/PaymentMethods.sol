@@ -123,7 +123,7 @@ contract PaymentMethods is Base {
     ) public  onlyAdmin() returns(uint256) {
 
         //lets  check if categoryId exists 
-        require(categoryId > 1 && categoryId <= getTotalPaymentMethodsCategories(),statusMsg("UNKNOWN_CATEGORY"));
+        require(categoryId > 0 && categoryId <= getTotalPaymentMethodsCategories(),statusMsg("UNKNOWN_CATEGORY",toBytes32(categoryId)));
 
         //avoid totalPaymentTypes++
         //counting starts from 1, so index 0 wont exist
@@ -180,7 +180,9 @@ contract PaymentMethods is Base {
     ) external  onlyAdmin()  {
         
         //lets check if 
-        require(_dataToSave.id > 0 && _dataToSave.id  <= getTotalPaymentMethods(),statusMsg("UNKNOWN_PAYMENT_METHOD"));
+        require(_dataToSave.id > 0 && _dataToSave.id  <= getTotalPaymentMethods(),statusMsg("UNKNOWN_PAYMENT_METHOD",toBytes32(_dataToSave.id)));
+
+         require(categoryId > 0 && categoryId <= getTotalPaymentMethodsCategories(),statusMsg("UNKNOWN_CATEGORY",toBytes32(categoryId)));
 
 
         getDataStore().savePaymentMethodData(
