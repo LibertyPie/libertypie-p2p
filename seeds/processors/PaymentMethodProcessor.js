@@ -56,7 +56,7 @@ module.exports = async ({
             //if empty data, then lets insert the data
             if(!(chainCatInfo == null || chainCatInfo.length == 0) && chainCatInfo.id > 0){
                 
-                chainCategoryId = parseInt(hainCatInfo.id);
+                chainCategoryId = parseInt(chainCatInfo.id);
 
                 Utils.infoMsg(`Category ${categoryName} exists with id: ${chainCategoryId}`)
             } else {
@@ -104,9 +104,9 @@ module.exports = async ({
 
                     pmDefaultOpts['name'] = paymentMethodInfo;
                     paymentMethodInfo = pmDefaultOpts;
-                }
+                } //end if 
 
-
+                console.log("paymentMethodInfo ==> ", paymentMethodInfo)
             }//end loop
         }//end loop
         
