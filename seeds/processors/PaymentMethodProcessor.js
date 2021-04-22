@@ -4,6 +4,8 @@ const ethers = require("ethers");
 const Utils = require("../../classes/Utils");
 const Status = require("../../classes/Status");
 
+var pmCatsDataArray = null;
+
 module.exports = async ({
     contractName,
     contractInstance, 
@@ -23,7 +25,7 @@ module.exports = async ({
             return pmCatsStatus;
         }
 
-        let pmCatsDataArray = pmCatsStatus.data;
+        pmCatsDataArray = pmCatsStatus.data;
             
         for(let index in argsArray){
 
@@ -46,9 +48,31 @@ module.exports = async ({
 
             let categoryName = (argDataArray.category || "")
 
-            //lets check if the category exists, if not we insert it 
-            for(let chainCatInfo of pmCatsDataArray){
+            let chainCategoryId;
+
+            Utils.infoMsg(`Checking if category ${categoryName} exists`)
+
+            //lets get cat info by name
+            let chainCatInfoStatus = getCategoryInfoByName(categoryName)
+
+            if(chainCatInfoStatus.isError()){
+                Utils.errorMsg(`Failed to get category Info for ${categoryName}`)
+                return chainCatInfoStatus;
+            }
+
+            let chainCatInfo = chainCatInfoStatus.data || [];
+
+            //if empty data, then lets insert the data
+            if(!(chainCatInfo == null || chainCatInfo.length == 0) && chainCatInfo.id > 0){
+                chainCategoryId = chainCatInfo.id;
+
+                Utils.infoMsg(`Category ${categoryName} exists with id: ${chainCategoryId}`)
+            } else {
                 
+                Utils.infoMsg(`Category ${categoryName} does not exists adding to chain`)
+                
+                //at this point, lets add category
+                console.log("Lol Adding category")
             }
 
             console.log("categoryName: ", categoryName)
@@ -93,3 +117,32 @@ getPaymentMethodCategories = async (contractInstance) => {
         return Status.errorPromise(`getPaymentMethodCategories Error: ${e.message}`)
     }
 }
+
+//get cat info by name
+getCategoryInfoByName = async (categoryName) => {
+
+    if(pmCatsDataArray == null){
+          //payment Method Categories 
+        let pmCatsStatus = await getPaymentMethodCategories(contractInstance);
+
+        if(pmCatsStatus.isError()){
+            Utils.errorMsg(pmCatsStatus.msg)
+            return pmCatsStatus;
+        }
+
+        pmCatsDataArray = pmCatsStatus.data;
+    } //end if 
+
+    let catNameSlug = slugify(categoryName)
+
+    for(let catInfo of pmCatsDataArray){
+        
+        let chainCatName = slugify(catInfo.name);
+
+        if(chainCatName.length > 0 && chainCatName == catNameSlug){
+            return Status.successPromise("", catInfo)
+        }
+    }
+
+    return Status..successPromise("", null);
+} //end fun 
