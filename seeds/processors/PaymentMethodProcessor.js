@@ -138,7 +138,7 @@ module.exports = async ({
                     //lets insert the data 
                     let insertPmDataResults = await contractInstance.methods.addPaymentMethod(...dataParam).send({from: web3Account})
 
-                    if(!insertPmDataStatus.status){
+                    if(!insertPmDataResults.status){
                         Utils.errorMsg(`Adding paymentMethod ${paymentMethodInfo.name} failed, txHash: ${insertPmDataResults.transactionHash}`)
                         continue;
                     }
@@ -207,8 +207,12 @@ getCategoryInfoByName = async (categoryName) => {
     let catNameSlug = slugify(categoryName)
 
     for(let catInfo of pmCatsDataArray){
+
+        let chainCatName = catInfo.name || "";
+
+        if(chainCatName.length == 0) continue;
         
-        let chainCatName = slugify(catInfo.name);
+        chainCatName = slugify(catInfo.name);
 
         if(chainCatName.length > 0 && chainCatName == catNameSlug){
             return Status.successPromise("", catInfo)
@@ -254,15 +258,17 @@ getPaymentMethodInfoByName = async (contractInstance, categoryId, paymentMethodN
         return paymentMethodsByCatIds;
     }
 
+    let paymentMethodNameSlug = slugify(paymentMethodName)
+
     let dataArray = paymentMethodsByCatIds.data || []
 
     paymentMethodName = paymentMethodName.trim();
 
     for(let pmInfo in dataArray){
 
-        if(pmInfo.id <= 0) continue;
-
-        if(paymentMethodName == pmInfo.name){
+        if(pmInfo.id <= 0 || (pmInfo.name || "").length == 0) continue;
+        
+        if(paymentMethodNameSlug == slugify(pmInfo.name)){
             return Status.successPromise("",pmInfo)
         }
     } //end loop 
