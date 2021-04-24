@@ -29,7 +29,9 @@ module.exports = async ({
 
         pmCatsDataArray = pmCatsStatus.data;
 
-        //console.log(pmCatsDataArray)
+        let totalCatsAdded = 0;
+        let totalPmAdded = 0;
+        let totalPmFailed = 0
             
         for(let index in argsArray){
 
@@ -87,6 +89,8 @@ module.exports = async ({
 
                //lets add to this list pmCatsDataArray
                pmCatsDataArray[chainCategoryId] = {id: chainCategoryId, name: categoryName};
+
+               totalCatsAdded += 1
             }            
 
             //paymentGatewayDefaultOpts
@@ -95,6 +99,7 @@ module.exports = async ({
             //lets get category children
             let categoryChildrenArray = (pmDataInfo.children || [])
 
+            let pmDataByCatIdArray = await getPaymentMethodsByCategoryId(contractInstance, chainCategoryId)
 
             //lets now loop the children 
             for(let ci in categoryChildrenArray) {
@@ -118,6 +123,10 @@ module.exports = async ({
 
                 let chainPaymentMethodInfo = chainPaymentMethodInfoStatus.data || null;
 
+                //console.log(`chainPaymentMethodInfo - ${categoryName} ==>> `, chainPaymentMethodInfoStatus)
+
+                //continue;
+
                 //field is empty, lets add data
                 if(chainPaymentMethodInfo == null || chainPaymentMethodInfo.length == 0){
                     
@@ -136,7 +145,17 @@ module.exports = async ({
                     console.log("pm dataParam ==>> ", dataParam)
 
                     //lets insert the data 
-                    let insertPmDataResults = await contractInstance.methods.addPaymentMethod(...dataParam).send({from: web3Account})
+                    let insertPmDataResults = await contractInstance.methods.addPaymentMethod(
+                        paymentMethodInfo.name,
+                        chainCategoryId,
+                        paymentMethodInfo.minPaymentWindow,
+                        paymentMethodInfo.maxPaymentWindow,
+                        paymentMethodInfo.countries ||[],
+                        paymentMethodInfo.continents || [],
+                        paymentMethodInfo.isEnabled || true
+                    ).send({from: web3Account})
+
+                    console.log(`${categoryName} ==>>`, insertPmDataResults)
 
                     if(!insertPmDataResults.status){
                         Utils.errorMsg(`Adding paymentMethod ${paymentMethodInfo.name} failed, txHash: ${insertPmDataResults.transactionHash}`)
@@ -145,18 +164,20 @@ module.exports = async ({
 
                     let paymentMethodId = insertPmDataResults.events.AddPaymentMethod.returnValues[0];
 
+                    totalPmAdded += 1
+
                     Utils.successMsg(`PaymentMethod ${paymentMethodInfo.name} added successfully, id: ${paymentMethodId}, txHash: ${insertPmDataResults.transactionHash}`)
                 } //end 
 
             }//end loop
         }//end loop
         
-        return Status.errorPromise()
+        return Status.successPromise("",{"Total Payment Gateway Added": totalPmAdded, "Total Categories Added": totalCatsAdded})
     } catch (e) {
         Utils.errorMsg(`seedPaymentMethodsData Error: ${e}`)
         console.log(e)
 
-         return Status.errorPromise()
+         return Status.errorPromise("",null)
     }
     
 }
@@ -208,6 +229,8 @@ getCategoryInfoByName = async (categoryName) => {
 
     for(let catInfo of pmCatsDataArray){
 
+        if(!catInfo) continue;
+
         let chainCatName = catInfo.name || "";
 
         if(chainCatName.length == 0) continue;
@@ -230,15 +253,26 @@ getCategoryInfoByName = async (categoryName) => {
     try {
 
         if(categoryId in paymentMethodsByCatIdObj){
-            return  Status.successPromise("",paymentMethodsByCatIdObj[categoryId])
+           // return  Status.successPromise("",paymentMethodsByCatIdObj[categoryId])
         }
 
         //lets check if the category slug exists
         let resultsData = await contractInstance.methods.getPaymentMethodsByCategory(categoryId).call();
 
-        paymentMethodsByCatIdObj[categoryId] = resultsData;
+        //console.log(`${categoryId} ===>>> `, resultsData)
 
-        return Status.successPromise("",resultsData)
+        let processedData = []
+
+        for(let pmInfo of resultsData) {
+            
+            if(pmInfo.id == 0 || pmInfo.name == "") continue;
+
+            processedData.push(pmInfo)
+        }
+
+        paymentMethodsByCatIdObj[categoryId] = processedData;
+
+        return Status.successPromise("",processedData)
 
     } catch (e) {
         console.log(`getPaymentMethodsByCategoryId Error ${e.message}`,e)
@@ -254,6 +288,8 @@ getPaymentMethodInfoByName = async (contractInstance, categoryId, paymentMethodN
     //lets get payment methods by catId
     let paymentMethodsByCatIds = await getPaymentMethodsByCategoryId(contractInstance, categoryId);
 
+    //console.log(paymentMethodsByCatIds)
+
     if(paymentMethodsByCatIds.isError()){
         return paymentMethodsByCatIds;
     }
@@ -266,9 +302,12 @@ getPaymentMethodInfoByName = async (contractInstance, categoryId, paymentMethodN
 
     for(let pmInfo in dataArray){
 
+         console.log("pmInfo.name ==> ",pmInfo.name)
+
         if(pmInfo.id <= 0 || (pmInfo.name || "").length == 0) continue;
-        
+
         if(paymentMethodNameSlug == slugify(pmInfo.name)){
+            console.log("pmInfo ==>>>> ", pmInfo)
             return Status.successPromise("",pmInfo)
         }
     } //end loop 

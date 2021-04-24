@@ -37,7 +37,7 @@ contract PaymentMethodsStore is StoreEditor  {
      * @dev get total payment methods
      */
      function getTotalPaymentMethods() public view  returns (uint256) {
-        return totalPaymentMethodsCategories;
+        return totalPaymentMethods;
      }
 
        /**

@@ -124,6 +124,7 @@ contract PaymentMethods is Base {
 
         //lets  check if categoryId exists 
         require(categoryId > 0 && categoryId <= getTotalPaymentMethodsCategories(),statusMsg("UNKNOWN_CATEGORY",toBytes32(categoryId)));
+        require(bytes(name).length > 0, statusMsg("PAYMENT_METHOD_NAME_REQUIRED"));
 
         //avoid totalPaymentTypes++
         //counting starts from 1, so index 0 wont exist
@@ -227,7 +228,7 @@ contract PaymentMethods is Base {
 
             PaymentMethodsStructs.PaymentMethodItem memory paymentMethodData =  getPaymentMethod(i);
 
-            if(paymentMethodData.categoryId == categoryId && paymentMethodData.isEnabled == true){
+            if(paymentMethodData.categoryId == categoryId && bytes(paymentMethodData.name).length > 0){
                 paymentMethodsArray[i] = paymentMethodData;
             }
         }
