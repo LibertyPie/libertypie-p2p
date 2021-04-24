@@ -21,9 +21,7 @@ contract AssetsStructs {
         bool      isPegged;
         string    originalName;
         string    originalSymbol;
-        address   wrapperContract;
         string    priceFeedProvider;
-        address   priceFeedContract;
         bool      isEnabled;
         uint256   createdAt;
         uint256   updatedAt;

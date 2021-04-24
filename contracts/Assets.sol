@@ -27,21 +27,19 @@ contract Assets is Base {
 
      /**
      * @dev add a new asset to supported list
-     * @param _contractAddress asset's contract address
-     * @param _isPegged a  boolean describing wether its pegged  or not
-     * @param _originalName if pegged, then original asset name
-     * @param _originalSymbol if pegged, the original symbol
-     *  @param _wrapperContract smart contract for wrapping  and unwrapping the asset 
+     * @param  contractAddress asset's contract address
+     * @param  isPegged a  boolean describing wether its pegged  or not
+     * @param  originalName if pegged, then original asset name
+     * @param  originalSymbol if pegged, the original symbol
+     * @param  priceFeedProvider the price feed provider, example chainLink
      * @param isEnabled if contract is enabled
      */
     function addAsset(
-        address           _contractAddress, 
-        bool              _isPegged,
-        string   memory   _originalName,
-        string   memory   _originalSymbol,
-        address           _wrapperContract,
-        string   memory   _priceFeedProvider,
-        address           _priceFeedContract,
+        address           contractAddress, 
+        bool              isPegged,
+        string   memory   originalName,
+        string   memory   originalSymbol,
+        string   memory   priceFeedProvider,
         bool              isEnabled
     ) public onlyAdmin returns(uint256) {
         
@@ -51,15 +49,13 @@ contract Assets is Base {
         uint256 _id = getDataStore().getNextAssetId();
 
         AssetsStructs.AssetItem memory assetItem = AssetsStructs.AssetItem(
-            _id,
-            _contractAddress,
+            id,
+            contractAddress,
             erc20Token.decimals(),
-            _isPegged,
-            _originalName,
-            _originalSymbol,
-            _wrapperContract,
-            _priceFeedProvider,
-            _priceFeedContract,
+            isPegged,
+            originalName,
+            originalSymbol,
+            priceFeedProvider,
             isEnabled,
             block.timestamp,
             block.timestamp
@@ -75,52 +71,47 @@ contract Assets is Base {
 
     /**
      * @dev add a new asset to supported list
-     * @param _id asset Id
-     * @param _contractAddress asset's contract address
-     * @param _isPegged a  boolean describing wether its pegged  or not
-     * @param _originalName if pegged, then original asset name
-     * @param _originalSymbol if pegged, the original symbol
-     *  @param _wrapperContract smart contract for wrapping  and unwrapping the asset 
+     * @param  id asset Id
+     * @param  contractAddress asset's contract address
+     * @param  isPegged a  boolean describing wether its pegged  or not
+     * @param  originalName if pegged, then original asset name
+     * @param  originalSymbol if pegged, the original symbol
      * @param isEnabled if contract is enabled
      */
     function updateAsset(
-        uint256  _id,
-        address  _contractAddress, 
-        bool     _isPegged,
-        string   memory  _originalName,
-        string   memory _originalSymbol,
-        address _wrapperContract,
-        string memory _priceFeedProvider,
-        address       _priceFeedContract,
-        bool    isEnabled
+        uint256             id,
+        address             contractAddress, 
+        bool                isPegged,
+        string    memory    originalName,
+        string    memory    originalSymbol,
+        string    memory    priceFeedProvider,
+        bool                isEnabled
     )  public onlyAdmin returns(uint256) {
 
 
         //lets get the assetInfo
         AssetsStructs.AssetItem memory assetInfo = getAssetById(_id);
 
-        require(assetInfo.contractAddress != Address(0), statusMsg("UNKNOWN_ASSET"));
+        require(assetInfo.contractAddress != address(0), statusMsg("UNKNOWN_ASSET"));
 
         //fetch contract  info
         ERC20 erc20Token = ERC20(_contractAddress);
 
-        AssetsStructs.AssetItem memory assetItem = AssetsStructs.AssetItem(
-            _id,
-            _contractAddress,
+        AssetsStructs.AssetItem memory newAssetItem = AssetsStructs.AssetItem(
+            id,
+            contractAddress,
             erc20Token.decimals(),
-            _isPegged,
-            _originalName,
-            _originalSymbol,
-            _wrapperContract,
-            _priceFeedProvider,
-            _priceFeedContract,
+            isPegged,
+            originalName,
+            originalSymbol,
+            priceFeedProvider,
             isEnabled,
             assetInfo.createdAt,
             block.timestamp
         );
 
 
-        processAndSaveAsset(assetItem, erc20Token.symbol());
+        processAndSaveAsset(newAssetItem, erc20Token.symbol());
       
         emit UpdateAsset(_id);
 
