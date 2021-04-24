@@ -35,26 +35,15 @@ contract Assets is Base {
      * @param isEnabled if contract is enabled
      */
     function addAsset(
-        address  _contractAddress, 
-        bool     _isPegged,
-        string   memory  _originalName,
-        string   memory _originalSymbol,
-        address _wrapperContract,
-        string memory _priceFeedProvider,
-        address _priceFeedContract,
-        bool    isEnabled
-    ) public onlyAdmin {
-
-        require(_contractAddress != address(0), statusMsg("INAVLID_CONTRACT_ADDRESS"));
-
-        require(_priceFeedContract != address(0), statusMsg("INAVLID_PRICE_FEED_CONTRACT_ADDRESS"));
-
-         
-      require(toBytes32(_priceFeedProvider) == toBytes32("chainlink") || 
-         toBytes32(_priceFeedProvider) == toBytes32("open_price_feed"),
-         statusMsg("UNKNOWN_PRICE_FEED_PROVIDER",_priceFeedProvider)
-      );
-
+        address           _contractAddress, 
+        bool              _isPegged,
+        string   memory   _originalName,
+        string   memory   _originalSymbol,
+        address           _wrapperContract,
+        string   memory   _priceFeedProvider,
+        address           _priceFeedContract,
+        bool              isEnabled
+    ) public onlyAdmin returns(uint256) {
         
         //fetch contract  info
         ERC20 erc20Token = ERC20(_contractAddress);
@@ -76,12 +65,11 @@ contract Assets is Base {
             block.timestamp
         );
 
-        _priceFeed.setAssetPriceFeedContract(erc20Token.symbol(), _priceFeedContract);
-        
-        // lets save the data
-        getDataStore().saveAssetData(_id, assetItem);
+        processAndSaveAsset(assetItem, erc20Token.symbol());
 
         emit AddAsset(_id);
+
+        return _id;
     }//end fun
 
 
@@ -103,22 +91,17 @@ contract Assets is Base {
         string   memory _originalSymbol,
         address _wrapperContract,
         string memory _priceFeedProvider,
-        address _priceFeedContract,
+        address       _priceFeedContract,
         bool    isEnabled
-    )  public onlyAdmin {
+    )  public onlyAdmin returns(uint256) {
 
-        
-        require(_contractAddress != address(0), statusMsg("INAVLID_CONTRACT_ADDRESS"));
-
-        require(_priceFeedContract != address(0), statusMsg("INAVLID_PRICE_FEED_CONTRACT_ADDRESS"));
-
-        require(_id > 0, statusMsg("INVALID_ASSET_ID"));
 
         //lets get the assetInfo
         AssetsStructs.AssetItem memory assetInfo = getAssetById(_id);
 
+        require(assetInfo.contractAddress != Address(0), statusMsg("UNKNOWN_ASSET"));
 
-          //fetch contract  info
+        //fetch contract  info
         ERC20 erc20Token = ERC20(_contractAddress);
 
         AssetsStructs.AssetItem memory assetItem = AssetsStructs.AssetItem(
@@ -136,13 +119,39 @@ contract Assets is Base {
             block.timestamp
         );
 
-        _priceFeed.setAssetPriceFeedContract(erc20Token.symbol(), _priceFeedContract);
+
+        processAndSaveAsset(assetItem, erc20Token.symbol());
+      
+        emit UpdateAsset(_id);
+
+        return _id;
+    }//end 
+
+
+    /**
+     * @dev process and save asset
+     */
+    function processAndSaveAsset(
+        AssetsStructs.AssetItem memory assetItem,
+        string memory assetSymbol 
+    ) private onlyAdmin  {
+
+        uint256 totalAssets = getDataStore().getTotalAssets();
+
+        require(assetItem.id > 0 && assetItem.id <= totalAssets, statusMsg("INVALID_ASSET_ID"));
+
+        require(assetItem.contractAddress != address(0), statusMsg("INAVLID_CONTRACT_ADDRESS"));
+
+        require(assetItem.priceFeedContract != address(0), statusMsg("INAVLID_PRICE_FEED_CONTRACT_ADDRESS"));
+
+        require(assetItem.contractAddress != address(0), statusMsg("INVALID_ASSET_CONTRACT_ADDRESS"));
+
+        _priceFeed.setAssetPriceFeedContract(assetSymbol, assetItem.priceFeedContract);
         
         // lets save the data
-        getDataStore().saveAssetData(_id, assetItem);
+        getDataStore().saveAssetData(assetItem.id, assetItem);
 
-        emit UpdateAsset(_id);
-    }//end 
+    }//end
    
     /**
      * @dev fetch asset by it contract address
@@ -213,11 +222,11 @@ contract Assets is Base {
 
         uint256 totalAssets = getDataStore().getTotalAssets();
 
-        AssetsStructs.AssetItem[] memory assetsData  = new AssetsStructs.AssetItem[]  (totalAssets);
+        AssetsStructs.AssetItem[] memory assetsData  = new AssetsStructs.AssetItem[]  (totalAssets + 1);
 
          //loop to get items
          // ids never starts  with  0, so start with  1
-        for(uint256 i = 0; i <= totalAssets; i++){
+        for(uint256 i = 1; i <= totalAssets; i++){
 
              //lets now get asset  info 
             AssetsStructs.AssetItem memory assetItem = getAssetById(i);

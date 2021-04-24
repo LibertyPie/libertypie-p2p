@@ -116,7 +116,7 @@ module.exports = async ({
                     paymentMethodInfo = pmDefaultOpts;
                 } //end if 
 
-                ///console.log("paymentMethodInfo ==> ", paymentMethodInfo)
+                //console.log("paymentMethodInfo ==> ", paymentMethodInfo)
 
                 //lets get the payment metho info by name
                 let chainPaymentMethodInfoStatus = await getPaymentMethodInfoByName(contractInstance,chainCategoryId,paymentMethodInfo.name);
@@ -128,9 +128,13 @@ module.exports = async ({
                 //continue;
 
                 //field is empty, lets add data
-                if(chainPaymentMethodInfo == null || chainPaymentMethodInfo.length == 0){
+                if(!(chainPaymentMethodInfo == null || chainPaymentMethodInfo.length == 0)){
                     
-                     Utils.infoMsg(`PaymentMethod ${paymentMethodInfo.name} does not exist, adding it`)
+                    Utils.successMsg(`PaymentMethod ${categoryName} -> ${paymentMethodInfo.name} id: ${paymentMethodInfo.id} already exist, skipping `)
+
+                } else {
+                    
+                    Utils.infoMsg(`PaymentMethod ${paymentMethodInfo.name} does not exist, adding it`)
 
                     let dataParam = [
                         paymentMethodInfo.name,
@@ -155,7 +159,7 @@ module.exports = async ({
                         paymentMethodInfo.isEnabled || true
                     ).send({from: web3Account})
 
-                    console.log(`${categoryName} ==>>`, insertPmDataResults)
+                    //console.log(`${categoryName} ==>>`, insertPmDataResults)
 
                     if(!insertPmDataResults.status){
                         Utils.errorMsg(`Adding paymentMethod ${paymentMethodInfo.name} failed, txHash: ${insertPmDataResults.transactionHash}`)
@@ -253,7 +257,7 @@ getCategoryInfoByName = async (categoryName) => {
     try {
 
         if(categoryId in paymentMethodsByCatIdObj){
-           // return  Status.successPromise("",paymentMethodsByCatIdObj[categoryId])
+           return  Status.successPromise("",paymentMethodsByCatIdObj[categoryId])
         }
 
         //lets check if the category slug exists
@@ -300,14 +304,11 @@ getPaymentMethodInfoByName = async (contractInstance, categoryId, paymentMethodN
 
     paymentMethodName = paymentMethodName.trim();
 
-    for(let pmInfo in dataArray){
-
-         console.log("pmInfo.name ==> ",pmInfo.name)
+    for(let pmInfo of dataArray){
 
         if(pmInfo.id <= 0 || (pmInfo.name || "").length == 0) continue;
 
         if(paymentMethodNameSlug == slugify(pmInfo.name)){
-            console.log("pmInfo ==>>>> ", pmInfo)
             return Status.successPromise("",pmInfo)
         }
     } //end loop 
