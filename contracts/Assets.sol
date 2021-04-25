@@ -29,33 +29,37 @@ contract Assets is Base {
      * @dev add a new asset to supported list
      * @param  contractAddress asset's contract address
      * @param  isPegged a  boolean describing wether its pegged  or not
+     * @param  peggedAssetGateway gateway for interacting with the asset
      * @param  originalName if pegged, then original asset name
      * @param  originalSymbol if pegged, the original symbol
-     * @param  priceFeedProvider the price feed provider, example chainLink
      * @param isEnabled if contract is enabled
      */
     function addAsset(
         address           contractAddress, 
         bool              isPegged,
+        address           peggedAssetGateway,
         string   memory   originalName,
         string   memory   originalSymbol,
         string   memory   priceFeedProvider,
+        address           priceFeedContract,
         bool              isEnabled
     ) public onlyAdmin returns(uint256) {
         
         //fetch contract  info
-        ERC20 erc20Token = ERC20(_contractAddress);
+        ERC20 erc20Token = ERC20(contractAddress);
 
-        uint256 _id = getDataStore().getNextAssetId();
+        uint256 id = getDataStore().getNextAssetId();
 
         AssetsStructs.AssetItem memory assetItem = AssetsStructs.AssetItem(
             id,
             contractAddress,
             erc20Token.decimals(),
             isPegged,
+            peggedAssetGateway,
             originalName,
             originalSymbol,
             priceFeedProvider,
+            priceFeedContract,
             isEnabled,
             block.timestamp,
             block.timestamp
@@ -63,48 +67,53 @@ contract Assets is Base {
 
         processAndSaveAsset(assetItem, erc20Token.symbol());
 
-        emit AddAsset(_id);
+        emit AddAsset(id);
 
-        return _id;
+        return id;
     }//end fun
 
 
     /**
      * @dev add a new asset to supported list
-     * @param  id asset Id
-     * @param  contractAddress asset's contract address
-     * @param  isPegged a  boolean describing wether its pegged  or not
-     * @param  originalName if pegged, then original asset name
-     * @param  originalSymbol if pegged, the original symbol
+     * @param id asset Id
+     * @param contractAddress asset's contract address
+     * @param isPegged a  boolean describing wether its pegged  or not
+     * @param peggedAssetGateway the pegged asset gateway
+     * @param originalName if pegged, then original asset name
+     * @param originalSymbol if pegged, the original symbol
      * @param isEnabled if contract is enabled
      */
     function updateAsset(
         uint256             id,
         address             contractAddress, 
         bool                isPegged,
+        address             peggedAssetGateway,
         string    memory    originalName,
         string    memory    originalSymbol,
         string    memory    priceFeedProvider,
+        address             priceFeedContract,
         bool                isEnabled
     )  public onlyAdmin returns(uint256) {
 
 
         //lets get the assetInfo
-        AssetsStructs.AssetItem memory assetInfo = getAssetById(_id);
+        AssetsStructs.AssetItem memory assetInfo = getAssetById(id);
 
         require(assetInfo.contractAddress != address(0), statusMsg("UNKNOWN_ASSET"));
 
         //fetch contract  info
-        ERC20 erc20Token = ERC20(_contractAddress);
+        ERC20 erc20Token = ERC20(contractAddress);
 
         AssetsStructs.AssetItem memory newAssetItem = AssetsStructs.AssetItem(
             id,
             contractAddress,
             erc20Token.decimals(),
             isPegged,
+            peggedAssetGateway,
             originalName,
             originalSymbol,
             priceFeedProvider,
+            priceFeedContract,
             isEnabled,
             assetInfo.createdAt,
             block.timestamp
@@ -113,9 +122,9 @@ contract Assets is Base {
 
         processAndSaveAsset(newAssetItem, erc20Token.symbol());
       
-        emit UpdateAsset(_id);
+        emit UpdateAsset(id);
 
-        return _id;
+        return id;
     }//end 
 
 

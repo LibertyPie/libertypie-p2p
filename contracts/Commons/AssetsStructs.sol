@@ -19,9 +19,11 @@ contract AssetsStructs {
         address   contractAddress;
         uint8     decimals;
         bool      isPegged;
+        address   peggedAssetGateway;
         string    originalName;
         string    originalSymbol;
         string    priceFeedProvider;
+        address   priceFeedContract;
         bool      isEnabled;
         uint256   createdAt;
         uint256   updatedAt;

@@ -23,7 +23,7 @@ const HDWalletProvider = require('@truffle/hdwallet-provider');
 //
 
 //const fs = require('fs');
-const { projectId, privateKeys, mnemonic, apiKey, localDevPrivateKey } = require(__dirname+'/.secrets.js');
+const { infuraProjectId, privateKeys, mnemonic, apiKey, localDevPrivateKey } = require(__dirname+'/.secrets.js');
 
 
 module.exports = {
@@ -59,7 +59,7 @@ module.exports = {
 
     kovan: {
       provider: function() {
-        return (new HDWalletProvider(privateKeys, `https://kovan.infura.io/v3/${projectId}`))
+        return (new HDWalletProvider(privateKeys, `https://kovan.infura.io/v3/${infuraProjectId}`))
       },
       network_id: 42,
       //gas: 4000000      //make sure this gas allocation isn't over 4M, which is the max
