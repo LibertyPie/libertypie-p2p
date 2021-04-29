@@ -23,7 +23,15 @@ const HDWalletProvider = require('@truffle/hdwallet-provider');
 //
 
 //const fs = require('fs');
-const { infuraProjectId, privateKeys, mnemonic, apiKey, localDevPrivateKey } = require(__dirname+'/.secrets.js');
+const {  
+    privateKovanTestNet,
+    privateBscTestnet, 
+    infuraProjectId, 
+    privateKeys, 
+    mnemonic, 
+    apiKey, 
+    localDevPrivateKey 
+  } = require(__dirname+'/.secrets.js');
 
 
 module.exports = {
@@ -55,15 +63,46 @@ module.exports = {
       provider: function() {
         return (new HDWalletProvider(localDevPrivateKey, `http://127.0.0.1:7545`))
       },
+      production: false
     },
 
     kovan: {
       provider: function() {
-        return (new HDWalletProvider(privateKeys, `https://kovan.infura.io/v3/${infuraProjectId}`))
+        return (new HDWalletProvider(privateKeys, `wss://kovan.infura.io/ws/v3/${infuraProjectId}`))
       },
       network_id: 42,
+      networkCheckTimeout: 1000000,
+      timeoutBlocks: 200,
+      confirmations: 2,
+      production: false
       //gas: 4000000      //make sure this gas allocation isn't over 4M, which is the max
     },
+
+
+    ropsten: {
+      provider: function() {
+        return (new HDWalletProvider(privateKeys, `https://ropsten.rpc.fiews.io/v1/free`))
+      },
+      network_id: 3,
+      networkCheckTimeout: 1000000,
+      timeoutBlocks: 200,
+      confirmations: 2,
+      production: false
+      //gas: 4000000      //make sure this gas allocation isn't over 4M, which is the max
+    },
+
+    bsc_testnet: {
+      provider: function() {
+        return (new HDWalletProvider(privateKeys, privateBscTestnet))
+      },
+      network_id: 97,
+      networkCheckTimeout: 3600000,
+      timeoutBlocks: 3600000, //1HR
+      confirmations: 1,
+      production: false
+      //gas: 4000000      //make sure this gas allocation isn't over 4M, which is the max
+    },
+
 
     // Another network with more advanced options...
      advanced: {
@@ -71,6 +110,9 @@ module.exports = {
     // network_id: 1342,       // Custom network
      gas: 8500000,           // Gas sent with each transaction (default: ~6700000)
      gasPrice: 20000000000,  // 20 gwei (in wei) (default: 100 gwei)
+       networkCheckTimeout: 1000000,
+      timeoutBlocks: 200,
+      confirmations: 2,
     // from: <address>,        // Account to send txs from (default: accounts[0])
     // websockets: true        // Enable EventEmitter interface for web3 (default: false)
     // },

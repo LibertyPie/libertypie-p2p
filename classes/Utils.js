@@ -5,6 +5,7 @@
 */
 
 const colors = require("colors");
+const _uweb3 = new (require('web3'))
 
 module.exports = class Utils {
 
@@ -50,4 +51,7 @@ module.exports = class Utils {
       }
 
 
+      static web3EncodeParam(dataType, data){
+         return  _uweb3.eth.abi.encodeParameter(dataType,data);
+      }
 }

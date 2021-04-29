@@ -1,1 +1,3 @@
-["factory_add_payment_method","factory_add_asset","factory_lol"]
+[
+    "factory_set_config_data"
+]

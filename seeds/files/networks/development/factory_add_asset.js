@@ -7,17 +7,6 @@ module.exports = {
     contract: 'Factory',
     method:   'addAsset',
     data: [
-        
-        [
-            "0x4391129a31574D4E64933a5C463aE78a643D0e1d", //usdt contractAddress
-            false, //isPegged
-            "0x0", // peggedAssetGateway
-            "USDT Tether", //originalName
-            "USDT", //originalSymbol
-            "chainlink", //priceFeedProvider
-            "0x2ca5A90D34cA333661083F89D831f757A9A50148",
-            true // isEnabled
-        ],
 
         // Bitcoin [renBTC]
         [
@@ -27,7 +16,17 @@ module.exports = {
             "Bitcoin", //originalName
             "BTC", //originalSymbol
             "chainlink", //priceFeedProvider
-            "0x6135b13325bfC4B00278B4abC5e20bbce2D6580e",//price feed contract
+            true // isEnabled
+        ],
+
+        
+        [
+            "0x42805DA220DF1f8a33C16B0DF9CE876B9d416610", //contractAddress
+            true, //isPegged
+            "0xAACbB1e7bA99F2Ed6bd02eC96C2F9a52013Efe2d", // peggedAssetGateway
+            "ZCash", //originalName
+            "ZEC", //originalSymbol
+            "chainlink", //priceFeedProvider
             true // isEnabled
         ]
     ]

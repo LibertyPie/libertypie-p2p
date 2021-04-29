@@ -20,8 +20,17 @@ module.exports = async ({
   
     try {
 
+        //.getPaymentMethodCategories().call()
+        console.log(   await contractInstance.methods.getPaymentMethods().call() )
+
+        return false;
+
         //payment Method Categories 
         let pmCatsStatus = await getPaymentMethodCategories(contractInstance);
+
+        console.log("pmCatsStatus ====>>> ", pmCatsStatus)
+
+        return pmCatsStatus
 
         if(pmCatsStatus.isError()){
             return pmCatsStatus;
@@ -190,8 +199,13 @@ module.exports = async ({
 getPaymentMethodCategories = async (contractInstance) => {
     try {
 
+        console.log("Booooooommmmm =====>>>>>>>")
+        
+        //console.log(contractInstance)
         //lets check if the category slug exists
         let resultsArray = await contractInstance.methods.getPaymentMethodsCategories().call();
+
+        console.log("Booooooommmmm =====>>>>>>>",resultsArray)
 
         //lets process the results 
         let processedResults = []

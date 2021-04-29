@@ -3,6 +3,9 @@
  * @author LibertyPie <hello@libertypie.com>
  * factory_set_config_data.js
  */
+ const Utils = require('../../classes/Utils');
+ const truffleSeeder = require('@libertypie/truffle-seeder')
+
 module.exports = {
     contract: 'Factory',
     method:   'setConfigData',
@@ -10,12 +13,12 @@ module.exports = {
         
         //minimum payment window 
         //key: value as [key,value]
-        //[ "MIN_PAYMENT_WINDOW",  _cweb3.eth.abi.encodeParameter('uint256', String(15)) ],
+        [ "MIN_PAYMENT_WINDOW", truffleSeeder.toBytes32(15) ],
 
         //key: value as [key,value]
-        //[ "MAX_SECURITY_DEPOSIT", _cweb3.eth.abi.encodeParameter('uint256', String(10)) ],
+        [ "MAX_SECURITY_DEPOSIT", truffleSeeder.toBytes32(10) ],
 
         //key: value as [key,value]
-        //[ "MAX_REPUTATION", _cweb3.eth.abi.encodeParameter('uint256', String(10)) ]
+        [ "MAX_REPUTATION", truffleSeeder.toBytes32(10) ]
     ]
 }
