@@ -1,0 +1,1684 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/Assets.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "7e252cd50b81f4ba47b8aea079a4b58f",
+      "sourceName": "contracts/Assets.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/ERC20.sol",
+        "./Commons/AssetsStructs.sol",
+        "./Base.sol",
+        "./PriceFeeds/PriceFeed.sol"
+      ],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "Assets"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol": {
+      "lastModificationDate": 1619653985000,
+      "contentHash": "8065b340476f61365c076897199425f1",
+      "sourceName": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "../../utils/Context.sol",
+        "./IERC20.sol",
+        "../../math/SafeMath.sol"
+      ],
+      "versionPragmas": [
+        ">=0.6.0 <0.8.0"
+      ],
+      "artifacts": [
+        "ERC20"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/Commons/AssetsStructs.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "f7b2abac48d7b371d8eec00ee3c2bfa1",
+      "sourceName": "contracts/Commons/AssetsStructs.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "AssetsStructs"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/Base.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "693950676cab11f45de66f51243613e7",
+      "sourceName": "contracts/Base.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "./Config.sol"
+      ],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "Base"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/PriceFeeds/PriceFeed.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "67c82829aa9d1c35c0090ef84462d900",
+      "sourceName": "contracts/PriceFeeds/PriceFeed.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "./Oracles/IPriceFeed.sol",
+        "./Oracles/ChainLink.sol",
+        "./Oracles/OpenPriceFeed.sol",
+        "../Base.sol"
+      ],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "PriceFeed"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/node_modules/@openzeppelin/contracts/utils/Context.sol": {
+      "lastModificationDate": 1619653985000,
+      "contentHash": "2adbd82f6d055a4751566d4671512b03",
+      "sourceName": "@openzeppelin/contracts/utils/Context.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.6.0 <0.8.0"
+      ],
+      "artifacts": [
+        "Context"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol": {
+      "lastModificationDate": 1619653985000,
+      "contentHash": "e0a41531d159d3a32f84b7a3ecf9fabb",
+      "sourceName": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.6.0 <0.8.0"
+      ],
+      "artifacts": [
+        "IERC20"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/node_modules/@openzeppelin/contracts/math/SafeMath.sol": {
+      "lastModificationDate": 1619653985000,
+      "contentHash": "e03e12206057e809eb76c5f681170c32",
+      "sourceName": "@openzeppelin/contracts/math/SafeMath.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.6.0 <0.8.0"
+      ],
+      "artifacts": [
+        "SafeMath"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/Config.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "90e768826e14d263a02ab6a442ac7432",
+      "sourceName": "contracts/Config.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "./PermissionManager/PM.sol",
+        "./Commons/ConfigsStructs.sol",
+        "./Utils.sol",
+        "./Storage/DataStore.sol"
+      ],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "Config"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/PermissionManager/PM.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "6635dcf29e8fb0421e7c05ff49553afe",
+      "sourceName": "contracts/PermissionManager/PM.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "IPermissionManager",
+        "PM"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/Commons/ConfigsStructs.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "70945345351ed8438f0b266fc7c6be73",
+      "sourceName": "contracts/Commons/ConfigsStructs.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "ConfigsStructs"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/Utils.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "99baf4c2e98ca3d4ee5a8f45b5cb4992",
+      "sourceName": "contracts/Utils.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "Utils"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/Storage/DataStore.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "0287b7db7ad6c71a258b233edfbf609b",
+      "sourceName": "contracts/Storage/DataStore.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "../PermissionManager/PM.sol",
+        "./Interfaces/IStorage.sol"
+      ],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "DataStore"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/Storage/Interfaces/IStorage.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "9c15ff118ffad7d117a93e830eb68ee2",
+      "sourceName": "contracts/Storage/Interfaces/IStorage.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "./IPaymentMethodsStore.sol",
+        "./IAssetStore.sol",
+        "./IOfferStore.sol",
+        "./IConfigStore.sol"
+      ],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "IStorage"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/Storage/Interfaces/IPaymentMethodsStore.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "71feee2fd88ca69a209feb8ba5b01b2d",
+      "sourceName": "contracts/Storage/Interfaces/IPaymentMethodsStore.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "../../Commons/PaymentMethodsStructs.sol"
+      ],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "IPaymentMethodsStore"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/Storage/Interfaces/IAssetStore.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "b1ab55392e6a62fcdc1438c1d0680b96",
+      "sourceName": "contracts/Storage/Interfaces/IAssetStore.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "../../Commons/AssetsStructs.sol"
+      ],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "IAssetStore"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/Storage/Interfaces/IOfferStore.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "166053d2771751647cb0ecf9b5381755",
+      "sourceName": "contracts/Storage/Interfaces/IOfferStore.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "../../Commons/OffersStructs.sol"
+      ],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "IOfferStore"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/Storage/Interfaces/IConfigStore.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "cb7e0af724a0c87a7e8feaefce3eac09",
+      "sourceName": "contracts/Storage/Interfaces/IConfigStore.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "../../Commons/ConfigsStructs.sol"
+      ],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "IConfigStore"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/Commons/PaymentMethodsStructs.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "7a882542c17a765a8cd5c73b4fc751f7",
+      "sourceName": "contracts/Commons/PaymentMethodsStructs.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "PaymentMethodsStructs"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/Commons/OffersStructs.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "da6dd1e34c1fe97b1c6fa9fb3f3dffe9",
+      "sourceName": "contracts/Commons/OffersStructs.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "OffersStructs"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/PriceFeeds/Oracles/IPriceFeed.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "b61f89f58fe4233ca34887d734b53ac1",
+      "sourceName": "contracts/PriceFeeds/Oracles/IPriceFeed.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "IPriceFeed"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/PriceFeeds/Oracles/ChainLink.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "4b5c4b3ea190992ef4599a86b37f536e",
+      "sourceName": "contracts/PriceFeeds/Oracles/ChainLink.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "./IPriceFeed.sol",
+        "../../Base.sol",
+        "@chainlink/contracts/src/v0.7/interfaces/AggregatorV3Interface.sol"
+      ],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "ChainLink"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/PriceFeeds/Oracles/OpenPriceFeed.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "887238047d7628d23b5e0ee9069844de",
+      "sourceName": "contracts/PriceFeeds/Oracles/OpenPriceFeed.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "./IPriceFeed.sol",
+        "../../Base.sol"
+      ],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "OpenPriceFeed",
+        "UniswapAnchoredView"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/node_modules/@chainlink/contracts/src/v0.7/interfaces/AggregatorV3Interface.sol": {
+      "lastModificationDate": 1619653984000,
+      "contentHash": "2827bf29d21978803c2160c879d1122c",
+      "sourceName": "@chainlink/contracts/src/v0.7/interfaces/AggregatorV3Interface.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.7.0"
+      ],
+      "artifacts": [
+        "AggregatorV3Interface"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/Offers.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "898e9b4426a6e66cf92c371085eb5a58",
+      "sourceName": "contracts/Offers.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "./Assets.sol",
+        "./Commons/OffersStructs.sol",
+        "./Commons/PaymentMethodsStructs.sol",
+        "./Base.sol"
+      ],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "Offers"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/PaymentMethods.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "25854fdebb27f3713c4b8dc1f1c10e2b",
+      "sourceName": "contracts/PaymentMethods.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "./Commons/PaymentMethodsStructs.sol",
+        "./Base.sol"
+      ],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "PaymentMethods"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/Storage/PaymentMethodsStore.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "ee194d3fdc4267d803c6ce7700d95728",
+      "sourceName": "contracts/Storage/PaymentMethodsStore.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "./StoreEditor.sol",
+        "../Commons/PaymentMethodsStructs.sol"
+      ],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "PaymentMethodsStore"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/Storage/StoreEditor.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "f23dd8810e3440c8d896305e79813759",
+      "sourceName": "contracts/Storage/StoreEditor.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "IPERMISSION_MANAGER",
+        "StoreEditor"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/Storage/Storage.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "f7392294911675f5ff8742969185792f",
+      "sourceName": "contracts/Storage/Storage.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "./BasicStore.sol",
+        "./OffersStore.sol",
+        "./StoreEditor.sol",
+        "./PaymentMethodsStore.sol",
+        "./AssetsStore.sol",
+        "./ConfigStore.sol"
+      ],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "Storage"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/Storage/BasicStore.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "5deca55b33fc176ca4ed198be8c19ecd",
+      "sourceName": "contracts/Storage/BasicStore.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "./StoreEditor.sol"
+      ],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "BasicStore"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/Storage/OffersStore.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "15a7672a4682d3344a482a4e4879ad60",
+      "sourceName": "contracts/Storage/OffersStore.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "./StoreEditor.sol",
+        "../Commons/OffersStructs.sol"
+      ],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "OffersStore"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/Storage/AssetsStore.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "762c93b94fe80ed07277b2fc15cd4b11",
+      "sourceName": "contracts/Storage/AssetsStore.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "./StoreEditor.sol",
+        "../Commons/AssetsStructs.sol"
+      ],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "AssetsStore"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/Storage/ConfigStore.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "4ee0a8ea2fcc234d46a977ea74488453",
+      "sourceName": "contracts/Storage/ConfigStore.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "./StoreEditor.sol",
+        "../Commons/ConfigsStructs.sol"
+      ],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "ConfigStore"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/Storage/TradesStore.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "a654d041c1b2c87bf1cb2f2879e46543",
+      "sourceName": "contracts/Storage/TradesStore.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "./StoreEditor.sol",
+        "../Commons/TradesStructs.sol"
+      ],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "TradesStore"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/Commons/TradesStructs.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "4d876b4b494728c31ae826f5bf40f2fa",
+      "sourceName": "contracts/Commons/TradesStructs.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "TradesStructs"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/Factory.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "2705beec11aea618e8ba35670b000155",
+      "sourceName": "contracts/Factory.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "./PriceFeeds/PriceFeed.sol",
+        "./Assets.sol",
+        "./PaymentMethods.sol"
+      ],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "Factory"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/Migrations.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "ca8d6ca8a6edf34f149a5095a8b074c9",
+      "sourceName": "contracts/Migrations.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.4.22 <0.8.0"
+      ],
+      "artifacts": [
+        "Migrations"
+      ]
+    },
+    "/Volumes/SuccessLab/drive/Projects/Dapps/LibertyPie/Core/contracts/PermissionManager/PermissionManager.sol": {
+      "lastModificationDate": 1619653983000,
+      "contentHash": "21e8e152cffe82bbc1167bf37a30e850",
+      "sourceName": "contracts/PermissionManager/PermissionManager.sol",
+      "solcConfig": {
+        "version": "0.7.6",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.7.6"
+      ],
+      "artifacts": [
+        "PermissionManager"
+      ]
+    }
+  }
+}

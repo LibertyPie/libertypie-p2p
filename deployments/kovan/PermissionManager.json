@@ -1,0 +1,307 @@
+{
+  "address": "0x9fA14091f1434d6474897BA732fADfD4F677DED5",
+  "abi": [
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "_testAddress",
+          "type": "address"
+        }
+      ],
+      "name": "ConsoleLog",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "roleName",
+          "type": "string"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_address",
+          "type": "address"
+        }
+      ],
+      "name": "GrantRole",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "roleName",
+          "type": "string"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_address",
+          "type": "address"
+        }
+      ],
+      "name": "Revoke",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "roleName",
+          "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "_address",
+          "type": "address"
+        }
+      ],
+      "name": "grantRole",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "roleName",
+          "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "_address",
+          "type": "address"
+        }
+      ],
+      "name": "hasRole",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_address",
+          "type": "address"
+        }
+      ],
+      "name": "isAdmin",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_address",
+          "type": "address"
+        }
+      ],
+      "name": "isModerator",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_address",
+          "type": "address"
+        }
+      ],
+      "name": "isSuperAdmin",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "roleName",
+          "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "_address",
+          "type": "address"
+        }
+      ],
+      "name": "revoke",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x7a774cdbc9b3bf97b19b0b8988235dc6632dd0c7b2dd31e1deea9296bd5d1fb6",
+  "receipt": {
+    "to": null,
+    "from": "0xBDE658ba6aaf6c9f7938820b69D47F099Bc5ea23",
+    "contractAddress": "0x9fA14091f1434d6474897BA732fADfD4F677DED5",
+    "transactionIndex": 3,
+    "gasUsed": "657159",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x75f3bd3597ce18f4bb50527615b41dc54f6733c167be2b3f73b1b5ae8eec4e89",
+    "transactionHash": "0x7a774cdbc9b3bf97b19b0b8988235dc6632dd0c7b2dd31e1deea9296bd5d1fb6",
+    "logs": [],
+    "blockNumber": 24552778,
+    "cumulativeGasUsed": "1007849",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "solcInputHash": "2001205489d293b3f566b9ab315d687b",
+  "metadata": "{\"compiler\":{\"version\":\"0.7.6+commit.7338295f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"string\",\"name\":\"title\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_testAddress\",\"type\":\"address\"}],\"name\":\"ConsoleLog\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"string\",\"name\":\"roleName\",\"type\":\"string\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"}],\"name\":\"GrantRole\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"string\",\"name\":\"roleName\",\"type\":\"string\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"}],\"name\":\"Revoke\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"roleName\",\"type\":\"string\"},{\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"}],\"name\":\"grantRole\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"roleName\",\"type\":\"string\"},{\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"}],\"name\":\"hasRole\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"}],\"name\":\"isAdmin\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"}],\"name\":\"isModerator\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"}],\"name\":\"isSuperAdmin\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"roleName\",\"type\":\"string\"},{\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"}],\"name\":\"revoke\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"isModerator(address)\":{\"details\":\"isModerator\"},\"isSuperAdmin(address)\":{\"details\":\"is super admin\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"grantRole(string,address)\":{\"notice\":\"grant role to an address\"},\"hasRole(string,address)\":{\"notice\":\"hasRole\"},\"isAdmin(address)\":{\"notice\":\"isAdmin\"},\"revoke(string,address)\":{\"notice\":\"remove user from role\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/PermissionManager/PermissionManager.sol\":\"PermissionManager\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/PermissionManager/PermissionManager.sol\":{\"content\":\"/**\\n * LibertyPie (https://libertypie.com)\\n * @author LibertyPie <hello@libertypie.com>\\n * SPDX-License-Identifier: MIT\\n */\\npragma solidity ^0.7.6;\\n\\ncontract PermissionManager {\\n\\n    event GrantRole(string roleName, address indexed _address);\\n    event Revoke(string roleName, address indexed _address);\\n    event ConsoleLog(string title, address _testAddress);\\n\\n    //default role \\n    string SUPER_ADMIN_ROLE = \\\"SUPER_ADMIN\\\";\\n    string MODERATOR_ROLE = \\\"MODERATOR\\\";\\n    string ADMIN_ROLE = \\\"ADMIN\\\";\\n    \\n    \\n    //roles\\n    mapping(string => mapping(address => bool)) private Roles;\\n\\n   \\n    constructor() {\\n\\n        address _owner = msg.sender;\\n\\n        //add deployer as a super admin\\n        Roles[SUPER_ADMIN_ROLE][_owner] = true;\\n        Roles[MODERATOR_ROLE][_owner] = true;\\n        Roles[ADMIN_ROLE][_owner] = true;\\n        \\n    }\\n\\n    /**\\n     * @dev is super admin\\n     */\\n     function isSuperAdmin(address _address) public view returns (bool) {\\n        return Roles[SUPER_ADMIN_ROLE][_address];\\n     }\\n\\n    /**\\n    * isAdmin\\n    */\\n    function isAdmin(address _address) public view  returns(bool) {\\n        return hasRole(ADMIN_ROLE,_address) || hasRole(SUPER_ADMIN_ROLE,_address);\\n    }\\n\\n    /**\\n     * @dev isModerator\\n     */\\n    function isModerator(address _address) public view returns (bool) {\\n      return hasRole(MODERATOR_ROLE,_address) || isAdmin(_address);\\n    }\\n\\n\\n    /**\\n     * @dev super admin only modifier\\n     */\\n     modifier onlySuperAdmin() {\\n         //ONLY_SUPER_ADMINS_ALLOWED\\n        require(isSuperAdmin(msg.sender) == true, \\\"ONLY_SUPER_ADMINS_ALLOWED\\\");\\n        _;\\n     }\\n\\n\\n    /**\\n     * grant role to an address\\n     */\\n    function grantRole(string memory roleName, address _address) public onlySuperAdmin {\\n\\n        require(bytes(roleName).length > 0,\\\"ROLE_NAME_REQUIRED\\\");\\n        \\n        //grant the role \\n         Roles[roleName][_address] = true;\\n\\n         emit GrantRole(roleName,_address);\\n    } //end fun\\n\\n    /**\\n     * hasRole\\n     */\\n    function hasRole(string memory roleName, address _address) public view returns(bool) {\\n        return Roles[roleName][_address];\\n    }\\n\\n    /**\\n     * remove user from role\\n     */\\n    function revoke(string calldata roleName, address _address) external onlySuperAdmin {\\n        delete Roles[roleName][_address];\\n        emit Revoke(roleName,_address);\\n    }\\n\\n}   \\n\",\"keccak256\":\"0xbef2e62e3fd2e145bd87fecc08b2debd0a7adbac8da3486e66e2607a07d34891\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x60c0604052600b60808190526a29aaa822a92fa0a226a4a760a91b60a09081526200002e91600091906200028a565b506040805180820190915260098082526826a7a222a920aa27a960b91b602090920191825262000061916001916200028a565b506040805180820190915260058082526420a226a4a760d91b602090920191825262000090916002916200028a565b503480156200009e57600080fd5b5060003390506001600360006040518082805460018160011615610100020316600290048015620001095780601f10620000e657610100808354040283529182019162000109565b820191906000526020600020905b815481529060010190602001808311620000f4575b5050928352505060408051602092819003830181206001600160a01b038616600090815293529120805460ff191692151592909217909155600180549091600391839190819083906002610100828416150260001901909116048015620001aa5780601f1062000187576101008083540402835291820191620001aa565b820191906000526020600020905b81548152906001019060200180831162000195575b5050928352505060408051602092819003830181206001600160a01b038616600090815293529120805460ff191692151592909217909155600280546001926003929181908390610100818816150260001901168190048015620002485780601f106200022557610100808354040283529182019162000248565b820191906000526020600020905b81548152906001019060200180831162000233575b5050928352505060408051602092819003830190206001600160a01b0394909416600090815293909152909120805460ff191691151591909117905562000336565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282620002c257600085556200030d565b82601f10620002dd57805160ff19168380011785556200030d565b828001600101855582156200030d579182015b828111156200030d578251825591602001919060010190620002f0565b506200031b9291506200031f565b5090565b5b808211156200031b576000815560010162000320565b61085380620003466000396000f3fe608060405234801561001057600080fd5b50600436106100625760003560e01c806324d7806c146100675780636c9cd097146100a1578063c19ae2ed14610152578063df7f453b14610205578063f23b45aa1461022b578063fa6f3936146102a4575b600080fd5b61008d6004803603602081101561007d57600080fd5b50356001600160a01b03166102ca565b604080519115158252519081900360200190f35b61008d600480360360408110156100b757600080fd5b8101906020810181356401000000008111156100d257600080fd5b8201836020820111156100e457600080fd5b8035906020019184600183028401116401000000008311171561010657600080fd5b91908080601f016020809104026020016040519081016040528093929190818152602001838380828437600092019190915250929550505090356001600160a01b031691506103cf9050565b6102036004803603604081101561016857600080fd5b81019060208101813564010000000081111561018357600080fd5b82018360208201111561019557600080fd5b803590602001918460018302840111640100000000831117156101b757600080fd5b91908080601f016020809104026020016040519081016040528093929190818152602001838380828437600092019190915250929550505090356001600160a01b031691506104539050565b005b61008d6004803603602081101561021b57600080fd5b50356001600160a01b0316610616565b6102036004803603604081101561024157600080fd5b81019060208101813564010000000081111561025c57600080fd5b82018360208201111561026e57600080fd5b8035906020019184600183028401116401000000008311171561029057600080fd5b9193509150356001600160a01b03166106ac565b61008d600480360360208110156102ba57600080fd5b50356001600160a01b03166107ab565b6002805460408051602060018416156101000260001901909316849004601f810184900484028201840190925281815260009361036193919290918301828280156103565780601f1061032b57610100808354040283529160200191610356565b820191906000526020600020905b81548152906001019060200180831161033957829003601f168201915b5050505050836103cf565b806103c9575060008054604080516020601f600260001961010060018816150201909516949094049384018190048102820181019092528281526103c993909290918301828280156103565780601f1061032b57610100808354040283529160200191610356565b92915050565b60006003836040518082805190602001908083835b602083106104035780518252601f1990920191602091820191016103e4565b51815160209384036101000a6000190180199092169116179052920194855250604080519485900382019094206001600160a01b0396909616600090815295905250509091205460ff1692915050565b61045c33610616565b15156001146104ae576040805162461bcd60e51b815260206004820152601960248201527813d3931657d4d554115497d05113525394d7d0531313d5d151603a1b604482015290519081900360640190fd5b60008251116104f9576040805162461bcd60e51b81526020600482015260126024820152711493d31157d390535157d49154555254915160721b604482015290519081900360640190fd5b60016003836040518082805190602001908083835b6020831061052d5780518252601f19909201916020918201910161050e565b51815160209384036101000a60001901801990921691161790529201948552506040805194859003820185206001600160a01b0388166000818152918452828220805460ff19169815159890981790975582865288518684015288517fb7ae66e47aae85cb54dc0d745bd9a73ba94c6c5080598f8964ef3af4819159f0968a965094508493928401928601918190849084905b838110156105d85781810151838201526020016105c0565b50505050905090810190601f1680156106055780820380516001836020036101000a031916815260200191505b509250505060405180910390a25050565b60006003600060405180828054600181600116156101000203166002900480156106775780601f10610655576101008083540402835291820191610677565b820191906000526020600020905b815481529060010190602001808311610663575b50509283525050604080519182900360209081019092206001600160a01b0385166000908152925290205460ff169050919050565b6106b533610616565b1515600114610707576040805162461bcd60e51b815260206004820152601960248201527813d3931657d4d554115497d05113525394d7d0531313d5d151603a1b604482015290519081900360640190fd5b600383836040518083838082843791909101948552505060408051602094819003850181206001600160a01b038716600081815291875290839020805460ff191690558582529481018790527f0aeb05f7479302e61324891fa52c16cf98cf8b1ab0260045cbbbb034c020c8b49350879250869181908101848480828437600083820152604051601f909101601f19169092018290039550909350505050a2505050565b60018054604080516020600284861615610100026000190190941693909304601f810184900484028201840190925281815260009361080e93919290918301828280156103565780601f1061032b57610100808354040283529160200191610356565b806103c957506103c9826102ca56fea2646970667358221220374e1ed12e667b19ad73bab9a8d425ea6ba6b9e7754ce618c458e075939fdd1a64736f6c63430007060033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100625760003560e01c806324d7806c146100675780636c9cd097146100a1578063c19ae2ed14610152578063df7f453b14610205578063f23b45aa1461022b578063fa6f3936146102a4575b600080fd5b61008d6004803603602081101561007d57600080fd5b50356001600160a01b03166102ca565b604080519115158252519081900360200190f35b61008d600480360360408110156100b757600080fd5b8101906020810181356401000000008111156100d257600080fd5b8201836020820111156100e457600080fd5b8035906020019184600183028401116401000000008311171561010657600080fd5b91908080601f016020809104026020016040519081016040528093929190818152602001838380828437600092019190915250929550505090356001600160a01b031691506103cf9050565b6102036004803603604081101561016857600080fd5b81019060208101813564010000000081111561018357600080fd5b82018360208201111561019557600080fd5b803590602001918460018302840111640100000000831117156101b757600080fd5b91908080601f016020809104026020016040519081016040528093929190818152602001838380828437600092019190915250929550505090356001600160a01b031691506104539050565b005b61008d6004803603602081101561021b57600080fd5b50356001600160a01b0316610616565b6102036004803603604081101561024157600080fd5b81019060208101813564010000000081111561025c57600080fd5b82018360208201111561026e57600080fd5b8035906020019184600183028401116401000000008311171561029057600080fd5b9193509150356001600160a01b03166106ac565b61008d600480360360208110156102ba57600080fd5b50356001600160a01b03166107ab565b6002805460408051602060018416156101000260001901909316849004601f810184900484028201840190925281815260009361036193919290918301828280156103565780601f1061032b57610100808354040283529160200191610356565b820191906000526020600020905b81548152906001019060200180831161033957829003601f168201915b5050505050836103cf565b806103c9575060008054604080516020601f600260001961010060018816150201909516949094049384018190048102820181019092528281526103c993909290918301828280156103565780601f1061032b57610100808354040283529160200191610356565b92915050565b60006003836040518082805190602001908083835b602083106104035780518252601f1990920191602091820191016103e4565b51815160209384036101000a6000190180199092169116179052920194855250604080519485900382019094206001600160a01b0396909616600090815295905250509091205460ff1692915050565b61045c33610616565b15156001146104ae576040805162461bcd60e51b815260206004820152601960248201527813d3931657d4d554115497d05113525394d7d0531313d5d151603a1b604482015290519081900360640190fd5b60008251116104f9576040805162461bcd60e51b81526020600482015260126024820152711493d31157d390535157d49154555254915160721b604482015290519081900360640190fd5b60016003836040518082805190602001908083835b6020831061052d5780518252601f19909201916020918201910161050e565b51815160209384036101000a60001901801990921691161790529201948552506040805194859003820185206001600160a01b0388166000818152918452828220805460ff19169815159890981790975582865288518684015288517fb7ae66e47aae85cb54dc0d745bd9a73ba94c6c5080598f8964ef3af4819159f0968a965094508493928401928601918190849084905b838110156105d85781810151838201526020016105c0565b50505050905090810190601f1680156106055780820380516001836020036101000a031916815260200191505b509250505060405180910390a25050565b60006003600060405180828054600181600116156101000203166002900480156106775780601f10610655576101008083540402835291820191610677565b820191906000526020600020905b815481529060010190602001808311610663575b50509283525050604080519182900360209081019092206001600160a01b0385166000908152925290205460ff169050919050565b6106b533610616565b1515600114610707576040805162461bcd60e51b815260206004820152601960248201527813d3931657d4d554115497d05113525394d7d0531313d5d151603a1b604482015290519081900360640190fd5b600383836040518083838082843791909101948552505060408051602094819003850181206001600160a01b038716600081815291875290839020805460ff191690558582529481018790527f0aeb05f7479302e61324891fa52c16cf98cf8b1ab0260045cbbbb034c020c8b49350879250869181908101848480828437600083820152604051601f909101601f19169092018290039550909350505050a2505050565b60018054604080516020600284861615610100026000190190941693909304601f810184900484028201840190925281815260009361080e93919290918301828280156103565780601f1061032b57610100808354040283529160200191610356565b806103c957506103c9826102ca56fea2646970667358221220374e1ed12e667b19ad73bab9a8d425ea6ba6b9e7754ce618c458e075939fdd1a64736f6c63430007060033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "isModerator(address)": {
+        "details": "isModerator"
+      },
+      "isSuperAdmin(address)": {
+        "details": "is super admin"
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "grantRole(string,address)": {
+        "notice": "grant role to an address"
+      },
+      "hasRole(string,address)": {
+        "notice": "hasRole"
+      },
+      "isAdmin(address)": {
+        "notice": "isAdmin"
+      },
+      "revoke(string,address)": {
+        "notice": "remove user from role"
+      }
+    },
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 22,
+        "contract": "contracts/PermissionManager/PermissionManager.sol:PermissionManager",
+        "label": "SUPER_ADMIN_ROLE",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_string_storage"
+      },
+      {
+        "astId": 25,
+        "contract": "contracts/PermissionManager/PermissionManager.sol:PermissionManager",
+        "label": "MODERATOR_ROLE",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_string_storage"
+      },
+      {
+        "astId": 28,
+        "contract": "contracts/PermissionManager/PermissionManager.sol:PermissionManager",
+        "label": "ADMIN_ROLE",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_string_storage"
+      },
+      {
+        "astId": 34,
+        "contract": "contracts/PermissionManager/PermissionManager.sol:PermissionManager",
+        "label": "Roles",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_mapping(t_string_memory_ptr,t_mapping(t_address,t_bool))"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      },
+      "t_mapping(t_address,t_bool)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => bool)",
+        "numberOfBytes": "32",
+        "value": "t_bool"
+      },
+      "t_mapping(t_string_memory_ptr,t_mapping(t_address,t_bool))": {
+        "encoding": "mapping",
+        "key": "t_string_memory_ptr",
+        "label": "mapping(string => mapping(address => bool))",
+        "numberOfBytes": "32",
+        "value": "t_mapping(t_address,t_bool)"
+      },
+      "t_string_memory_ptr": {
+        "encoding": "bytes",
+        "label": "string",
+        "numberOfBytes": "32"
+      },
+      "t_string_storage": {
+        "encoding": "bytes",
+        "label": "string",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}

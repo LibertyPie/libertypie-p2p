@@ -1,3 +1,5 @@
 [
-    "factory_set_config_data"
+    "factory_set_config_data",
+    "factory_add_payment_method",
+    "factory_add_asset"
 ]

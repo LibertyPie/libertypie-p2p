@@ -1,0 +1,35 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/PermissionManager/PermissionManager.sol": {
+      "content": "/**\n * LibertyPie (https://libertypie.com)\n * @author LibertyPie <hello@libertypie.com>\n * SPDX-License-Identifier: MIT\n */\npragma solidity ^0.7.6;\n\ncontract PermissionManager {\n\n    event GrantRole(string roleName, address indexed _address);\n    event Revoke(string roleName, address indexed _address);\n    event ConsoleLog(string title, address _testAddress);\n\n    //default role \n    string SUPER_ADMIN_ROLE = \"SUPER_ADMIN\";\n    string MODERATOR_ROLE = \"MODERATOR\";\n    string ADMIN_ROLE = \"ADMIN\";\n    \n    \n    //roles\n    mapping(string => mapping(address => bool)) private Roles;\n\n   \n    constructor() {\n\n        address _owner = msg.sender;\n\n        //add deployer as a super admin\n        Roles[SUPER_ADMIN_ROLE][_owner] = true;\n        Roles[MODERATOR_ROLE][_owner] = true;\n        Roles[ADMIN_ROLE][_owner] = true;\n        \n    }\n\n    /**\n     * @dev is super admin\n     */\n     function isSuperAdmin(address _address) public view returns (bool) {\n        return Roles[SUPER_ADMIN_ROLE][_address];\n     }\n\n    /**\n    * isAdmin\n    */\n    function isAdmin(address _address) public view  returns(bool) {\n        return hasRole(ADMIN_ROLE,_address) || hasRole(SUPER_ADMIN_ROLE,_address);\n    }\n\n    /**\n     * @dev isModerator\n     */\n    function isModerator(address _address) public view returns (bool) {\n      return hasRole(MODERATOR_ROLE,_address) || isAdmin(_address);\n    }\n\n\n    /**\n     * @dev super admin only modifier\n     */\n     modifier onlySuperAdmin() {\n         //ONLY_SUPER_ADMINS_ALLOWED\n        require(isSuperAdmin(msg.sender) == true, \"ONLY_SUPER_ADMINS_ALLOWED\");\n        _;\n     }\n\n\n    /**\n     * grant role to an address\n     */\n    function grantRole(string memory roleName, address _address) public onlySuperAdmin {\n\n        require(bytes(roleName).length > 0,\"ROLE_NAME_REQUIRED\");\n        \n        //grant the role \n         Roles[roleName][_address] = true;\n\n         emit GrantRole(roleName,_address);\n    } //end fun\n\n    /**\n     * hasRole\n     */\n    function hasRole(string memory roleName, address _address) public view returns(bool) {\n        return Roles[roleName][_address];\n    }\n\n    /**\n     * remove user from role\n     */\n    function revoke(string calldata roleName, address _address) external onlySuperAdmin {\n        delete Roles[roleName][_address];\n        emit Revoke(roleName,_address);\n    }\n\n}   \n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}

@@ -68,13 +68,9 @@ module.exports = {
 
     kovan: {
       provider: function() {
-        return (new HDWalletProvider(privateKeys, `wss://kovan.infura.io/ws/v3/${infuraProjectId}`))
+        return (new HDWalletProvider(privateKeys, privateKovanTestNet))
       },
-      network_id: 42,
-      networkCheckTimeout: 1000000,
-      timeoutBlocks: 200,
-      confirmations: 2,
-      production: false
+      network_id: 42
       //gas: 4000000      //make sure this gas allocation isn't over 4M, which is the max
     },
 

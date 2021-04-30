@@ -1,18 +1,18 @@
 {
   "env": {
     "info": {
-      "network": "bsc_testnet",
-      "account": "0xBDE658ba6aaf6c9f7938820b69D47F099Bc5ea23"
+      "network": "kovan-fork",
+      "account": "0x8852E9538F66C04Af2C950dAf7584670AF901211"
     }
   },
   "contracts": {
-    "PERMISSION_MANAGER": "0xa9E6C4AA428A28CeFCa9bFe7bAc7eAB56470Dff1",
-    "STORAGE": "0xf4782B9A6EA7e8161F383e94C8Cef77eb2Bc3EC3",
-    "FACTORY": "0xB88d299d56285cA641a81E80C08721F42C0c96fe",
+    "PERMISSION_MANAGER": "0x9fA14091f1434d6474897BA732fADfD4F677DED5",
+    "STORAGE": "0x01460e3F9E8A40dA2EFc3aeD0dEff0e7FA0A46e7",
+    "FACTORY": "0x939A523f4E0eD100FF095BE1CB160A634Ad93AdA",
     "env": {
       "info": {
-        "network": "bsc_testnet",
-        "account": "0xBDE658ba6aaf6c9f7938820b69D47F099Bc5ea23"
+        "network": "kovan-fork",
+        "account": "0x8852E9538F66C04Af2C950dAf7584670AF901211"
       }
     }
   }
