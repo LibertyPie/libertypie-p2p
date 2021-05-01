@@ -1,19 +1,13 @@
 {
-  "env": {
-    "info": {
-      "network": "kovan-fork",
-      "account": "0x8852E9538F66C04Af2C950dAf7584670AF901211"
-    }
-  },
-  "contracts": {
-    "PERMISSION_MANAGER": "0x9fA14091f1434d6474897BA732fADfD4F677DED5",
-    "STORAGE": "0x01460e3F9E8A40dA2EFc3aeD0dEff0e7FA0A46e7",
-    "FACTORY": "0x939A523f4E0eD100FF095BE1CB160A634Ad93AdA",
+  "kovan": {
     "env": {
-      "info": {
-        "network": "kovan-fork",
-        "account": "0x8852E9538F66C04Af2C950dAf7584670AF901211"
-      }
-    }
+      "account": "0xBDE658ba6aaf6c9f7938820b69D47F099Bc5ea23"
+    },
+    "info": {
+      "PermissionManager": "0x9fA14091f1434d6474897BA732fADfD4F677DED5",
+      "Storage": "0x01460e3F9E8A40dA2EFc3aeD0dEff0e7FA0A46e7",
+      "Factory": "0x939A523f4E0eD100FF095BE1CB160A634Ad93AdA"
+    },
+    "date": "Fri Apr 30 2021 13:27:28 GMT+0000 (Greenwich Mean Time)"
   }
 }

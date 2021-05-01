@@ -2,8 +2,9 @@
  * @type import('hardhat/config').HardhatUserConfig
  */
 
-require('hardhat-deploy');
-require("@nomiclabs/hardhat-solhint");
+//require('hardhat-deploy');
+//require("@nomiclabs/hardhat-solhint");
+//require("@nomiclabs/hardhat-ethers");
 
 
  //const fs = require('fs');
@@ -21,7 +22,7 @@ const {
 module.exports = {
   networks: {
     hardhat: {
-      accounts: [{privateKey: `0x${localDevPrivateKey}`, balance: "1000"}]
+      accounts: [{privateKey: `0x${localDevPrivateKey}`, balance: "900000000000"}]
     },
 
     kovan: {
